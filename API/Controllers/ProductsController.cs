@@ -22,5 +22,18 @@ namespace API.Controllers
         {
             return await _context.Products.ToListAsync();
         }
+
+        [HttpGet("id")]
+        public async Task<ActionResult<Product>> GetIndividualProduct(int id) 
+        {
+            var product = await _context.Products.FindAsync(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
+        }
     }
 }

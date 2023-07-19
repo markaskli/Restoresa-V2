@@ -23,5 +23,19 @@ namespace API.Controllers
         {
             return await _context.Restaurants.ToListAsync();
         }  
+
+        [HttpGet("id")]
+        public async Task<ActionResult<Restaurant>> GetIndividualRestaurant(int id)
+        {
+            var restaurant = await _context.Restaurants.FindAsync(id);
+
+            if (restaurant == null) 
+            {
+                return NotFound();
+            }
+
+            return Ok(restaurant);
+
+        }
     }
 }

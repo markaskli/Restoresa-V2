@@ -25,7 +25,7 @@ if (app.Environment.IsDevelopment())
 
 
 
-
+app.UseCors(option => option.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
 
 app.UseHttpsRedirection();
 
@@ -38,7 +38,7 @@ var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
 try {
-    context.Database.MigrateAsync();
+    await context.Database.MigrateAsync();
     DbInitializer.InitializeRestaurantList(context);
     DbInitializer.InitializeProductList(context);
 }

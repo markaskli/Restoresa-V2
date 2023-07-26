@@ -1,7 +1,7 @@
 import { Product } from "./product"
 
 export interface Restaurant {
-    id: number
+    restaurantId: number
     name: string
     address: string
     pictureUrl: string

@@ -23,7 +23,7 @@ namespace API.Controllers
             return await _context.Products.ToListAsync();
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetIndividualProduct(int id) 
         {
             var product = await _context.Products.FindAsync(id);
@@ -34,6 +34,19 @@ namespace API.Controllers
             }
 
             return Ok(product);
+        }
+
+        [HttpGet("restaurant")]
+        public async Task<ActionResult<List<Product>>> GetProductsOfRestaurant(string restaurant) 
+        {
+            var products = await _context.Products.Where(x => x.Restaurant.Equals(restaurant)).ToListAsync();
+
+            if (products == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(products);
         }
     }
 }

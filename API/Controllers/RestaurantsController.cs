@@ -21,13 +21,15 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Restaurant>>> GetRestaurants() 
         {
-            return await _context.Restaurants.ToListAsync();
+            return await _context.Restaurants.Include(rest => rest.Products).ToListAsync();
         }  
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Restaurant>> GetIndividualRestaurant(int id)
         {
-            var restaurant = await _context.Restaurants.FindAsync(id);
+            var restaurant = await _context.Restaurants
+                .Include(r => r.Products)
+                .FirstOrDefaultAsync(x => x.RestaurantId == id);
 
             if (restaurant == null) 
             {
@@ -37,5 +39,6 @@ namespace API.Controllers
             return Ok(restaurant);
 
         }
+
     }
 }

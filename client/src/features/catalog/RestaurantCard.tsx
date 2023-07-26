@@ -1,5 +1,6 @@
 import { Card, CardActionArea, CardMedia, CardContent, Typography } from "@mui/material";
 import { Restaurant } from "../app/models/restaurant";
+import { NavLink } from "react-router-dom";
 
 interface Props {
     restaurant: Restaurant
@@ -7,7 +8,7 @@ interface Props {
 
 export default function RestaurantCard({restaurant} : Props) {
     return (
-        <Card sx={{ maxWidth: 400 }}>
+        <Card component={NavLink} to={`${restaurant.restaurantId}`} sx={{ maxWidth: 400, textDecoration: "none", }}>
           <CardActionArea>
             <CardMedia
               component="img"

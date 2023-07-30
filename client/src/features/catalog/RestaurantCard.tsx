@@ -8,8 +8,8 @@ interface Props {
 
 export default function RestaurantCard({restaurant} : Props) {
     return (
-        <Card component={NavLink} to={`${restaurant.restaurantId}`} sx={{ maxWidth: 400, textDecoration: "none", }}>
-          <CardActionArea>
+        <Card component={NavLink} to={`${restaurant.restaurantId}`} sx={{ maxWidth: 400, textDecoration: "none" }} >
+          <CardActionArea sx={{boxShadow: "rgba(27, 27, 27, 0.2) 1px 1px 4px 0px"}}>
             <CardMedia
               component="img"
               height="140"

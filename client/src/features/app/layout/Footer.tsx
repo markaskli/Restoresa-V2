@@ -22,8 +22,8 @@ export default function Footer() {
               }}
             >
               <Container maxWidth="sm">
-                <Typography variant="body1">
-                  Footer
+                <Typography variant="body1" color={"white"} display={"flex"} justifyContent={"center"}>
+                  Restoresa V2
                 </Typography>
               </Container>
             </Box>

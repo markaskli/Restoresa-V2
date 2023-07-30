@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Restaurant } from "../app/models/restaurant";
 import RestaurantList from "./RestaurantList";
+import { Typography } from "@mui/material";
 
 export default function Catalog() {
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);

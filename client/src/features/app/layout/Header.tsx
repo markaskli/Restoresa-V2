@@ -1,10 +1,5 @@
-import { AppBar, Box, List, ListItem, MenuItem, Toolbar, Typography } from "@mui/material";
-import { NavLink } from "react-router-dom";
-
-const midLinks = [
-
-]
-
+import { AppBar, Avatar, Badge, Box, IconButton, List, ListItem, MenuItem, Toolbar, Typography } from "@mui/material";
+import { Link, NavLink } from "react-router-dom";
 
 
 const navStyles = {
@@ -15,7 +10,7 @@ const navStyles = {
         color: 'grey.500'
     },
     '&.active': {
-        color: 'white'
+        color: "rgb(250, 87, 41)"
     }
 }
 
@@ -26,9 +21,13 @@ export default function Header() {
                 <Box display='flex' alignItems='center'>
                     <Typography variant='h6' component={NavLink}
                         to='/'
-                        sx={navStyles}
+                        sx={{
+                            color: "inherit",
+                            textDecoration: "none",
+                            typography: 'h6'
+                        }}
                     >
-                        Restoresa V2
+                        Restoresa
                     </Typography>
                 </Box>
                 <List sx={{ display: 'flex' }}>
@@ -37,6 +36,17 @@ export default function Header() {
                     </ListItem>
 
                 </List>
+                <Box display={"flex"} justifyContent={"center"} alignItems={"center"} gap={"45px"}>
+                    <Box component={Link} to={"/order"} sx={{backgroundColor: "rgb(254, 206, 82)", borderRadius: "15px", padding: "6px 12px", border: "none", color: "rgb(35, 33, 43)", textDecoration: "none"}} >
+                        <Typography color={"rgb(35, 33, 43)"}>Review order</Typography>
+                    </Box>
+                    <Avatar>
+
+                    </Avatar>
+                    <Typography>
+                        Sign in
+                    </Typography>
+                </Box>
             </Toolbar>
         </AppBar>
     )

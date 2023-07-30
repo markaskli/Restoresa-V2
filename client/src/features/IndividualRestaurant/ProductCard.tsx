@@ -1,4 +1,4 @@
-import { Typography, CardMedia, Container, Box } from "@mui/material";
+import { Typography, CardMedia, Box, Button } from "@mui/material";
 import { Product } from "../app/models/product";
 
 interface Props {
@@ -12,10 +12,7 @@ export default function ProductCard({ product }: Props) {
         <Box sx={{"padding": 0}} >
           <Typography color={"rgb(35, 33, 43)"} fontWeight={"600"} fontSize={"16px"}>{product.title}</Typography>
         </Box>
-
-        <Container sx={{ borderRadius: "12px", backgroundColor: "rgb(254, 206, 82)", width: "100px", height: "30px", margin: 0, display: "flex", overflow: "hidden", justifyContent: "center", alignItems: "center" }}>
-          <Typography>{product.price} €</Typography>
-        </Container>
+        <Button  sx={{borderRadius: "12px", backgroundColor: "rgb(254, 206, 82)", color: "rgb(35, 33, 43)"}}>{product.price} €</Button>
       </Box>
       <CardMedia
         sx={{ maxWidth: "100%", maxHeight: "100%", objectFit: "cover", borderRadius: "10px", backgroundSize: "cover" }}

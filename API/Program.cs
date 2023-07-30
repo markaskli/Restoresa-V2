@@ -30,7 +30,7 @@ if (app.Environment.IsDevelopment())
 
 
 
-app.UseCors(option => option.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:3000"));
+app.UseCors(option => option.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:3000"));
 
 app.UseHttpsRedirection();
 

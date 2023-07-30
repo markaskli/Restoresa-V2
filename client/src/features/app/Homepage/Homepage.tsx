@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 export default function Homepage() {
     return (
-        <Container sx={{width: "100$", marginTop: "80px"}}> 
-            <Grid container justifyContent={"center"} alignContent={"center"} gap={"15px"}>
+        <Box width={"min(80vw, 1200px)"} margin={"5% auto"}> 
+            <Grid container justifyContent={"center"} gap={"15px"} alignItems={"center"}>
                 <Grid item xs={4} >
                     <Typography
                         variant="h1"
@@ -30,22 +30,22 @@ export default function Homepage() {
                     <img width={"100%"} src={require('../../../images/chef.png')} alt="chef" />
                 </Grid>
             </Grid>
-            <Stack direction={"row"} spacing={2} useFlexGap justifyContent={"center"} alignItems={"center"} marginTop={"100px"} >
-                <Stack direction={"column"} alignItems={"center"}>
-                    <Grid item><img style={{display: "block", width: "100%"}} src={require('../../../images/reservation.png')} alt="reservation" /></Grid>
+            <Box display={"grid"} gridTemplateColumns={"repeat(3, 1fr)"} justifyContent={"center"} alignContent={"center"} marginTop={"8%"} gap={"30px"} sx={{backgroundColor: "rgb(254, 206, 82)"}} borderRadius={"30px"}>
+                <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"100%"} padding={"20px"}>
+                    <img style={{display: "block", width: "100%"}} src={require('../../../images/reservation.png')} alt="reservation" />
                     <Typography variant="h5"><span style={{color: "rgb(148, 0, 211)"}}>Make</span> a reservation</Typography>
-                </Stack>
-                <Stack direction={"column"} alignItems={"center"}>
-                    <Grid item><img style={{display: "block", width: "100%"}} src={require('../../../images/order.png')} alt="order" /></Grid>
+                </Box>
+                <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"100%"} padding={"20px"}>
+                    <img style={{display: "block", width: "100%"}} src={require('../../../images/order.png')} alt="order" />
                     <Typography variant="h5"><span style={{color: "rgb(148, 0, 211)"}}>Order</span> food</Typography>
-                    </Stack>
-                <Stack direction={"column"} alignItems={"center"}>
-                    <Grid item><img style={{display: "block", width: "100%"}} src={require('../../../images/appointment.png')} alt="appointment" /></Grid>
+                </Box>
+                <Box display={"flex"} flexDirection={"column"} justifyContent={"center"} alignItems={"center"} width={"100%"} padding={"20px"}>
+                    <img style={{display: "block", width: "100%"}} src={require('../../../images/appointment.png')} alt="appointment" />
                     <Typography variant="h5"><span style={{color: "rgb(148, 0, 211)"}}>Make</span> an appointment</Typography>
-                </Stack>
-            </Stack>
+                </Box>
+            </Box>
 
-        </Container>
+        </Box>
 
     )
 }

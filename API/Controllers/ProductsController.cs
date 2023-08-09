@@ -37,9 +37,9 @@ namespace API.Controllers
         }
 
         [HttpGet("restaurant")]
-        public async Task<ActionResult<List<Product>>> GetProductsOfRestaurant(string restaurant) 
+        public async Task<ActionResult<List<Product>>> GetProductsOfRestaurant(int restaurantId) 
         {
-            var products = await _context.Products.Where(x => x.Restaurant.Equals(restaurant)).ToListAsync();
+            var products = await _context.Products.Where(x => x.RestaurantId == restaurantId).ToListAsync();
 
             if (products == null)
             {
@@ -47,6 +47,13 @@ namespace API.Controllers
             }
 
             return Ok(products);
+        }
+
+        [HttpGet("filters")]
+        public async Task<IActionResult> GetFilters()
+        {
+            var types = await _context.Products.Select(x => x.Type).Distinct().ToListAsync();
+            return Ok(types);
         }
     }
 }

@@ -28,7 +28,6 @@ namespace API.Controllers
         public async Task<ActionResult<Restaurant>> GetIndividualRestaurant(int id)
         {
             var restaurant = await _context.Restaurants
-                .Include(r => r.Products)
                 .FirstOrDefaultAsync(x => x.RestaurantId == id);
 
             if (restaurant == null) 

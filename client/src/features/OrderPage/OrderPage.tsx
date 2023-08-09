@@ -1,31 +1,29 @@
 import { Box, Button, Typography } from "@mui/material";
 import OrderRestaurantCard from "./OrderRestaurantCard";
-import { Basket } from "../app/models/basket";
 import OrderProductCard from "./OrderProductCard";
-import { useEffect, useState } from "react";
-import { getCookie } from "../app/util/util";
-
+import { useEffect } from "react";
+import { LoadingButton } from '@mui/lab';
+import { useAppDispatch, useAppSelector } from "../app/store/store";
+import { fetchBasketItemsAsync } from "./basketSlice";
 
 
 export default function OrderPage() {
-    const [basket, setBasket] = useState<Basket>();
+    const {basket, status} = useAppSelector(state => state.basket);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const buyerId = getCookie("buyerId")
-        console.log(buyerId);
-        if (buyerId) {
-            fetch("http://localhost:5000/api/Basket", {
-                method: "GET",
-                credentials: "include"
-            })
-                .then(response => response.json())
-                .then(data => setBasket(data))
-                .catch(error => console.log(error))
-        }
-    }, [])
+        dispatch(fetchBasketItemsAsync())
+    }, [dispatch])
 
-    if (!basket) return <Typography>Your basket is empty</Typography>
 
+    
+
+    if (status.includes("pendingFetchItems")) return <LoadingButton>Basket is loading...</LoadingButton>
+    if (!basket) return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>Your basket is empty</Typography>
+
+    const totalPrice = basket.items.reduce((sum, currentItem) => sum += (currentItem.price * currentItem.quantity), 0) ?? 0;
+    console.log(totalPrice);
+    
     return (
 
         <Box display={"flex"} flexDirection={"column"} gap={"10px"} width={"min(80vw, 1200px)"} margin={"5% auto"}>
@@ -40,14 +38,14 @@ export default function OrderPage() {
                 Food information
             </Typography>
             {basket.items.map(product =>
-                <OrderProductCard key={product.productId} product={product}></OrderProductCard>
+                <OrderProductCard key={product.productId} product={product} restaurant={basket.restaurant}></OrderProductCard>
             )}
             <Box display={"flex"} flexDirection={"column"}>
                 <Typography fontWeight={"600"} fontSize={"20px"}>
                     Total
                 </Typography>
                 <Typography fontWeight={"400"} fontSize={"20px"}>
-                    {11.79} €
+                    {totalPrice} €
                 </Typography>
 
             </Box>

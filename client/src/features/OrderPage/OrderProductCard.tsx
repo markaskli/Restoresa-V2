@@ -1,12 +1,19 @@
 import { Box, Button, Typography } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { BasketItem } from "../app/models/basket";
+import { useAppDispatch } from "../app/store/store";
+import { LoadingButton } from "@mui/lab";
+import { addBasketItemAsync, removeBasketItemAsync } from "./basketSlice";
+import { Restaurant } from "../app/models/restaurant";
 
 interface Props {
     product: BasketItem
+    restaurant: Restaurant
 }
 
-export default function OrderProductCard({ product }: Props) {
+export default function OrderProductCard({ product, restaurant }: Props) {
+    const dispatch = useAppDispatch();
+
     return (
         <Box display={"grid"} gridTemplateColumns={"1fr 3fr 1fr"} borderRadius={"10px"} sx={{ backgroundColor: "rgb(251, 246, 246)" }} alignItems={"center"} padding={"10px"} gap={"5px"}>
             <img style={{ height: "80px", width: "100px", borderRadius: "10px" }} src={product.imageUrl} />
@@ -16,7 +23,12 @@ export default function OrderProductCard({ product }: Props) {
                 <Button disabled={true} sx={{ borderRadius: "12px", backgroundColor: "rgb(254, 206, 82)", "&.Mui-disabled": { color: "rgb(35, 33, 43)" }, minWidth: "50px", maxWidth: "80px" }}>{product.price} €</Button>
             </Box>
             <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                <Remove />
+                <LoadingButton
+                onClick={() => dispatch(removeBasketItemAsync({productId: product.productId, quantity: 1, name: "remove"}))}
+                >
+                    <Remove/>
+                </LoadingButton>
+                
                 <div style={{
                     border: "1px solid rgb(220, 210, 210)",
                     color: "rgb(35, 33, 43)",
@@ -27,8 +39,12 @@ export default function OrderProductCard({ product }: Props) {
                 }}>
                     {product.quantity}
                 </div>
-
-                <Add />
+                <LoadingButton
+                onClick={() => dispatch(addBasketItemAsync({productId: product.productId, quantity: 1, restaurantId: restaurant.restaurantId}))}
+                >
+                    <Add />
+                </LoadingButton>
+                
             </Box>
 
 

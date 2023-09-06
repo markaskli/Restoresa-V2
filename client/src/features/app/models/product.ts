@@ -5,5 +5,5 @@ export interface Product {
     description: string
     price: number
     imageUrl: string
-    restaurant: string
+    restaurantId: number
 }

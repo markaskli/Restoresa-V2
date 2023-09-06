@@ -22,7 +22,6 @@ export default function OrderPage() {
     if (!basket) return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>Your basket is empty</Typography>
 
     const totalPrice = basket.items.reduce((sum, currentItem) => sum += (currentItem.price * currentItem.quantity), 0) ?? 0;
-    console.log(totalPrice);
     
     return (
 
@@ -45,7 +44,7 @@ export default function OrderPage() {
                     Total
                 </Typography>
                 <Typography fontWeight={"400"} fontSize={"20px"}>
-                    {totalPrice} €
+                    {totalPrice.toPrecision(4)} €
                 </Typography>
 
             </Box>

@@ -13,7 +13,7 @@ namespace API.Entities
         public string PictureUrl { get; set; }
         public string Description { get; set; }
         public List<Product> Products{ get; set; } = new List<Product>();
-        
+        public List<ReservationTime> ReservationTimes { get; set; } = new List<ReservationTime>();
 
     }
 }

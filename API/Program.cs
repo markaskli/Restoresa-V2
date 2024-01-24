@@ -1,16 +1,19 @@
 using System.Text.Json.Serialization;
 using API.Data;
+using API.Services.BasketService;
+using API.Services.ProductService;
+using API.Services.RestaurantService;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers()
-    .AddJsonOptions(options => 
-    {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-    });
+builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+//builder.Services.AddTransient<IBasketService, BasketService>();
+builder.Services.AddScoped<IBasketService, BasketService>();
+builder.Services.AddScoped<IProductService,ProductService>();
+builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

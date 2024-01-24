@@ -6,81 +6,73 @@ using API.Data;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Services.BasketService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    public class BasketController : BaseAPIController
+    [ApiController]
+    [Route("api/[controller]")]
+    public class BasketController : ControllerBase
     {
-        private readonly StoreContext _context;
-        public BasketController(StoreContext context) 
+        private readonly IBasketService _basketService;
+
+        public BasketController(IBasketService basketService) 
         {
-            _context = context;
+            _basketService = basketService;
         }
 
         [HttpGet(Name = "GetBasket")]
-        public async Task<ActionResult<BasketDTO>> GetBasket()
+        public async Task<ActionResult<BasketDTO>> Get()
         {
-            var basket = await RetrieveBasket();
-
+            var basket = await _basketService.GetBasket();
             if (basket == null)
             {
                 return NotFound();
             }
-
-            return basket.MapBasketToDTO();
+            return Ok(basket);
         }
 
         [HttpPost]
         public async Task<ActionResult> AddItemToBasket(int productId, int quantity, int restaurantId) 
         {
-            var basket = await RetrieveBasket();
-            if (basket == null) basket = CreateBasket();
-
-            var product = await _context.Products.FindAsync(productId);
-            if (product == null) return NotFound();
-
-            basket.AddItem(product, quantity);
-            basket.RestaurantId = restaurantId;
-            basket.Restaurant = await _context.Restaurants.FirstOrDefaultAsync(x => x.RestaurantId == restaurantId);
-            var result = await _context.SaveChangesAsync() > 0;
-            if (result) return CreatedAtRoute("GetBasket", basket.MapBasketToDTO());
-
-            return BadRequest(new ProblemDetails {Title = "Problem saving item to basket"});
+            try
+            {
+                var status = await _basketService.AddItemToBasket(productId, quantity, restaurantId);
+                return Ok();
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
 
         }
 
         [HttpDelete]
         public async Task<ActionResult> RemoveBasketItem(int productId, int quantity)
         {
-            var basket = await RetrieveBasket();
-            if (basket == null) return NotFound();
-
-            basket.RemoveItem(productId, quantity);
-            var changes = await _context.SaveChangesAsync() > 0;
-            if (changes) return Ok();
-            return BadRequest(new ProblemDetails {Title = "Problem removing an item from the basket"});
-        }
-
-        private async Task<Basket> RetrieveBasket() 
-        {
-             return await _context.Baskets
-                        .Include(r => r.Restaurant)
-                        .Include(i => i.Items)
-                        .ThenInclude(p => p.Product)
-                        .FirstOrDefaultAsync(basket => basket.BuyerId == Request.Cookies["buyerId"]);
-        }
-
-        private Basket CreateBasket() 
-        {
-            var buyerId = Guid.NewGuid().ToString();  
-            var cookieOptions = new CookieOptions {IsEssential = true, Expires = DateTime.Now.AddDays(30)};
-            Response.Cookies.Append("buyerId", buyerId, cookieOptions);
-            var basket = new Basket {BuyerId = buyerId }; 
-            _context.Baskets.Add(basket);
-            return basket;
+            try
+            {
+                var status = await _basketService.RemoveItemFromBasket(productId, quantity);
+                if (status == false)
+                {
+                    return NotFound("Basket not found");
+                }
+                return Ok();
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
         }
+
+
     }
 }

@@ -7,13 +7,19 @@ namespace API.Entities
 {
     public class Restaurant
     {
-        public int RestaurantId { get; set; }
-        public string Name { get; set; }
-        public string Address { get; set; }
-        public string PictureUrl { get; set; }
-        public string Description { get; set; }
-        public List<Product> Products{ get; set; } = new List<Product>();
-        public List<ReservationTime> ReservationTimes { get; set; } = new List<ReservationTime>();
+        public int Id { get; set; }
+        public required string Name { get; set; }
+        public required string Address { get; set; }
+        public required string PictureUrl { get; set; }
+        public required string Description { get; set; }
+        public virtual List<Product> Products { get; set; } 
+        public virtual List<WorkingHours> WorkingHours { get; set; } 
+
+        public Restaurant()
+        {
+            Products = new List<Product>();
+            WorkingHours = new List<WorkingHours>();
+        }
 
     }
 }

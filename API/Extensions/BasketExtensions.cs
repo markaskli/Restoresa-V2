@@ -13,8 +13,8 @@ namespace API.Extensions
         {
             return new BasketDTO {
                 Id = basket.Id,
-                BuyerId = basket.BuyerId,
-                Restaurant = basket.Restaurant,
+                BuyerId = basket.ClientId,
+                RestaurantId = basket.RestaurantId,
                 Items = basket.Items.Select(item => new BasketItemDTO {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,

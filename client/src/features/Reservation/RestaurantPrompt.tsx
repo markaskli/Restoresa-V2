@@ -7,13 +7,27 @@ import RestaurantMenu from "../IndividualRestaurant/RestaurantMenu"
 type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]
 
-
-export default function RestaurantPrompt() {
-    var step = 0;
-    return <SeatsPrompt />
+interface Props {
+    setState:  React.Dispatch<React.SetStateAction<number>>
 }
 
-const SeatsPrompt = () => {
+
+export default function RestaurantPrompt() {
+    const [step, setStep] = useState(1);
+
+    return (
+        <>
+            {step === 1 && <SeatsPrompt setState={setStep}/>}
+            {step === 2 && <TimePrompt setState={setStep}/>}
+        </>
+
+    )
+
+}
+
+
+
+const SeatsPrompt = ({setState} : Props) => {
     const availableSeats = [1,2,3,4,5]
     return (
         <Box display={"flex"} flexDirection={"column"} alignItems={"center"} gap={"20px"} justifyContent={"center"} textAlign={"center"} minHeight={"calc(100vh - 80px)"}>
@@ -33,13 +47,13 @@ const SeatsPrompt = () => {
                         <option key={seat} value={seat}>{seat}</option>
                         )}
                 </select>
-                <Button variant="outlined" sx={{borderRadius: "10px"}}>Continue</Button>
+                <Button variant="outlined" onClick={() => setState(2)} sx={{borderRadius: "10px"}}>Continue</Button>
             </Box>
         </Box>
     )
 }
 
-const TimePrompt = () => {
+const TimePrompt = ({setState} : Props) => {
     const [value, onChange] = useState<Value>(new Date());
     const date = new Date();
     const availableTimes = ["10:30", "11:00", "11:30", "12:00"];
@@ -66,7 +80,7 @@ const TimePrompt = () => {
                     <Box key={time}> {time} </Box>)}
             </Box>
             <Box display={"flex"} gap={"20px"}>
-                <Button variant="outlined">BACK</Button>
+                <Button variant="outlined" onClick={() => setState(1)}>BACK</Button>
                 <Button variant="outlined">CONTINUE</Button>
 
             </Box>

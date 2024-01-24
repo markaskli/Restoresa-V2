@@ -8,13 +8,16 @@ namespace API.Entities
     public class Basket
     {
         public int Id { get; set; }
-        public string BuyerId { get; set; }
-        public List<BasketItem> Items { get; set; } = new List<BasketItem>();
-        public string ClientSecret { get; set; }
+        public required string ClientId { get; set; }
+        public string? ClientSecret { get; set; }
+        public string? PaymentIntentId { get; set; }
+        public List<BasketItem> Items { get; set; }
+        public virtual int RestaurantId { get; set; }
 
-        public Restaurant Restaurant { get; set; }
-        public int RestaurantId { get; set; }
-
+        public Basket() 
+        {
+            Items = new List<BasketItem>();
+        }
 
         public void AddItem(Product product, int quantity)
         {

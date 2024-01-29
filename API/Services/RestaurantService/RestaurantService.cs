@@ -1,5 +1,7 @@
 ﻿using API.Data;
 using API.DTOs;
+using API.Entities;
+using API.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Services.RestaurantService
@@ -35,14 +37,19 @@ namespace API.Services.RestaurantService
                     Title = prod.Title,
                     Description = prod.Description,
                     Price = prod.Price,
-                    ImageUrl = prod.ImageUrl
+                    ImageUrl = prod.ImageUrl,
+                    RestaurantId = prod.RestaurantId
                 }).ToList(),
                 WorkingHours = rest.WorkingHours.Select(wh => new WorkingHoursDTO()
                 {
                     Id = wh.Id,
                     WeekDay = wh.WeekDay,
-                    OpenTime = wh.OpenTime,
-                    CloseTime = wh.CloseTime,
+                    TimeSlots = wh.TimeSlots.Select(ts => new TimeSlotDTO()
+                    {
+                        StartTime = ts.StartTime,
+                        EndTime = ts.EndTime,
+                        Available = ts.Available,
+                    }).ToList(),
                 }).ToList(),
             }).ToList();
         }
@@ -55,33 +62,47 @@ namespace API.Services.RestaurantService
                 return null;
             }
 
-            return new RestaurantDTO()
-            {
-                Id = restaurant.Id,
-                Name = restaurant.Name,
-                Address = restaurant.Address,
-                PictureUrl = restaurant.PictureUrl,
-                Description = restaurant.Description,
-                Products = restaurant.Products.Select(prod => new ProductDTO()
-                {
-                    Id = prod.Id,
-                    Type = prod.Type,
-                    Title = prod.Title,
-                    Description = prod.Description,
-                    Price = prod.Price,
-                    ImageUrl = prod.ImageUrl
-                }).ToList(),
-                WorkingHours = restaurant.WorkingHours.Select(wh => new WorkingHoursDTO()
-                {
-                    Id = wh.Id,
-                    WeekDay = wh.WeekDay,
-                    OpenTime = wh.OpenTime,
-                    CloseTime = wh.CloseTime,
-                }).ToList(),
-            };
+            return restaurant.MapToDTO();
         }
 
+        public async Task<RestaurantDTO> AddRestaurant(CreateRestaurantDTO restaurantDTO)
+        {
+            var restaurant = new Restaurant()
+            {
+                Name = restaurantDTO.Name,
+                Address = restaurantDTO.Address,
+                PictureUrl = restaurantDTO.PictureUrl,
+                Description = restaurantDTO.Description,
+            };
 
+            await _storeContext.Restaurants.AddAsync(restaurant);
+            await _storeContext.SaveChangesAsync();
+            return restaurant.MapToDTO();
+
+        }
+
+        public async Task<bool> RemoveRestaurant(int restaurantId)
+        {
+            var restaurant = await _storeContext.Restaurants.FindAsync(restaurantId);
+            if (restaurant == null)
+            {
+                throw new KeyNotFoundException($"Restaurant of id {restaurantId} not found");
+            }
+
+            _storeContext.Restaurants.Remove(restaurant);
+            var result = await _storeContext.SaveChangesAsync() > 0;
+            if (result)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        //public async Task<RestaurantDTO> AddTimeSlots(List<CreateTimeSlotDTO> timeSlotDTOs)
+        //{
+
+        //}
 
     }
 }

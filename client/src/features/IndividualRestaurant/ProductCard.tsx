@@ -1,6 +1,6 @@
 import { Typography, CardMedia, Box, Button } from "@mui/material";
-import { Product } from "../app/models/product";
-import { useAppDispatch } from "../app/store/store";
+import { Product } from "../../types/product";
+import { useAppDispatch } from "../../stores/store";
 import { addBasketItemAsync } from "../OrderPage/basketSlice";
 
 interface Props {

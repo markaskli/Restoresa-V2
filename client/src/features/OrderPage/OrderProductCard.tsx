@@ -1,10 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
-import { BasketItem } from "../app/models/basket";
-import { useAppDispatch } from "../app/store/store";
+import { BasketItem } from "../../types/basket";
+import { useAppDispatch } from "../../stores/store";
 import { LoadingButton } from "@mui/lab";
 import { addBasketItemAsync, removeBasketItemAsync } from "./basketSlice";
-import { Restaurant } from "../app/models/restaurant";
+import { Restaurant } from "../../types/restaurant";
 
 interface Props {
     product: BasketItem
@@ -40,7 +40,7 @@ export default function OrderProductCard({ product, restaurant }: Props) {
                     {product.quantity}
                 </div>
                 <LoadingButton
-                onClick={() => dispatch(addBasketItemAsync({productId: product.productId, quantity: 1, restaurantId: restaurant.restaurantId}))}
+                onClick={() => dispatch(addBasketItemAsync({productId: product.productId, quantity: 1, restaurantId: restaurant.id}))}
                 >
                     <Add />
                 </LoadingButton>

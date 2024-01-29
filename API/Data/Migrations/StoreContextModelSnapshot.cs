@@ -79,8 +79,8 @@ namespace API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Price")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("ReservationId")
                         .HasColumnType("INTEGER");
@@ -114,8 +114,11 @@ namespace API.Data.Migrations
                     b.Property<long>("Cost")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Duration")
-                        .HasColumnType("INTEGER");
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ReservationDate")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("RestaurantId")
                         .HasColumnType("INTEGER");
@@ -123,11 +126,12 @@ namespace API.Data.Migrations
                     b.Property<int>("Seats")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Time")
+                    b.Property<TimeSpan>("StartTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -165,11 +169,35 @@ namespace API.Data.Migrations
                     b.ToTable("Restaurants");
                 });
 
-            modelBuilder.Entity("API.Entities.User", b =>
+            modelBuilder.Entity("API.Entities.TimeSlot", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Available")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("WorkingHoursId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkingHoursId");
+
+                    b.ToTable("TimeSlot");
+                });
+
+            modelBuilder.Entity("API.Entities.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -188,12 +216,6 @@ namespace API.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CloseTime")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("OpenTime")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("RestaurantId")
@@ -260,6 +282,15 @@ namespace API.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("API.Entities.TimeSlot", b =>
+                {
+                    b.HasOne("API.Entities.WorkingHours", null)
+                        .WithMany("TimeSlots")
+                        .HasForeignKey("WorkingHoursId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("API.Entities.WorkingHours", b =>
                 {
                     b.HasOne("API.Entities.Restaurant", null)
@@ -284,6 +315,11 @@ namespace API.Data.Migrations
                     b.Navigation("Products");
 
                     b.Navigation("WorkingHours");
+                });
+
+            modelBuilder.Entity("API.Entities.WorkingHours", b =>
+                {
+                    b.Navigation("TimeSlots");
                 });
 #pragma warning restore 612, 618
         }

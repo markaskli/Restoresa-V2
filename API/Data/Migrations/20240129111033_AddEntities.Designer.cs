@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20230912064912_AddReservationTimeEntity")]
-    partial class AddReservationTimeEntity
+    [Migration("20240129111033_AddEntities")]
+    partial class AddEntities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,18 +26,20 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("BuyerId")
+                    b.Property<string>("ClientId")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ClientSecret")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PaymentIntentId")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("RestaurantId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RestaurantId");
 
                     b.ToTable("Baskets");
                 });
@@ -73,31 +75,147 @@ namespace API.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Price")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ReservationId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("RestaurantId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ReservationId");
 
                     b.HasIndex("RestaurantId");
 
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("API.Entities.ReservationTime", b =>
+            modelBuilder.Entity("API.Entities.Reservation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("Cost")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("ReservationDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Seats")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reservations");
+                });
+
+            modelBuilder.Entity("API.Entities.Restaurant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PictureUrl")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Restaurants");
+                });
+
+            modelBuilder.Entity("API.Entities.TimeSlot", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Available")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<TimeSpan>("EndTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("WorkingHoursId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WorkingHoursId");
+
+                    b.ToTable("TimeSlot");
+                });
+
+            modelBuilder.Entity("API.Entities.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("API.Entities.WorkingHours", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,48 +224,14 @@ namespace API.Data.Migrations
                     b.Property<int>("RestaurantId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<TimeOnly>("Time")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("WeekDay")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("AvailableTimes");
-                });
-
-            modelBuilder.Entity("API.Entities.Restaurant", b =>
-                {
-                    b.Property<int>("RestaurantId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PictureUrl")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("RestaurantId");
-
-                    b.ToTable("Restaurants");
-                });
-
-            modelBuilder.Entity("API.Entities.Basket", b =>
-                {
-                    b.HasOne("API.Entities.Restaurant", "Restaurant")
-                        .WithMany()
-                        .HasForeignKey("RestaurantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Restaurant");
+                    b.ToTable("WorkingHours");
                 });
 
             modelBuilder.Entity("API.Entities.BasketItem", b =>
@@ -171,24 +255,52 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Product", b =>
                 {
-                    b.HasOne("API.Entities.Restaurant", "Restaurant")
+                    b.HasOne("API.Entities.Reservation", null)
+                        .WithMany("OrderedProducts")
+                        .HasForeignKey("ReservationId");
+
+                    b.HasOne("API.Entities.Restaurant", null)
                         .WithMany("Products")
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Restaurant");
                 });
 
-            modelBuilder.Entity("API.Entities.ReservationTime", b =>
+            modelBuilder.Entity("API.Entities.Reservation", b =>
                 {
                     b.HasOne("API.Entities.Restaurant", "Restaurant")
-                        .WithMany("ReservationTimes")
+                        .WithMany()
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Restaurant");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("API.Entities.TimeSlot", b =>
+                {
+                    b.HasOne("API.Entities.WorkingHours", null)
+                        .WithMany("TimeSlots")
+                        .HasForeignKey("WorkingHoursId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("API.Entities.WorkingHours", b =>
+                {
+                    b.HasOne("API.Entities.Restaurant", null)
+                        .WithMany("WorkingHours")
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("API.Entities.Basket", b =>
@@ -196,11 +308,21 @@ namespace API.Data.Migrations
                     b.Navigation("Items");
                 });
 
+            modelBuilder.Entity("API.Entities.Reservation", b =>
+                {
+                    b.Navigation("OrderedProducts");
+                });
+
             modelBuilder.Entity("API.Entities.Restaurant", b =>
                 {
                     b.Navigation("Products");
 
-                    b.Navigation("ReservationTimes");
+                    b.Navigation("WorkingHours");
+                });
+
+            modelBuilder.Entity("API.Entities.WorkingHours", b =>
+                {
+                    b.Navigation("TimeSlots");
                 });
 #pragma warning restore 612, 618
         }

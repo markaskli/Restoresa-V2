@@ -33,7 +33,7 @@ namespace API.Controllers
             return Ok(restaurants);
         }  
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetRestaurant")]
         public async Task<ActionResult<Restaurant>> Get(int id)
         {
             var restaurant = await _restaurantService.GetRestaurant(id);
@@ -43,6 +43,36 @@ namespace API.Controllers
             }
 
             return Ok(restaurant);
+
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(CreateRestaurantDTO restaurantDTO)
+        {
+            var restaurant = await _restaurantService.AddRestaurant(restaurantDTO);
+            return CreatedAtRoute("GetRestaurant", new { id = restaurant.Id }, restaurant);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int restaurantId)
+        {
+            try 
+            {
+                var result = await _restaurantService.RemoveRestaurant(restaurantId);
+                if (result) 
+                {
+                    return StatusCode(204);
+                }
+                else 
+                {
+                    return BadRequest("Problem occurred while trying to delete the restaurant.");
+                }
+            }
+            catch (KeyNotFoundException ex) 
+            {
+                return NotFound(ex.Message);
+            }
+            
 
         }
 

@@ -8,8 +8,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { RouterProvider } from 'react-router-dom';
-import { router } from './features/app/Router/Route';
-import { store } from './features/app/store/store';
+import { router } from './routes/Route';
+import { store } from './stores/store';
 import { Provider } from 'react-redux'
 
 

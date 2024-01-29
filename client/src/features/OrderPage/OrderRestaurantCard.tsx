@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { Restaurant } from "../app/models/restaurant";
+import { Restaurant } from "../../types/restaurant";
 
 interface Props {
     restaurant: Restaurant

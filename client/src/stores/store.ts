@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import basketReducer from "../../OrderPage/basketSlice";
+import basketReducer from "../features/OrderPage/basketSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import menuReducer from "../../IndividualRestaurant/menuSlice";
-import restaurantReducer from "../../catalog/restaurantSlice";
+import menuReducer from "../features/IndividualRestaurant/menuSlice";
+import restaurantReducer from "../features/Catalog/restaurantSlice";
 
 
 

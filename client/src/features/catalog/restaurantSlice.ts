@@ -1,18 +1,18 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { Restaurant } from "../app/models/restaurant";
-import requests from "../app/API/requests";
-import { RootState } from "../app/store/store";
+import { Restaurant } from "../../types/restaurant";
+import requests from "../../API/requests";
+import { RootState } from "../../stores/store";
 
 
 const restaurantsAdapter = createEntityAdapter<Restaurant>({
-    selectId: e => e.restaurantId
+    selectId: e => e.id
 })
 
 export const fetchRestaurantAsync = createAsyncThunk<Restaurant, {restaurantId: number}>(
     "menu/fetchRestaurantAsync",
     async ({restaurantId}, thunkAPI) => {
         try {
-            return await requests.Restaurant.getRestaurant(restaurantId);
+            return await requests.RestaurantRequests.getRestaurant(restaurantId);
         }
         catch (error: any) {
             thunkAPI.rejectWithValue({error: error.data});
@@ -24,7 +24,7 @@ export const fetchRestaurantsAsync = createAsyncThunk<Restaurant[]>(
     "menu/fetchRestaurantsAsync",
     async (_, thunkAPI) => {
         try {
-            return await requests.Restaurant.getRestaurants();
+            return await requests.RestaurantRequests.getRestaurants();
         }
         catch (error: any) {
             thunkAPI.rejectWithValue({error: error.data});

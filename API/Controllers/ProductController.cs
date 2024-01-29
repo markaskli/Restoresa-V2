@@ -33,7 +33,7 @@ namespace API.Controllers
             return Ok(products);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetProduct")]
         public async Task<ActionResult<Product>> Get(int id) 
         {
             var product = await _productService.GetProduct(id);
@@ -54,6 +54,13 @@ namespace API.Controllers
                 return NotFound();
             }
             return Ok(types);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ProductDTO>> Create(CreateProductDTO productDTO)
+        {
+            var product = await _productService.CreateProduct(productDTO);
+            return CreatedAtRoute("GetProduct", new { id = product.Id }, product);
         }
     }
 }

@@ -3,7 +3,7 @@ import OrderRestaurantCard from "./OrderRestaurantCard";
 import OrderProductCard from "./OrderProductCard";
 import { useEffect } from "react";
 import { LoadingButton } from '@mui/lab';
-import { useAppDispatch, useAppSelector } from "../app/store/store";
+import { useAppDispatch, useAppSelector } from "../../stores/store";
 import { fetchBasketItemsAsync } from "./basketSlice";
 
 

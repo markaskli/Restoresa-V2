@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import Header from "./features/app/layout/Header";
-import Footer from "./features/app/layout/Footer";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useCallback, useEffect, useState } from "react";
-import { useAppDispatch } from "./features/app/store/store";
+import { useAppDispatch } from "./stores/store";
 import { fetchBasketItemsAsync } from "./features/OrderPage/basketSlice";
-import LoadingComponent from "./features/app/layout/LoadingComponent";
+import LoadingComponent from "./components/LoadingComponent";
 
 function App() {
   const dispatch = useAppDispatch();

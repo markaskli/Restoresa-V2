@@ -1,4 +1,6 @@
 import axios, { AxiosResponse } from "axios"
+import { Restaurant } from "../types/restaurant";
+import { FormValues } from "../components/CreateRestaurant";
 
 axios.defaults.baseURL = "http://localhost:5000/api/";
 axios.defaults.withCredentials = true;
@@ -20,18 +22,20 @@ const Basket = {
 
 const Menu = {
     get: () => requests.get("Products"),
-    getRestaurantProducts: (id: number) => requests.get(`Products/restaurant?restaurantId=${id}`),
+    getRestaurantProducts: (id: number) => requests.get(`Products/restaurant?id=${id}`),
 }
 
-const Restaurant = {
-    getRestaurant: (id: number) => requests.get(`Restaurants/${id}`),
-    getRestaurants: () => requests.get("Restaurants")
+const RestaurantRequests = {
+    getRestaurant: (id: number) => requests.get(`Restaurant/${id}`),
+    getRestaurants: () => requests.get("Restaurant"),
+    addRestaurant: (restaurant: FormValues) => requests.post("Restaurant", restaurant),
+    delete: (id: number) => requests.delete(`Restaurant/${id}`)
 }
 
 const agent = {
     Basket,
     Menu,
-    Restaurant
+    RestaurantRequests
 }
 
 export default agent

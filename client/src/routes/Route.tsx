@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../../../App";
-import Catalog from "../../catalog/Catalog";
-import Homepage from "../Homepage/Homepage";
-import RestaurantMenu from "../../IndividualRestaurant/RestaurantMenu";
-import OrderPage from "../../OrderPage/OrderPage";
-import RestaurantPrompt from "../../Reservation/RestaurantPrompt";
+import App from "../App";
+import Catalog from "../features/Catalog";
+import Homepage from "../features/Homepage/Homepage";
+import RestaurantMenu from "../features/IndividualRestaurant/RestaurantMenu";
+import OrderPage from "../features/OrderPage/OrderPage";
+import RestaurantPrompt from "../features/Reservation/RestaurantPrompt";
 
 export const router = createBrowserRouter([
     {

@@ -28,7 +28,8 @@ namespace API.Services.ProductService
                 Title = prod.Title,
                 Description = prod.Description,
                 Price = prod.Price,
-                ImageUrl = prod.ImageUrl
+                ImageUrl = prod.ImageUrl,
+                RestaurantId = prod.RestaurantId,
             }).ToList();
         }
 
@@ -47,7 +48,8 @@ namespace API.Services.ProductService
                 Title = product.Title,
                 Description = product.Description,
                 Price = product.Price,
-                ImageUrl = product.ImageUrl
+                ImageUrl = product.ImageUrl,
+                RestaurantId = product.RestaurantId
             };
         }
 
@@ -60,6 +62,35 @@ namespace API.Services.ProductService
             }
 
             return products.Select(prod => prod.Type).Distinct().ToList();
+        }
+
+        public async Task<ProductDTO> CreateProduct(CreateProductDTO productDTO)
+        {
+            var product = new Product()
+            {
+                Type = productDTO.Type,
+                Title = productDTO.Title,
+                Description = productDTO.Description,
+                Price = productDTO.Price,
+                ImageUrl = productDTO.ImageUrl,
+                RestaurantId = productDTO.RestaurantId
+            };
+
+            await _storeContext.Products.AddAsync(product);
+            await _storeContext.SaveChangesAsync();
+
+            return new ProductDTO()
+            {
+                Id = product.Id,
+                Type = product.Type,
+                Title = product.Title,
+                Description = product.Description,
+                Price = product.Price,
+                ImageUrl = product.ImageUrl,
+                RestaurantId = product.RestaurantId
+            };
+
+
         }
     }
 }

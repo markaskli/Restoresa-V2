@@ -1,8 +1,8 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { Product } from "../app/models/product";
-import requests from "../app/API/requests";
-import { RootState } from "../app/store/store";
-import { Restaurant } from "../app/models/restaurant";
+import { Product } from "../../types/product";
+import requests from "../../API/requests";
+import { RootState } from "../../stores/store";
+import { Restaurant } from "../../types/restaurant";
 
 const productsAdapter = createEntityAdapter<Product>();
 

@@ -2,11 +2,11 @@ import { useEffect } from "react";
 import { Box, Container, Divider, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
-import { Product } from "../app/models/product";
-import { useAppDispatch, useAppSelector } from "../app/store/store";
+import { Product } from "../../types/product";
+import { useAppDispatch, useAppSelector } from "../../stores/store";
 import { productSelectors, fetchProductsAsync } from "./menuSlice";
-import { fetchRestaurantAsync } from "../catalog/restaurantSlice";
-import LoadingComponent from "../app/layout/LoadingComponent";
+import { fetchRestaurantAsync } from "../Catalog/restaurantSlice";
+import LoadingComponent from "../../components/LoadingComponent";
 
 export default function RestaurantMenu() {
     let { restaurantId } = useParams();

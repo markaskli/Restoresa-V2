@@ -13,7 +13,7 @@ namespace API.Entities
         public required string Type { get; set; }
         public required string Title { get; set; }
         public required string Description { get; set; }
-        public decimal Price { get; set; }
+        public int Price { get; set; }
         public required string ImageUrl { get; set; }
 
 

@@ -4,7 +4,7 @@ import OrderProductCard from "./OrderProductCard";
 import { useEffect } from "react";
 import { LoadingButton } from '@mui/lab';
 import { useAppDispatch, useAppSelector } from "../../stores/store";
-import { fetchBasketItemsAsync } from "./basketSlice";
+import { fetchBasketItemsAsync } from "../../stores/slices/basketSlice";
 
 
 export default function OrderPage() {

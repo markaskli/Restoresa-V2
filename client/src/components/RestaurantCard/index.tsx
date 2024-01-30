@@ -1,4 +1,4 @@
-import { Card, CardActionArea, CardMedia, CardContent, Typography } from "@mui/material";
+import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions } from "@mui/material";
 import { Restaurant } from "../../types/restaurant";
 import { NavLink } from "react-router-dom";
 import DeleteRestaurantButton from "./DeleteRestaurantButton";
@@ -26,10 +26,12 @@ export default function RestaurantCard({restaurant} : Props) {
                 <Typography variant="body2" color="text.secondary">
                       {restaurant.description}
                 </Typography>
-              </div>
-              <DeleteRestaurantButton restaurantId={restaurant.id}/>
+              </div>             
             </CardContent>
-          </CardActionArea>
+            <CardActions>
+              <DeleteRestaurantButton restaurantId={restaurant.id}/>
+            </CardActions>  
+          </CardActionArea>      
         </Card>
       );
 }

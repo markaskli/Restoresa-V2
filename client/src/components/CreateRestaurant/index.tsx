@@ -16,7 +16,7 @@ const CreateRestaurant = () =>
     const {register, handleSubmit} = useForm<FormValues>();
     const onSubmit = (data: FormValues) => {
         //console.log(data)
-        requests.RestaurantRequests.addRestaurant(data)
+        requests.RestaurantRequests.add(data)
     }
 
     const [open, setOpen] = useState(false);

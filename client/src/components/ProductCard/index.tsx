@@ -1,17 +1,17 @@
 import { Typography, CardMedia, Box, Button } from "@mui/material";
 import { Product } from "../../types/product";
 import { useAppDispatch } from "../../stores/store";
-import { addBasketItemAsync } from "../OrderPage/basketSlice";
+import { addBasketItemAsync } from "../../stores/slices/basketSlice";
+import DeleteProduct from "./DeleteProduct";
 
 interface Props {
   product: Product
+  setTrigger: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function ProductCard({ product }: Props) {
+export default function ProductCard({ product, setTrigger }: Props) {
   const dispatch = useAppDispatch();
 
-
-  
   return (
     <Box display={"grid"} gridTemplateColumns={"1.5fr 1fr"} gap={"10px"} padding={"10px"} boxShadow={"rgba(27, 27, 27, 0.2) 1px 1px 4px 0px;"} minHeight={"115px"} >
       <Box display={"flex"} flexDirection={"column"} justifyContent={"space-between"} alignItems={"flex-start"}>
@@ -21,7 +21,11 @@ export default function ProductCard({ product }: Props) {
         <Box sx={{"padding": 0}} >
           <Typography color={"rgb(78, 74, 90)"} fontWeight={"400"} fontSize={"12px"}>{product.description}</Typography>
         </Box>
-        <Button onClick={() => dispatch(addBasketItemAsync({productId: product.id, quantity: 1, restaurantId: product.restaurantId}))} sx={{borderRadius: "12px", backgroundColor: "rgb(254, 206, 82)", color: "rgb(35, 33, 43)"}}>{product.price} €</Button>
+        <Box display={"flex"} gap={"50px"}>
+          <Button onClick={() => dispatch(addBasketItemAsync({productId: product.id, quantity: 1, restaurantId: product.restaurantId}))} sx={{borderRadius: "12px", backgroundColor: "rgb(254, 206, 82)", color: "rgb(35, 33, 43)"}}>{product.price} €</Button>
+          <DeleteProduct id={product.id} trigger={setTrigger}/>
+        </Box>
+        
       </Box>
       <CardMedia
         sx={{ maxWidth: "100%", maxHeight: "100%", objectFit: "cover", borderRadius: "10px", backgroundSize: "cover" }}

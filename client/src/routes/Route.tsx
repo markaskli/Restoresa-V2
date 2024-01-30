@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Catalog from "../features/Catalog";
 import Homepage from "../features/Homepage/Homepage";
-import RestaurantMenu from "../features/IndividualRestaurant/RestaurantMenu";
+import RestaurantMenu from "../features/RestaurantMenu";
 import OrderPage from "../features/OrderPage/OrderPage";
 import RestaurantPrompt from "../features/Reservation/RestaurantPrompt";
 

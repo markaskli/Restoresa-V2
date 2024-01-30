@@ -1,19 +1,20 @@
-import requests from "../../../API/requests";
-import styles from "./styles.module.css"
 import DeleteIcon from '@mui/icons-material/Delete';
+import requests from '../../../API/requests';
 
 interface Props {
     restaurantId: number
 }
 
-const handleClick = (id: number) => {
-    //e.stopPropagation();
+const handleClick = (id: number, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.stopPropagation();
+    e.preventDefault();
     requests.RestaurantRequests.delete(id)
+    //console.log(id)
 } 
 
 const DeleteRestaurantButton = ({restaurantId} : Props) => {
     return (
-        <button style={{background: "none", border: "none"}} onClick={() => handleClick(restaurantId)}>
+        <button style={{background: "none", border: "none"}} onClick={(e) => handleClick(restaurantId, e)}>
             <DeleteIcon/>
         </button>
     )

@@ -4,7 +4,7 @@ import Footer from "./components/Footer";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch } from "./stores/store";
-import { fetchBasketItemsAsync } from "./features/OrderPage/basketSlice";
+import { fetchBasketItemsAsync } from "./stores/slices/basketSlice";
 import LoadingComponent from "./components/LoadingComponent";
 
 function App() {

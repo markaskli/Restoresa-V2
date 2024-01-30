@@ -2,7 +2,7 @@ import { Box, Button, MenuItem, MenuList, Typography } from "@mui/material"
 import { useState } from "react"
 import Calendar from "react-calendar"
 import 'react-calendar/dist/Calendar.css';
-import RestaurantMenu from "../IndividualRestaurant/RestaurantMenu"
+import RestaurantMenu from "../RestaurantMenu"
 
 type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]

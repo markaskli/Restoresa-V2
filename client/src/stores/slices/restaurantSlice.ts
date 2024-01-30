@@ -1,7 +1,7 @@
 import { createAsyncThunk, createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { Restaurant } from "../../types/restaurant";
 import requests from "../../API/requests";
-import { RootState } from "../../stores/store";
+import { RootState } from "../store";
 
 
 const restaurantsAdapter = createEntityAdapter<Restaurant>({

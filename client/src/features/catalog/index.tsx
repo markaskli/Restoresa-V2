@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import RestaurantList from "../../components/RestaurantsList";
 import { useAppDispatch, useAppSelector } from "../../stores/store";
-import { fetchRestaurantsAsync, restaurantSelectors } from "./restaurantSlice";
+import { fetchRestaurantsAsync, restaurantSelectors } from "../../stores/slices/restaurantSlice";
 import LoadingComponent from "../../components/LoadingComponent";
 import CreateRestaurant from "../../components/CreateRestaurant";
 import styles from "./styles.module.css"

@@ -8,5 +8,6 @@ namespace API.Services.ProductService
         Task<ProductDTO?> GetProduct(int productId);
         Task<List<ProductDTO>?> GetProducts();
         Task<List<string>?> GetTypesOfProducts();
+        Task<bool?> DeleteProduct(int id);
     }
 }

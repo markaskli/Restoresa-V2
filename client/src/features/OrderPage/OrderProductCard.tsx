@@ -3,7 +3,7 @@ import { Add, Remove } from "@mui/icons-material";
 import { BasketItem } from "../../types/basket";
 import { useAppDispatch } from "../../stores/store";
 import { LoadingButton } from "@mui/lab";
-import { addBasketItemAsync, removeBasketItemAsync } from "./basketSlice";
+import { addBasketItemAsync, removeBasketItemAsync } from "../../stores/slices/basketSlice";
 import { Restaurant } from "../../types/restaurant";
 
 interface Props {

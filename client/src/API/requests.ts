@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios"
 import { Restaurant } from "../types/restaurant";
 import { FormValues } from "../components/CreateRestaurant";
+import { ProductFormValues } from "../components/CreateProduct";
 
 axios.defaults.baseURL = "http://localhost:5000/api/";
 axios.defaults.withCredentials = true;
@@ -20,21 +21,21 @@ const Basket = {
     removeItem: (productId: number, quantity = 1) => requests.delete(`basket?productId=${productId}&quantity=${quantity}`)  
 }
 
-const Menu = {
-    get: () => requests.get("Products"),
-    getRestaurantProducts: (id: number) => requests.get(`Products/restaurant?id=${id}`),
-}
-
 const RestaurantRequests = {
     getRestaurant: (id: number) => requests.get(`Restaurant/${id}`),
     getRestaurants: () => requests.get("Restaurant"),
-    addRestaurant: (restaurant: FormValues) => requests.post("Restaurant", restaurant),
-    delete: (id: number) => requests.delete(`Restaurant/${id}`)
+    add: (restaurant: FormValues) => requests.post("Restaurant", restaurant),
+    delete: (id: number) => requests.delete(`Restaurant?restaurantId=${id}`)
+}
+
+const Product = {
+    add: (product: ProductFormValues) => requests.post("Product", product),
+    delete: (id: number) => requests.delete(`Product?id=${id}`)
 }
 
 const agent = {
     Basket,
-    Menu,
+    Product,
     RestaurantRequests
 }
 

@@ -44,6 +44,22 @@ namespace API.Controllers
             return Ok(product);
         }
 
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var result = await _productService.DeleteProduct(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            else if (result == true)
+            {
+                return StatusCode(204);
+            }
+            return BadRequest("Problem occurred while trying to save changes.");
+
+        }
+
 
         [HttpGet("filters")]
         public async Task<ActionResult<List<string>>> GetFilters()

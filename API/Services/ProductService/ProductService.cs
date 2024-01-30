@@ -89,8 +89,24 @@ namespace API.Services.ProductService
                 ImageUrl = product.ImageUrl,
                 RestaurantId = product.RestaurantId
             };
+        }
 
+        public async Task<bool?> DeleteProduct(int id)
+        {
+            var product = await _storeContext.Products.FindAsync(id);
+            if (product == null)
+            {
+                return null;
+            }
 
+            _storeContext.Products.Remove(product);
+            var result = await _storeContext.SaveChangesAsync() > 0;
+            if (result)
+            {
+                return true;
+            }
+            
+            return false;
         }
     }
 }

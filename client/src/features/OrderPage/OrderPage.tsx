@@ -1,6 +1,6 @@
 import { Box, Button, Typography } from "@mui/material";
-import OrderRestaurantCard from "./OrderRestaurantCard";
-import OrderProductCard from "./OrderProductCard";
+import OrderRestaurantCard from "../../components/OrderRestaurantCard.tsx";
+import OrderProductCard from "../../components/OrderProductCard";
 import { useEffect } from "react";
 import { LoadingButton } from '@mui/lab';
 import { useAppDispatch, useAppSelector } from "../../stores/store";
@@ -19,7 +19,8 @@ export default function OrderPage() {
     
 
     if (status.includes("pendingFetchItems")) return <LoadingButton>Basket is loading...</LoadingButton>
-    if (!basket) return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>Your basket is empty</Typography>
+    if (basket === null) return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>Your basket is empty</Typography>
+
 
     const totalPrice = basket.items.reduce((sum, currentItem) => sum += (currentItem.price * currentItem.quantity), 0) ?? 0;
     
@@ -32,7 +33,7 @@ export default function OrderPage() {
             <Typography fontSize={"16px"} fontWeight={"500"}>
                 Restaurant information
             </Typography>
-            <OrderRestaurantCard restaurant={basket?.restaurant} />
+            <OrderRestaurantCard restaurant={basket.restaurant} />
             <Typography fontSize={"16px"}>
                 Food information
             </Typography>

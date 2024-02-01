@@ -20,7 +20,7 @@ const DeleteRestaurantButton = ({restaurantId, setReload} : Props) => {
     } 
 
     return (
-        <Button style={{background: "none", border: "none"}} onClick={(e) => handleClick(restaurantId, e)}>
+        <Button style={{background: "none", border: "none"}} onMouseDown={(e) => handleClick(restaurantId, e)}>
             <DeleteIcon/>
         </Button>
     )

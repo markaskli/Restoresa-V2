@@ -6,10 +6,10 @@ import DeleteProduct from "./DeleteProduct";
 
 interface Props {
   product: Product
-  setTrigger: React.Dispatch<React.SetStateAction<boolean>>
+  setReload: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function ProductCard({ product, setTrigger }: Props) {
+export default function ProductCard({ product, setReload }: Props) {
   const dispatch = useAppDispatch();
 
   return (
@@ -23,7 +23,7 @@ export default function ProductCard({ product, setTrigger }: Props) {
         </Box>
         <Box display={"flex"} gap={"50px"}>
           <Button onClick={() => dispatch(addBasketItemAsync({productId: product.id, quantity: 1, restaurantId: product.restaurantId}))} sx={{borderRadius: "12px", backgroundColor: "rgb(254, 206, 82)", color: "rgb(35, 33, 43)"}}>{product.price} €</Button>
-          <DeleteProduct id={product.id} trigger={setTrigger}/>
+          <DeleteProduct id={product.id} setReload={setReload}/>
         </Box>
         
       </Box>

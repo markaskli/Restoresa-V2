@@ -15,9 +15,10 @@ export type ProductFormValues = {
 
 interface Props {
     id: number
+    setReload: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const CreateProduct = ({id}: Props) => {
+const CreateProduct = ({id, setReload}: Props) => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -31,6 +32,7 @@ const CreateProduct = ({id}: Props) => {
         }
         //console.log(modifiedData)
         requests.Product.add(modifiedData)
+        setReload(prev => !prev)
     }
   
     return (

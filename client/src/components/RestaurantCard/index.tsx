@@ -6,12 +6,13 @@ import styles from "./styles.module.css"
 
 interface Props {
     restaurant: Restaurant
+    setReload: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function RestaurantCard({restaurant} : Props) {
+export default function RestaurantCard({restaurant, setReload} : Props) {
     return (
         <Card component={NavLink} to={`${restaurant.id}`} sx={{ maxWidth: 500, textDecoration: "none" }} >
-          <CardActionArea sx={{boxShadow: "rgba(27, 27, 27, 0.2) 1px 1px 4px 0px"}}>
+          <CardActionArea component="span" sx={{boxShadow: "rgba(27, 27, 27, 0.2) 1px 1px 4px 0px"}}>
             <CardMedia
               component="img"
               height="140"
@@ -29,7 +30,7 @@ export default function RestaurantCard({restaurant} : Props) {
               </div>             
             </CardContent>
             <CardActions>
-              <DeleteRestaurantButton restaurantId={restaurant.id}/>
+              <DeleteRestaurantButton restaurantId={restaurant.id} setReload={setReload}/>
             </CardActions>  
           </CardActionArea>      
         </Card>

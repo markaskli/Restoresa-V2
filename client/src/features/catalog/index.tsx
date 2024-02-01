@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import RestaurantList from "../../components/RestaurantsList";
 import { useAppDispatch, useAppSelector } from "../../stores/store";
 import { fetchRestaurantsAsync, restaurantSelectors } from "../../stores/slices/restaurantSlice";
@@ -9,20 +9,22 @@ import styles from "./styles.module.css"
 export default function Catalog() {
     const restaurants = useAppSelector(restaurantSelectors.selectAll);
     const {restaurantsLoaded, status} = useAppSelector(state => state.restaurant);
+    const [reload, setReload] = useState(true)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        if (!restaurantsLoaded) {
+        if (!restaurantsLoaded || reload) {
             dispatch(fetchRestaurantsAsync())
+            setReload(false)
         } 
-    }, [restaurantsLoaded, dispatch])
+    }, [restaurantsLoaded, reload, dispatch])
 
     if (status.includes("pending")) return <LoadingComponent message="Loading restaurants.."/>
 
     return (
         <div className={styles.container}>
-            <CreateRestaurant/>
-            <RestaurantList restaurants={restaurants} />
+            <CreateRestaurant setReload={setReload}/>
+            <RestaurantList restaurants={restaurants} setReload={setReload} />
         </div>
     )
 }

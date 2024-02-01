@@ -11,12 +11,17 @@ export type FormValues = {
     description: string
 }
 
-const CreateRestaurant = () =>
+interface Props {
+    setReload: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const CreateRestaurant = ({setReload} : Props) =>
 {
     const {register, handleSubmit} = useForm<FormValues>();
     const onSubmit = (data: FormValues) => {
         //console.log(data)
         requests.RestaurantRequests.add(data)
+        setReload(true)
     }
 
     const [open, setOpen] = useState(false);
@@ -25,7 +30,7 @@ const CreateRestaurant = () =>
 
     return (
         <div>
-            <Button onClick={handleOpen}>Add restaurant</Button>
+            <Button variant="contained" onClick={handleOpen}>Add restaurant</Button>
             <Modal
                 open={open}
                 onClose={handleClose}

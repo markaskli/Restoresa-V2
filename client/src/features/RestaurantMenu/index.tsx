@@ -11,12 +11,12 @@ import CreateProduct from "../../components/CreateProduct";
 export default function RestaurantMenu() {
     let { restaurantId } = useParams();
     const { restaurant, status } = useAppSelector(state => state.menu);
-    const [trigger, setTrigger] = useState(false)
+    const [reload, setReload] = useState(false)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(fetchRestaurantAsync({restaurantId: parseInt(restaurantId!)}))
-    }, [dispatch, trigger, restaurantId]);
+    }, [dispatch, reload, restaurantId]);
 
     if (status.includes("pending")) return <LoadingComponent message="Loading products.."/>
     if (restaurant == null) return <h1>Restaurant not found</h1>
@@ -41,7 +41,7 @@ export default function RestaurantMenu() {
                         {restaurant?.description}
                     </Typography>
                 </div>
-                <CreateProduct id={restaurant.id}/>
+                <CreateProduct id={restaurant.id} setReload={setReload}/>
             </Box>
             <Divider/>
             {Object.entries(filteredProducts).map(([type, items]) => (
@@ -49,7 +49,7 @@ export default function RestaurantMenu() {
                     <Typography color={"#23212b"} fontWeight={"700"} fontSize={"32px"} marginBottom={"15px"}>{type}</Typography>
                     <Box display={"grid"} gridTemplateColumns={"repeat(3, 1fr)"} gridTemplateRows={"repeat(auto-fit, 145px)"} gap={"30px"}>
                         {items.map(item => (
-                            <ProductCard key={item.id} product={item} setTrigger={setTrigger} />
+                            <ProductCard key={item.id} product={item} setReload={setReload} />
                         ))}
                     </Box>
                 </Box>

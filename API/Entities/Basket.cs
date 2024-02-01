@@ -12,6 +12,7 @@ namespace API.Entities
         public string? ClientSecret { get; set; }
         public string? PaymentIntentId { get; set; }
         public List<BasketItem> Items { get; set; }
+        public virtual Restaurant Restaurant { get; set; } = null!;
         public virtual int RestaurantId { get; set; }
 
         public Basket() 

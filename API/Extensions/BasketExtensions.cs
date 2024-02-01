@@ -13,8 +13,7 @@ namespace API.Extensions
         {
             return new BasketDTO {
                 Id = basket.Id,
-                BuyerId = basket.ClientId,
-                RestaurantId = basket.RestaurantId,
+                BuyerId = basket.ClientId,             
                 Items = basket.Items.Select(item => new BasketItemDTO {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,
@@ -23,7 +22,15 @@ namespace API.Extensions
                     Description = item.Product.Description,
                     Price = item.Product.Price,
                     ImageUrl = item.Product.ImageUrl,
-                }).ToList()
+                }).ToList(),
+                Restaurant = new RestaurantCardDTO() 
+                { 
+                    Id = basket.Restaurant.Id,
+                    Name = basket.Restaurant.Name,
+                    Address = basket.Restaurant.Address,
+                    PictureUrl = basket.Restaurant.PictureUrl,
+                    Description = basket.Restaurant.Description
+                }
             };
         }
     }

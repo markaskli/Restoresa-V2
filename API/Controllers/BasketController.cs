@@ -7,6 +7,7 @@ using API.DTOs;
 using API.Entities;
 using API.Extensions;
 using API.Services.BasketService;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +32,7 @@ namespace API.Controllers
             {
                 return NotFound();
             }
-            return Ok(basket);
+            return basket;
         }
 
         [HttpPost]

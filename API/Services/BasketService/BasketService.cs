@@ -80,6 +80,7 @@ namespace API.Services.BasketService
         private async Task<Basket> RetrieveBasket()
         {
             return await _storeContext.Baskets
+                       .Include(b => b.Restaurant)
                        .Include(i => i.Items)
                        .ThenInclude(p => p.Product)
                        .FirstOrDefaultAsync(basket => basket.ClientId == _httpContextAccessor.HttpContext.Request.Cookies["buyerId"]);

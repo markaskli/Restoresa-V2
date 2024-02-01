@@ -124,6 +124,12 @@ namespace API.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Baskets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Baskets_Restaurants_RestaurantId",
+                        column: x => x.RestaurantId,
+                        principalTable: "Restaurants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -253,6 +259,11 @@ namespace API.Data.Migrations
                 name: "IX_BasketItem_ProductId",
                 table: "BasketItem",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Baskets_RestaurantId",
+                table: "Baskets",
+                column: "RestaurantId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_RestaurantId",

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240129111033_AddEntities")]
+    [Migration("20240201142223_AddEntities")]
     partial class AddEntities
     {
         /// <inheritdoc />
@@ -40,6 +40,8 @@ namespace API.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RestaurantId");
 
                     b.ToTable("Baskets");
                 });
@@ -232,6 +234,17 @@ namespace API.Data.Migrations
                     b.HasIndex("RestaurantId");
 
                     b.ToTable("WorkingHours");
+                });
+
+            modelBuilder.Entity("API.Entities.Basket", b =>
+                {
+                    b.HasOne("API.Entities.Restaurant", "Restaurant")
+                        .WithMany()
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Restaurant");
                 });
 
             modelBuilder.Entity("API.Entities.BasketItem", b =>

@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../stores/store";
 import { fetchRestaurantAsync } from "../../stores/slices/restaurantSlice";
 import LoadingComponent from "../../components/LoadingComponent";
 import CreateProduct from "../../components/CreateProduct";
-import RestaurantTimeSlots from "../RestaurantTimeSlots";
+import styles from "./styles.module.css"
 
 export default function RestaurantMenu() {
     let { restaurantId } = useParams();
@@ -47,8 +47,10 @@ export default function RestaurantMenu() {
                         {restaurant?.description}
                     </Typography>
                 </div>
-                <CreateProduct id={restaurant.id} setReload={setReload}/>
-                <Button variant="contained" onClick={handleNavigate}> Time Slots</Button>
+                <div className={styles.buttonBox}>
+                    <Button className={styles.button} variant="contained" onClick={handleNavigate}> Time Slots</Button>
+                    <CreateProduct id={restaurant.id} setReload={setReload}/>
+                </div>
             </Box>
             <Divider/>
             {Object.entries(filteredProducts).map(([type, items]) => (

@@ -16,3 +16,8 @@
     border-radius: 8px;
     background-color: #f4f4f4;
 }
+
+.button {
+    max-width: 160px;
+    max-height: 36px;
+}

@@ -20,6 +20,11 @@ interface IFormInput {
   finishTime: string
 }
 
+export type TimeSlotDTO = {
+  startTime: string,
+  endTime: string
+}
+
 
 
 const CurrentTimeSlots = ({restaurant}: Props) => {
@@ -34,8 +39,13 @@ const CurrentTimeSlots = ({restaurant}: Props) => {
     }
   }
 
+  const handleFormSubmit = async (data: IFormInput) => {
+    const response = await requests.RestaurantRequests.addTimeSlots(restaurant.id, data.weekDay, {startTime: data.startTime, endTime: data.finishTime})
+    console.log(response)
+  }
+
   return (
-    <form onSubmit={handleSubmit((data) => console.log(data))}>
+    <form onSubmit={handleSubmit((data) => handleFormSubmit(data))}>
       <Box>
         <Box className={styles.mainBox}>
           <Box className={styles.dayBox}>
@@ -105,7 +115,7 @@ const CurrentTimeSlots = ({restaurant}: Props) => {
                     label="Start time"
                     ampm={false}
                     format="HH:mm"
-                    value={value ?? "00:00"}
+                    value={value ?? ""}
                     onChange={(data) => onChange(dayjs(data).format("HH:mm"))}
                   />
                 )}
@@ -119,7 +129,7 @@ const CurrentTimeSlots = ({restaurant}: Props) => {
                     label="Finish time"
                     ampm={false}
                     format="HH:mm"
-                    value={value ?? "00:00"}
+                    value={value ?? ""}
                     onChange={(data) => onChange(dayjs(data).format("HH:mm"))}
                   />
                 )}

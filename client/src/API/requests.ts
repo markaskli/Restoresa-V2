@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios"
 import { Restaurant } from "../types/restaurant";
 import { FormValues } from "../components/CreateRestaurant";
 import { ProductFormValues } from "../components/CreateProduct";
+import { TimeSlotDTO } from "../components/CurrentTimeSlots";
 
 axios.defaults.baseURL = "http://localhost:5000/api/";
 axios.defaults.withCredentials = true;
@@ -26,7 +27,8 @@ const RestaurantRequests = {
     getRestaurants: () => requests.get("Restaurant"),
     add: (restaurant: FormValues) => requests.post("Restaurant", restaurant),
     delete: (id: number) => requests.delete(`Restaurant?restaurantId=${id}`),
-    getTimeSlots: (id: number, weekDay: string) => requests.get(`Restaurant/timeslots?id=${id}&weekDay=${weekDay}`)
+    getTimeSlots: (id: number, weekDay: string) => requests.get(`Restaurant/timeslots?id=${id}&weekDay=${weekDay}`),
+    addTimeSlots: (id: number, weekDay: string, data: TimeSlotDTO) => requests.post(`Restaurant/addSlots?id=${id}&weekday=${weekDay}`, data)
 }
 
 const Product = {

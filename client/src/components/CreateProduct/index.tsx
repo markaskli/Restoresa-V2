@@ -37,7 +37,7 @@ const CreateProduct = ({id, setReload}: Props) => {
   
     return (
       <div>
-        <Button variant="contained" onClick={handleOpen}>Create product</Button>
+        <Button className={styles.button} variant="contained" onClick={handleOpen}>Create product</Button>
         <Modal
           open={open}
           onClose={handleClose}

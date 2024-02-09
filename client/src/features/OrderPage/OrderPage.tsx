@@ -5,6 +5,17 @@ import { useEffect } from "react";
 import { LoadingButton } from '@mui/lab';
 import { useAppDispatch, useAppSelector } from "../../stores/store";
 import { fetchBasketItemsAsync } from "../../stores/slices/basketSlice";
+import OrderClientCard from "../../components/OrderClientCard";
+
+const user = {
+    id: 1,
+    username: "markaxs",
+    name: "markas",
+    surname: "klimovas",
+    email: "markasklimovas@gmail.com",
+    phoneNumber: "38064823259"
+}
+
 
 
 export default function OrderPage() {
@@ -27,13 +38,19 @@ export default function OrderPage() {
     return (
 
         <Box display={"flex"} flexDirection={"column"} gap={"10px"} width={"min(80vw, 1200px)"} margin={"5% auto"}>
-            <Typography fontSize={"32px"}>
-                Order
-            </Typography>
-            <Typography fontSize={"16px"} fontWeight={"500"}>
-                Restaurant information
-            </Typography>
-            <OrderRestaurantCard restaurant={basket.restaurant} />
+            <Box>
+                <Typography fontSize={"32px"}> Order </Typography>
+            </Box>
+            <Box display={"flex"} flexDirection={"row"} justifyContent={"space-between"}  gap={"20px"}>
+                <Box flex={"0.4 1 0%"}>
+                    <Typography fontSize={"16px"} fontWeight={"500"}> Customer Information </Typography>
+                    <OrderClientCard user={user}/>
+                </Box>
+                <Box flex={"0.6 1 0%"}>
+                    <Typography fontSize={"16px"} fontWeight={"500"}> Restaurant Information </Typography>
+                    <OrderRestaurantCard restaurant={basket.restaurant} />
+                </Box>
+            </Box>
             <Typography fontSize={"16px"}>
                 Food information
             </Typography>

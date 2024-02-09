@@ -1,0 +1,26 @@
+.picture {
+    height: 120px;
+    width: 180px;
+    border-radius: 10px
+}
+
+.infoBox {
+    background-color: rgb(251, 246, 246);
+    border-radius: 10px;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.innerBox {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.workDaysBox {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+

@@ -1,0 +1,27 @@
+.mainBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15%;
+    background-color: rgb(251, 246, 246);
+    border-radius: 10px;
+    padding: 15px 20px;
+}
+
+.dayBox {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.timeBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+}
+
+.header {
+    text-align: center;
+}
+

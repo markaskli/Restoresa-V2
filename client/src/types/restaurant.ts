@@ -9,4 +9,5 @@ export interface Restaurant {
     description: string
     products: Product[]
     workingHours: WorkingHours[]
+    
 }

@@ -1,0 +1,13 @@
+.mainBox {
+    width: min(80vw, 1200px);
+    margin: 5% auto;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.header {
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+}

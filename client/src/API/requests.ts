@@ -25,7 +25,8 @@ const RestaurantRequests = {
     getRestaurant: (id: number) => requests.get(`Restaurant/${id}`),
     getRestaurants: () => requests.get("Restaurant"),
     add: (restaurant: FormValues) => requests.post("Restaurant", restaurant),
-    delete: (id: number) => requests.delete(`Restaurant?restaurantId=${id}`)
+    delete: (id: number) => requests.delete(`Restaurant?restaurantId=${id}`),
+    getTimeSlots: (id: number, weekDay: string) => requests.get(`Restaurant/timeslots?id=${id}&weekDay=${weekDay}`)
 }
 
 const Product = {

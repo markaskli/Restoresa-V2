@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
-import { Box, Container, Divider, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Box, Button, Container, Divider, Typography } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import ProductCard from "../../components/ProductCard";
 import { Product } from "../../types/product";
 import { useAppDispatch, useAppSelector } from "../../stores/store";
 import { fetchRestaurantAsync } from "../../stores/slices/restaurantSlice";
 import LoadingComponent from "../../components/LoadingComponent";
 import CreateProduct from "../../components/CreateProduct";
+import RestaurantTimeSlots from "../RestaurantTimeSlots";
 
 export default function RestaurantMenu() {
     let { restaurantId } = useParams();
     const { restaurant, status } = useAppSelector(state => state.menu);
     const [reload, setReload] = useState(false)
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchRestaurantAsync({restaurantId: parseInt(restaurantId!)}))
@@ -30,6 +32,10 @@ export default function RestaurantMenu() {
         filteredProducts[type].push(product);
     }
 
+    const handleNavigate = () => {
+        navigate("timeSlots", {state: { restaurant }})
+    }
+
     return (
         <Container>
             <Box marginTop={"50px"} marginBottom={"50px"} display={"flex"} justifyContent={"space-between"}>
@@ -42,6 +48,7 @@ export default function RestaurantMenu() {
                     </Typography>
                 </div>
                 <CreateProduct id={restaurant.id} setReload={setReload}/>
+                <Button variant="contained" onClick={handleNavigate}> Time Slots</Button>
             </Box>
             <Divider/>
             {Object.entries(filteredProducts).map(([type, items]) => (

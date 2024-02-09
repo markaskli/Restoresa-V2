@@ -15,6 +15,7 @@ namespace API.Entities
         public virtual List<Product> Products { get; set; } 
         public virtual List<WorkingHours> WorkingHours { get; set; } 
 
+
         public Restaurant()
         {
             Products = new List<Product>();

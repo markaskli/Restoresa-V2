@@ -5,7 +5,9 @@ namespace API.DTOs
     public class WorkingHoursDTO
     {
         public int Id { get; set; }
-        public int WeekDay { get; set; }
+        public required string StartTime { get; set; }
+        public required string FinishTime { get; set; }
+        public required string WeekDay { get; set; }
         public List<TimeSlotDTO> TimeSlots { get; set; }
 
         public WorkingHoursDTO() 

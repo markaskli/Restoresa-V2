@@ -6,6 +6,11 @@
         public required string Address { get; set; }
         public required string PictureUrl { get; set; }
         public required string Description { get; set; }
+        public List<CreateWorkingHoursDTO> WorkingHours { get; set; }
+        public CreateRestaurantDTO()
+        {
+            WorkingHours = new List<CreateWorkingHoursDTO>();
+        }
 
     }
 }

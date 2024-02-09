@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240201142223_AddEntities")]
+    [Migration("20240207194830_AddEntities")]
     partial class AddEntities
     {
         /// <inheritdoc />
@@ -196,7 +196,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("WorkingHoursId");
 
-                    b.ToTable("TimeSlot");
+                    b.ToTable("TimeSlots");
                 });
 
             modelBuilder.Entity("API.Entities.User", b =>
@@ -223,10 +223,16 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<TimeSpan>("FinishTime")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("RestaurantId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("WeekDay")
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Weekday")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

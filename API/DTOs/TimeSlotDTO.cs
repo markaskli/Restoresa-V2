@@ -2,8 +2,8 @@
 {
     public class TimeSlotDTO
     {
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
+        public required string StartTime { get; set; }
+        public required string EndTime { get; set; }
         public bool Available { get; set; }
     }
 }

@@ -19,5 +19,6 @@ namespace API.Data
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<WorkingHours> WorkingHours { get; set; }
+        public DbSet<TimeSlot> TimeSlots { get; set; }
     }
 }

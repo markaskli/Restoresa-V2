@@ -46,11 +46,39 @@ namespace API.Controllers
 
         }
 
+        [HttpGet("timeslots")]
+        public async Task<ActionResult<List<TimeSlotDTO>>> GetTimeSlots(int id, string weekDay)
+        {
+            try
+            {
+                var result = await _restaurantService.GetTimeSlots(id, weekDay);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult> Create(CreateRestaurantDTO restaurantDTO)
         {
             var restaurant = await _restaurantService.AddRestaurant(restaurantDTO);
             return CreatedAtRoute("GetRestaurant", new { id = restaurant.Id }, restaurant);
+        }
+
+        [HttpPost("addSlots")]
+        public async Task<ActionResult<RestaurantDTO>> CreateTimeSlots(int id, string weekday, CreateTimeSlotDTO slotsDTO)
+        {
+            try
+            {
+                var restaurant = await _restaurantService.AddTimeSlots(id, weekday, slotsDTO);
+                return Ok(restaurant);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete]
@@ -71,9 +99,7 @@ namespace API.Controllers
             catch (KeyNotFoundException ex) 
             {
                 return NotFound(ex.Message);
-            }
-            
-
+            }          
         }
 
     }

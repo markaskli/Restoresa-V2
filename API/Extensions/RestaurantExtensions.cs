@@ -27,11 +27,13 @@ namespace API.Extensions
                 WorkingHours = restaurant.WorkingHours.Select(wh => new WorkingHoursDTO()
                 {
                     Id = wh.Id,
-                    WeekDay = wh.WeekDay,
+                    WeekDay = wh.Weekday.ToString(),   
+                    StartTime = wh.StartTime.ToString(@"hh\:mm"),
+                    FinishTime = wh.FinishTime.ToString(@"hh\:mm"),
                     TimeSlots = wh.TimeSlots.Select(ts => new TimeSlotDTO()
                     {
-                        StartTime = ts.StartTime,
-                        EndTime = ts.EndTime,
+                        StartTime = ts.StartTime.ToString(@"hh\:mm"),
+                        EndTime = ts.EndTime.ToString(@"hh\:mm"),
                         Available = ts.Available
                     }).ToList(),
                 }).ToList(),

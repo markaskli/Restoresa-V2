@@ -2,9 +2,9 @@
 {
     public class CreateTimeSlotDTO
     {
-        public int StartingHour { get; set; }
-        public int StartingMinutes { get; set; }
-        public int EndingHour { get; set; }
-        public int EndingMinutes { get; set; }
+        public required string StartTime { get; set; }
+        public required string EndTime { get; set;}
+        public bool Available = true;
+
     }
 }

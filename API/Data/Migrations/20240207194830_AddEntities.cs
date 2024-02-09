@@ -151,7 +151,9 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    WeekDay = table.Column<int>(type: "INTEGER", nullable: false),
+                    Weekday = table.Column<int>(type: "INTEGER", nullable: false),
+                    StartTime = table.Column<TimeSpan>(type: "TEXT", nullable: false),
+                    FinishTime = table.Column<TimeSpan>(type: "TEXT", nullable: false),
                     RestaurantId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -224,7 +226,7 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TimeSlot",
+                name: "TimeSlots",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -236,9 +238,9 @@ namespace API.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TimeSlot", x => x.Id);
+                    table.PrimaryKey("PK_TimeSlots", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TimeSlot_WorkingHours_WorkingHoursId",
+                        name: "FK_TimeSlots_WorkingHours_WorkingHoursId",
                         column: x => x.WorkingHoursId,
                         principalTable: "WorkingHours",
                         principalColumn: "Id",
@@ -276,8 +278,8 @@ namespace API.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeSlot_WorkingHoursId",
-                table: "TimeSlot",
+                name: "IX_TimeSlots_WorkingHoursId",
+                table: "TimeSlots",
                 column: "WorkingHoursId");
 
             migrationBuilder.CreateIndex(
@@ -307,7 +309,7 @@ namespace API.Data.Migrations
                 name: "Reservations");
 
             migrationBuilder.DropTable(
-                name: "TimeSlot");
+                name: "TimeSlots");
 
             migrationBuilder.DropTable(
                 name: "Baskets");

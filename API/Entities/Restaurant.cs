@@ -12,6 +12,7 @@ namespace API.Entities
         public required string Address { get; set; }
         public required string PictureUrl { get; set; }
         public required string Description { get; set; }
+        public int MaxPeopleServedPerTable { get; set; }
         public virtual List<Product> Products { get; set; } 
         public virtual List<WorkingHours> WorkingHours { get; set; } 
 

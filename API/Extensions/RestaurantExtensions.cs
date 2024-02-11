@@ -14,6 +14,7 @@ namespace API.Extensions
                 Address = restaurant.Address,
                 PictureUrl = restaurant.PictureUrl,
                 Description = restaurant.Description,
+                MaxPeopleServedPerTable = restaurant.MaxPeopleServedPerTable,
                 Products = restaurant.Products.Select(prod => new ProductDTO()
                 {
                     Id = prod.Id,
@@ -33,7 +34,6 @@ namespace API.Extensions
                     TimeSlots = wh.TimeSlots.Select(ts => new TimeSlotDTO()
                     {
                         StartTime = ts.StartTime.ToString(@"hh\:mm"),
-                        EndTime = ts.EndTime.ToString(@"hh\:mm"),
                         Available = ts.Available
                     }).ToList(),
                 }).ToList(),

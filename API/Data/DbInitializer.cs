@@ -344,6 +344,39 @@ namespace API.Data
                 }
             };
 
+            var workingHours = new List<WorkingHours>(){
+                new WorkingHours {
+                    Weekday = DayOfWeek.Monday,
+                    StartTime = TimeSpan.Parse("09:00"),
+                    FinishTime = TimeSpan.Parse("17:00"),
+                },
+                new WorkingHours {
+                    Weekday = DayOfWeek.Tuesday,
+                    StartTime = TimeSpan.Parse("09:00"),
+                    FinishTime = TimeSpan.Parse("17:00"),
+                },
+                new WorkingHours {
+                    Weekday = DayOfWeek.Wednesday,
+                    StartTime = TimeSpan.Parse("09:00"),
+                    FinishTime = TimeSpan.Parse("17:00"),
+                },
+                new WorkingHours {
+                    Weekday = DayOfWeek.Thursday,
+                    StartTime = TimeSpan.Parse("09:00"),
+                    FinishTime = TimeSpan.Parse("17:00"),
+                },
+                new WorkingHours {
+                    Weekday = DayOfWeek.Friday,
+                    StartTime = TimeSpan.Parse("09:00"),
+                    FinishTime = TimeSpan.Parse("19:00"),
+                },    
+                new WorkingHours {
+                    Weekday = DayOfWeek.Saturday,
+                    StartTime = TimeSpan.Parse("10:00"),
+                    FinishTime = TimeSpan.Parse("16:00"),
+                }          
+            };
+
             foreach(Restaurant restaurant in restaurants) 
             {            
                 foreach(Product product in products) 

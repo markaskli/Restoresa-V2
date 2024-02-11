@@ -158,6 +158,9 @@ namespace API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("MaxPeopleServedPerTable")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -179,9 +182,6 @@ namespace API.Data.Migrations
 
                     b.Property<bool>("Available")
                         .HasColumnType("INTEGER");
-
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("TEXT");
 
                     b.Property<TimeSpan>("StartTime")
                         .HasColumnType("TEXT");

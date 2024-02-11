@@ -32,6 +32,7 @@ namespace API.Services.RestaurantService
                 Address = rest.Address,
                 PictureUrl = rest.PictureUrl,
                 Description = rest.Description,
+                MaxPeopleServedPerTable = rest.MaxPeopleServedPerTable,
                 Products = rest.Products.Select(prod => new ProductDTO()
                 {
                     Id = prod.Id,
@@ -51,7 +52,6 @@ namespace API.Services.RestaurantService
                     TimeSlots = wh.TimeSlots.Select(ts => new TimeSlotDTO()
                     {
                         StartTime = ts.StartTime.ToString(@"hh\:mm"),
-                        EndTime = ts.EndTime.ToString(@"hh\:mm"),
                         Available = ts.Available,
                     }).ToList(),
                 }).ToList(),
@@ -77,6 +77,7 @@ namespace API.Services.RestaurantService
                 Address = restaurantDTO.Address,
                 PictureUrl = restaurantDTO.PictureUrl,
                 Description = restaurantDTO.Description,
+                MaxPeopleServedPerTable = restaurantDTO.MaxPeopleServedPerTable,
                 WorkingHours = restaurantDTO.WorkingHours
                 .Select(wh => new WorkingHours()
                 {
@@ -127,8 +128,7 @@ namespace API.Services.RestaurantService
 
             TimeSlot tempSlot = new TimeSlot()
             {
-                StartTime = TimeSpan.Parse(timeSlotDTOs.StartTime),
-                EndTime = TimeSpan.Parse(timeSlotDTOs.EndTime)
+                StartTime = TimeSpan.Parse(timeSlotDTOs.StartTime)
             };
             workingHours.TimeSlots.Add(tempSlot);
 
@@ -152,8 +152,7 @@ namespace API.Services.RestaurantService
                     .Select(ts => new TimeSlotDTO()
                     {
                         Available = ts.Available,
-                        StartTime = ts.StartTime.ToString(@"hh\:mm"),
-                        EndTime = ts.EndTime.ToString(@"hh\:mm")
+                        StartTime = ts.StartTime.ToString(@"hh\:mm")
                     })
                 ).ToList();
 

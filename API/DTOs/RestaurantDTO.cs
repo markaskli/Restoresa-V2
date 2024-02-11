@@ -9,6 +9,7 @@ namespace API.DTOs
         public required string Address { get; set; }
         public required string PictureUrl { get; set; }
         public required string Description { get; set; }
+        public required int MaxPeopleServedPerTable { get; set; }
         public List<ProductDTO> Products { get; set; }
         public List<WorkingHoursDTO> WorkingHours { get; set; }
 

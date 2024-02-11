@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240207194830_AddEntities")]
+    [Migration("20240211102931_AddEntities")]
     partial class AddEntities
     {
         /// <inheritdoc />
@@ -161,6 +161,9 @@ namespace API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("MaxPeopleServedPerTable")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -182,9 +185,6 @@ namespace API.Data.Migrations
 
                     b.Property<bool>("Available")
                         .HasColumnType("INTEGER");
-
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("TEXT");
 
                     b.Property<TimeSpan>("StartTime")
                         .HasColumnType("TEXT");

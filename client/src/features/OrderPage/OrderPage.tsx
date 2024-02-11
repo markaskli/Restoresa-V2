@@ -17,20 +17,19 @@ const user = {
 }
 
 
-
 export default function OrderPage() {
     const {basket, status} = useAppSelector(state => state.basket);
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        dispatch(fetchBasketItemsAsync())
-    }, [dispatch])
+    // useEffect(() => {
+    //     dispatch(fetchBasketItemsAsync())
+    // }, [dispatch])
 
 
     
 
     if (status.includes("pendingFetchItems")) return <LoadingButton>Basket is loading...</LoadingButton>
-    if (basket === null) return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>Your basket is empty</Typography>
+    if (basket?.items == null) return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>Your basket is empty</Typography>
 
 
     const totalPrice = basket.items.reduce((sum, currentItem) => sum += (currentItem.price * currentItem.quantity), 0) ?? 0;

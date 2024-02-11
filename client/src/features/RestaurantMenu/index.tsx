@@ -1,30 +1,29 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Box, Button, Container, Divider, Typography } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard";
 import { Product } from "../../types/product";
-import { useAppDispatch, useAppSelector } from "../../stores/store";
-import { fetchRestaurantAsync } from "../../stores/slices/restaurantSlice";
-import LoadingComponent from "../../components/LoadingComponent";
 import CreateProduct from "../../components/CreateProduct";
 import styles from "./styles.module.css"
+import { useAppSelector } from "../../stores/store";
+
+interface Props {
+    setReload: React.Dispatch<React.SetStateAction<boolean>>
+}
 
 export default function RestaurantMenu() {
-    let { restaurantId } = useParams();
-    const { restaurant, status } = useAppSelector(state => state.menu);
-    const [reload, setReload] = useState(false)
-    const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { state } = useLocation();
+    const [reload, setReload] = useState(false)
+    let restaurant = state.restaurant;
 
-    useEffect(() => {
-        dispatch(fetchRestaurantAsync({restaurantId: parseInt(restaurantId!)}))
-    }, [dispatch, reload, restaurantId]);
+    const {peopleServedCount, reservationDate,chosenTimeSlot} = useAppSelector(state => state.reservation)
+    console.log(peopleServedCount, reservationDate.split(' ')[0], chosenTimeSlot)
 
-    if (status.includes("pending")) return <LoadingComponent message="Loading products.."/>
-    if (restaurant == null) return <h1>Restaurant not found</h1>
-
+    if (state.restaurant === null) return <h1>NO RESTAURANT WAS FOUND :D</h1>
+    
     const filteredProducts: Record<string, Product[]> = {};
-    for (const product of restaurant.products) {
+    for (const product of state.restaurant.products) {
         const type = product.type;
         if (!filteredProducts[type]) {
             filteredProducts[type] = []
@@ -32,8 +31,11 @@ export default function RestaurantMenu() {
         filteredProducts[type].push(product);
     }
 
+
+
+
     const handleNavigate = () => {
-        navigate("timeSlots", {state: { restaurant }})
+        navigate("timeslots", {state: { restaurant }})
     }
 
     return (

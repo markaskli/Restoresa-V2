@@ -5,6 +5,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch } from "./stores/store";
 import LoadingComponent from "./components/LoadingComponent";
+import { fetchBasketItemsAsync } from "./stores/slices/basketSlice";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -12,7 +13,7 @@ function App() {
 
   const initApp = useCallback(async () => {
     try {
-      
+      dispatch(fetchBasketItemsAsync())
     }
     catch (error) {
       console.log(error)

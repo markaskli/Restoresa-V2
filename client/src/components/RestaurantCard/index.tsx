@@ -25,7 +25,7 @@ export default function RestaurantCard({restaurant, setReload} : Props) {
                   {restaurant.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                      {restaurant.description}
+                  {restaurant.description}
                 </Typography>
               </div>             
             </CardContent>

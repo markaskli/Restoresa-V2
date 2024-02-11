@@ -3,6 +3,7 @@ import basketReducer from "./slices/basketSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import menuReducer from "./slices/menuSlice";
 import restaurantReducer from "./slices/restaurantSlice";
+import reservationReducer from "./slices/reservationSlice"
 
 
 
@@ -10,7 +11,9 @@ export const store = configureStore({
     reducer: {
         basket: basketReducer,
         menu: menuReducer,
-        restaurant: restaurantReducer
+        restaurant: restaurantReducer,
+        reservation: reservationReducer
+        
     }
 })
 

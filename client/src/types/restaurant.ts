@@ -7,6 +7,7 @@ export interface Restaurant {
     address: string
     pictureUrl: string
     description: string
+    maxPeopleServedPerTable: number
     products: Product[]
     workingHours: WorkingHours[]
     

@@ -1,4 +1,4 @@
-import { Box, Typography, MenuItem, FormControl, ListItem, TextField, Grid, Button } from "@mui/material";
+import { Box, Typography, MenuItem, ListItem, TextField, Grid, Button } from "@mui/material";
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -6,7 +6,7 @@ import { Controller, useForm } from "react-hook-form";
 import styles from "./styles.module.css"
 import dayjs from "dayjs";
 import { Restaurant } from "../../types/restaurant";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import requests from "../../API/requests";
 import { TimeSlot } from "../../types/timeSlot";
 
@@ -17,12 +17,10 @@ interface Props {
 interface IFormInput {
   weekDay: string,
   startTime: string,
-  finishTime: string
 }
 
 export type TimeSlotDTO = {
-  startTime: string,
-  endTime: string
+  startTime: string
 }
 
 
@@ -40,8 +38,8 @@ const CurrentTimeSlots = ({restaurant}: Props) => {
   }
 
   const handleFormSubmit = async (data: IFormInput) => {
-    const response = await requests.RestaurantRequests.addTimeSlots(restaurant.id, data.weekDay, {startTime: data.startTime, endTime: data.finishTime})
-    console.log(response)
+    const response = await requests.RestaurantRequests.addTimeSlots(restaurant.id, data.weekDay, {startTime: data.startTime})
+    //console.log(response)
   }
 
   return (
@@ -95,7 +93,7 @@ const CurrentTimeSlots = ({restaurant}: Props) => {
                 currentTimeSlots.map((slot, index) => (
                   <Grid item xs={1} key={index}>
                     <Typography >
-                      {slot.startTime} - {slot.endTime}
+                      {slot.startTime}
                     </Typography>
                   </Grid>  
                 ))
@@ -113,20 +111,6 @@ const CurrentTimeSlots = ({restaurant}: Props) => {
                 render={({ field: { onChange, value } }) => (
                   <TimePicker
                     label="Start time"
-                    ampm={false}
-                    format="HH:mm"
-                    value={value ?? ""}
-                    onChange={(data) => onChange(dayjs(data).format("HH:mm"))}
-                  />
-                )}
-              />
-
-              <Controller
-                control={control}
-                name="finishTime"
-                render={({ field: { onChange, value } }) => (
-                  <TimePicker
-                    label="Finish time"
                     ampm={false}
                     format="HH:mm"
                     value={value ?? ""}

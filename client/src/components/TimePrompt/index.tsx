@@ -27,7 +27,7 @@ const TimePrompt = ({setState, restaurant} : Props) => {
 
     const handleNavigate = () => {
         dispatch(setReservationTime({timeSlot: chosenTimeSlot, date: value!.toLocaleString("lt-LT", { year: "numeric", month: "numeric", day: "numeric"})}))
-        navigate("menu", {state: { restaurant }})
+        navigate("menu", {state: {restaurant}})
     }
 
     const handleChange = (value: Value) => {
@@ -53,10 +53,12 @@ const TimePrompt = ({setState, restaurant} : Props) => {
             </Box>
             <Box display={"grid"} gridTemplateColumns={"repeat(4, 1fr)"} gap={"10px"}>
                 { availableTimes.length > 0 ? (
-                     availableTimes.map(time => 
+                     availableTimes
+                     .filter(timeSlot => timeSlot.available)
+                     .map(time => 
                         <Button key={time.id}
                             className={styles.item}
-                            onClick={(e: any) => console.log(e.target.innerText)}
+                            onClick={(e: any) => setChosenTimeSlot(e.target.innerText)}
                         > {time.startTime}
                         </Button>)                  
                     ) : 

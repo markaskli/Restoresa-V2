@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material"
 import styles from "./styles.module.css"
 import RestaurantInfoCard from "../../components/RestaurantInfoCard"
-import CurrentTimeSlots from "../../components/CurrentTimeSlots"
+import CurrentTimeSlots from "../../components/SubmitTimeSlots"
 import { Restaurant } from "../../types/restaurant"
 import { useLocation } from "react-router-dom"
 

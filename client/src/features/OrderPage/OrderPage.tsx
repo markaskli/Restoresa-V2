@@ -21,12 +21,14 @@ export default function OrderPage() {
     const {basket, status} = useAppSelector(state => state.basket);
     const dispatch = useAppDispatch();
 
-    // useEffect(() => {
-    //     dispatch(fetchBasketItemsAsync())
-    // }, [dispatch])
+    useEffect(() => {
+        dispatch(fetchBasketItemsAsync())
+    }, [dispatch])
 
 
-    
+    const handleClick = () => {
+        console.log()
+    }
 
     if (status.includes("pendingFetchItems")) return <LoadingButton>Basket is loading...</LoadingButton>
     if (basket?.items == null) return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>Your basket is empty</Typography>
@@ -61,12 +63,12 @@ export default function OrderPage() {
                     Total
                 </Typography>
                 <Typography fontWeight={"400"} fontSize={"20px"}>
-                    {totalPrice.toPrecision(4)} €
+                    {totalPrice.toPrecision(3)} €
                 </Typography>
 
             </Box>
 
-            <Button variant="contained" color="secondary">Go to payment</Button>
+            <Button variant="contained" onClick={() => handleClick()} color="secondary">Go to payment</Button>
         </Box>
 
 

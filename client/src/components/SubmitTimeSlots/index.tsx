@@ -10,6 +10,7 @@ import { useState } from "react";
 import requests from "../../API/requests";
 import { TimeSlot } from "../../types/timeSlot";
 
+
 interface Props {
   restaurant: Restaurant
 }
@@ -29,17 +30,23 @@ const CurrentTimeSlots = ({restaurant}: Props) => {
   const { handleSubmit, control } = useForm<IFormInput>();
   const [currentTimeSlots, setCurrentTimeSlots] = useState<TimeSlot[]>([])
 
+  
+
   const handleClick = async (e: any) => {
     const selectedDay = e.target.value;
     if (selectedDay !== "") {
-      var slots = await requests.RestaurantRequests.getTimeSlots(restaurant.id, e.target.value)
-      setCurrentTimeSlots(slots)
+      //var slots = await requests.RestaurantRequests.getTimeSlots(restaurant.id, e.target.value)
+      var workingDay = restaurant.workingHours.find(wh => wh.weekDay === selectedDay)
+      if (workingDay) {
+        setCurrentTimeSlots(workingDay.timeSlots)
+      } 
     }
   }
 
   const handleFormSubmit = async (data: IFormInput) => {
     const response = await requests.RestaurantRequests.addTimeSlots(restaurant.id, data.weekDay, {startTime: data.startTime})
-    //console.log(response)
+    
+    
   }
 
   return (
@@ -90,7 +97,8 @@ const CurrentTimeSlots = ({restaurant}: Props) => {
                   <ListItem key={2}>There are no slots.</ListItem>
                 </Grid>
               ) : (
-                currentTimeSlots.map((slot, index) => (
+                currentTimeSlots
+                .map((slot, index) => (
                   <Grid item xs={1} key={index}>
                     <Typography >
                       {slot.startTime}

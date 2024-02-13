@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios"
 import { Restaurant } from "../types/restaurant";
 import { FormValues } from "../components/CreateRestaurant";
 import { ProductFormValues } from "../components/CreateProduct";
-import { TimeSlotDTO } from "../components/CurrentTimeSlots";
+import { TimeSlotDTO } from "../components/SubmitTimeSlots";
 
 axios.defaults.baseURL = "http://localhost:5000/api/";
 axios.defaults.withCredentials = true;

@@ -4,7 +4,7 @@ import Catalog from "../features/Catalog";
 import Homepage from "../features/Homepage/Homepage";
 import RestaurantMenu from "../features/RestaurantMenu";
 import OrderPage from "../features/OrderPage/OrderPage";
-import RestaurantPrompt from "../features/Reservation/RestaurantPrompt";
+import RestaurantPrompt from "../features/ReservationPrompt";
 import RestaurantTimeSlots from "../features/RestaurantTimeSlots";
 
 export const router = createBrowserRouter([

@@ -5,7 +5,6 @@ import ProductCard from "../../components/ProductCard";
 import { Product } from "../../types/product";
 import CreateProduct from "../../components/CreateProduct";
 import styles from "./styles.module.css"
-import { useAppSelector } from "../../stores/store";
 
 interface Props {
     setReload: React.Dispatch<React.SetStateAction<boolean>>
@@ -17,10 +16,8 @@ export default function RestaurantMenu() {
     const [reload, setReload] = useState(false)
     let restaurant = state.restaurant;
 
-    const {peopleServedCount, reservationDate,chosenTimeSlot} = useAppSelector(state => state.reservation)
-    console.log(peopleServedCount, reservationDate.split(' ')[0], chosenTimeSlot)
 
-    if (state.restaurant === null) return <h1>NO RESTAURANT WAS FOUND :D</h1>
+    if (state.restaurant === null) return <h1>NO RESTAURANT WAS FOUND </h1>
     
     const filteredProducts: Record<string, Product[]> = {};
     for (const product of state.restaurant.products) {
@@ -35,7 +32,7 @@ export default function RestaurantMenu() {
 
 
     const handleNavigate = () => {
-        navigate("timeslots", {state: { restaurant }})
+        navigate("timeslots", {state: {restaurant}})
     }
 
     return (

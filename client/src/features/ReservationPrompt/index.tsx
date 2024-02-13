@@ -24,7 +24,7 @@ export default function RestaurantPrompt() {
 
     return (
         <>
-            {step === 1 && <SeatsPrompt setState={setStep} restaurant={restaurant}/>}
+            {step === 1 && <SeatsPrompt setState={setStep} restaurant={restaurant} />}
             {step === 2 && <TimePrompt setState={setStep} restaurant={restaurant}/>}
         </>
 

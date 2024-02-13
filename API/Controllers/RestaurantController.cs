@@ -47,7 +47,7 @@ namespace API.Controllers
         }
 
         [HttpGet("timeslots")]
-        public async Task<ActionResult<List<TimeSlotDTO>>> GetTimeSlots(int id, string weekDay)
+        public async Task<ActionResult<List<TimeSlotDTO>>> GetTimeSlots(int id, string weekDay) // PAKEISTI
         {
             try
             {

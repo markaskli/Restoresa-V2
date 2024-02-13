@@ -1,14 +1,17 @@
-﻿namespace API.Entities
+﻿using API.Entities.Enums;
+
+namespace API.Entities
 {
     public class Reservation
     {
         public int Id { get; set; }
-        public DateTime ReservationDate { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan EndTime { get; set; }
+        public PaymentStatus PaymentStatus { get; set; }
+        public DateTime SubmitDate { get; set; }
+        public DateTime ReservedDate { get; set; }
+        public TimeSpan ReservedTime { get; set; }
         public long Cost { get; set; }
         public int Seats { get; set; }
-        public List<Product> OrderedProducts { get; set; }
+        public List<OrderItem> OrderedProducts { get; set; }
         public virtual int RestaurantId { get; set; }
         public virtual Restaurant Restaurant { get; set; } = null!;
         public virtual string UserId { get; set; } = null!;
@@ -16,8 +19,11 @@
 
         public Reservation()
         {
-            OrderedProducts = new List<Product>();
+            OrderedProducts = new List<OrderItem>();
+            PaymentStatus = PaymentStatus.PENDING;
         }
+
+
 
     }
 }

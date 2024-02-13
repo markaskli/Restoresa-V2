@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using API.Data;
 using API.Services.BasketService;
 using API.Services.ProductService;
+using API.Services.ReservationService;
 using API.Services.RestaurantService;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +15,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IBasketService, BasketService>();
 builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+builder.Services.AddScoped<IReservationService, ReservationService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

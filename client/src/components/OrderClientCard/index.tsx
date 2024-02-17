@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material"
-import { User } from "../../types/client"
+import { User } from "../../types/user"
 import styles from "./styles.module.css"
 
 interface Props {

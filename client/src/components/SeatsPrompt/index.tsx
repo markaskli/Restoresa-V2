@@ -1,8 +1,8 @@
 import { Box, Typography, Button } from "@mui/material"
 import { Restaurant } from "../../types/restaurant"
 import { useAppDispatch } from "../../stores/store"
-import { setPeopleCount } from "../../stores/slices/reservationSlice"
-import { useState } from "react"
+import { setPeopleCount, setReservation } from "../../stores/slices/reservationSlice"
+import { useEffect, useState } from "react"
 
 
 interface Props {
@@ -12,8 +12,12 @@ interface Props {
 
 const SeatsPrompt = ({setState, restaurant} : Props) => {
     const [seatsCount, setSeatsCount] = useState(1)
-    const dispatch = useAppDispatch()
     const availableSeats = Array.from({length: restaurant.maxPeopleServedPerTable}, (_, index) => index + 1)
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(setReservation())
+    }, [dispatch])
 
     const handeClick = () => {
         setState(2)

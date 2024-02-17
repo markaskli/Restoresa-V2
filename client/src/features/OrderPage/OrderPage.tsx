@@ -6,11 +6,15 @@ import { LoadingButton } from '@mui/lab';
 import { useAppDispatch, useAppSelector } from "../../stores/store";
 import { fetchBasketItemsAsync } from "../../stores/slices/basketSlice";
 import OrderClientCard from "../../components/OrderClientCard";
+import { Link } from "react-router-dom";
+import { submitReservationDetails } from '../../stores/slices/reservationSlice';
+
 
 const user = {
-    id: 1,
+    id: "1",
     username: "markaxs",
     name: "markas",
+    password: "asd",
     surname: "klimovas",
     email: "markasklimovas@gmail.com",
     phoneNumber: "38064823259"
@@ -19,23 +23,27 @@ const user = {
 
 export default function OrderPage() {
     const {basket, status} = useAppSelector(state => state.basket);
+    const {reservationDetails} = useAppSelector(state => state.reservation)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
         dispatch(fetchBasketItemsAsync())
     }, [dispatch])
 
-
-    const handleClick = () => {
-        console.log()
-    }
-
     if (status.includes("pendingFetchItems")) return <LoadingButton>Basket is loading...</LoadingButton>
     if (basket?.items == null) return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>Your basket is empty</Typography>
+    if (reservationDetails == null || (reservationDetails.reservedDate === "" || reservationDetails.seats === 0 || reservationDetails.reservedTime === "")) {
+        return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>User hasn't chosen reservation details.</Typography>
+    }
+         
+
+    const totalPrice = basket.items.reduce((sum, currentItem) => sum += (currentItem.price * currentItem.quantity), 0) / 100 ?? 0;
+
+    const handleClick = () => {
+        dispatch(submitReservationDetails({...reservationDetails, userId: user.id, restaurantId: basket.restaurant.id}))
+    }
 
 
-    const totalPrice = basket.items.reduce((sum, currentItem) => sum += (currentItem.price * currentItem.quantity), 0) ?? 0;
-    
     return (
 
         <Box display={"flex"} flexDirection={"column"} gap={"10px"} width={"min(80vw, 1200px)"} margin={"5% auto"}>
@@ -49,7 +57,7 @@ export default function OrderPage() {
                 </Box>
                 <Box flex={"0.6 1 0%"}>
                     <Typography fontSize={"16px"} fontWeight={"500"}> Restaurant Information </Typography>
-                    <OrderRestaurantCard restaurant={basket.restaurant} />
+                    <OrderRestaurantCard restaurant={basket.restaurant} reservation={reservationDetails} />
                 </Box>
             </Box>
             <Typography fontSize={"16px"}>
@@ -67,8 +75,10 @@ export default function OrderPage() {
                 </Typography>
 
             </Box>
-
-            <Button variant="contained" onClick={() => handleClick()} color="secondary">Go to payment</Button>
+            <Link to={"/checkout"}>
+                <Button variant="contained" onClick={handleClick} color="secondary">Go to payment</Button>
+            </Link>
+            
         </Box>
 
 

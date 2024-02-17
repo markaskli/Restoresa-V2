@@ -6,6 +6,8 @@ import RestaurantMenu from "../features/RestaurantMenu";
 import OrderPage from "../features/OrderPage/OrderPage";
 import RestaurantPrompt from "../features/ReservationPrompt";
 import RestaurantTimeSlots from "../features/RestaurantTimeSlots";
+import Checkout from "../features/Checkout";
+import UserProfile from "../features/UserProfile";
 
 export const router = createBrowserRouter([
     {
@@ -39,6 +41,14 @@ export const router = createBrowserRouter([
             {
               path: "order",
               element: <OrderPage/>
+            },
+            {
+              path: "checkout",
+              element: <Checkout/>
+            },
+            {
+              path: "profile",
+              element: <UserProfile/>
             }
 
           ],

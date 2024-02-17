@@ -1,0 +1,18 @@
+.outerBox {
+    margin-top: 10px;
+    background-color: rgb(251, 246, 246);
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+}
+
+.detailsBox {
+    display: flex;
+    gap: 25px;
+}
+
+.dateBox {
+    display: flex;
+    gap: 10px;
+}
+

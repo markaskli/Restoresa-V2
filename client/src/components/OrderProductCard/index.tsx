@@ -20,7 +20,7 @@ export default function OrderProductCard({ product, restaurant }: Props) {
             <Box display={"flex"} flexDirection={"column"}>
                 <Typography fontWeight={"600"} fontSize={"16px"}>{product.title}</Typography>
                 <Typography fontSize={"14px"}>{product.description}</Typography>
-                <Button disabled={true} sx={{ borderRadius: "12px", backgroundColor: "rgb(254, 206, 82)", "&.Mui-disabled": { color: "rgb(35, 33, 43)" }, minWidth: "50px", maxWidth: "80px" }}>{product.price} €</Button>
+                <Button disabled={true} sx={{ borderRadius: "12px", backgroundColor: "rgb(254, 206, 82)", "&.Mui-disabled": { color: "rgb(35, 33, 43)" }, minWidth: "50px", maxWidth: "80px", maxHeight: "30px"}}>{product.price / 100} €</Button>
             </Box>
             <Box display={"flex"} alignItems={"center"} justifyContent={"center"}>
                 <LoadingButton

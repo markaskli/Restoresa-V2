@@ -1,0 +1,14 @@
+.outerBox {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: rgb(251, 246, 246);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.individualBox {
+    display: flex;
+    flex-direction: column;
+}

@@ -1,13 +1,15 @@
 import { Box, Typography } from "@mui/material";
 import { Restaurant } from "../../types/restaurant";
-import { useAppSelector } from "../../stores/store";
+import { ReservationDTO } from "../../types/reservation";
+
 
 interface Props {
     restaurant: Restaurant
+    reservation: ReservationDTO
 }
 
-export default function OrderRestaurantCard({ restaurant }: Props) {
-    const {peopleServedCount, reservationDate,chosenTimeSlot} = useAppSelector(state => state.reservation)
+export default function OrderRestaurantCard({ restaurant, reservation }: Props) {
+    
     return (
         <Box display={"flex"} flexDirection={"column"} sx={{ backgroundColor: "rgb(251, 246, 246)" }} gap={"15px"} padding={"10px"}>
             <Box display={"flex"}>
@@ -27,7 +29,7 @@ export default function OrderRestaurantCard({ restaurant }: Props) {
                         Seats
                     </Typography>
                     <Typography >
-                        {peopleServedCount}
+                        {reservation.seats}
                     </Typography>
                 </Box>
                 <Box>
@@ -35,7 +37,7 @@ export default function OrderRestaurantCard({ restaurant }: Props) {
                         Date
                     </Typography>
                     <Typography>
-                        {reservationDate}
+                        {reservation.reservedDate}
                     </Typography>
                 </Box>
                 <Box>
@@ -43,7 +45,7 @@ export default function OrderRestaurantCard({ restaurant }: Props) {
                         Time
                     </Typography>
                     <Typography>
-                        {chosenTimeSlot}
+                        {reservation.reservedTime}
                     </Typography>
                 </Box>
             </Box>

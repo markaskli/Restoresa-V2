@@ -1,8 +1,9 @@
 import axios, { AxiosResponse } from "axios"
-import { Restaurant } from "../types/restaurant";
 import { FormValues } from "../components/CreateRestaurant";
 import { ProductFormValues } from "../components/CreateProduct";
 import { TimeSlotDTO } from "../components/SubmitTimeSlots";
+import { CreateReservationDTO } from "../types/reservation";
+
 
 axios.defaults.baseURL = "http://localhost:5000/api/";
 axios.defaults.withCredentials = true;
@@ -36,10 +37,20 @@ const Product = {
     delete: (id: number) => requests.delete(`Product?id=${id}`)
 }
 
+const Payments = {
+    createPaymentIntent: () => requests.post("Payment", {})  
+}
+
+const Reservation = {
+    createReservation: (reservation: CreateReservationDTO) => requests.post("Reservation", reservation)
+}
+
 const agent = {
     Basket,
     Product,
-    RestaurantRequests
+    RestaurantRequests,
+    Payments,
+    Reservation
 }
 
 export default agent

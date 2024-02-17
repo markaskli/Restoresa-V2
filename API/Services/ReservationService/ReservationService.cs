@@ -112,8 +112,9 @@ namespace API.Services.ReservationService
 
                 timeSlot.Available = false;
 
-                var items = new List<OrderItem>();
+                long basketCost = basket.Items.Sum(it => it.Quantity * it.Product.Price);
 
+                var items = new List<OrderItem>();
                 foreach(var item in basket.Items)
                 {
                     var product = new OrderedProduct()
@@ -140,8 +141,8 @@ namespace API.Services.ReservationService
                     ReservedDate = reservationDate,
                     ReservedTime = reservedTimeSlot,
                     Seats = reservationDTO.Seats,
-                    Cost = reservationDTO.Cost,
                     UserId = reservationDTO.UserId,
+                    Cost = basketCost,
                     OrderedProducts = items,
                     RestaurantId = reservationDTO.RestaurantId
                 };

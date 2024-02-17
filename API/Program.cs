@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using API.Data;
 using API.Services.BasketService;
+using API.Services.PaymentService;
 using API.Services.ProductService;
 using API.Services.ReservationService;
 using API.Services.RestaurantService;
@@ -16,6 +17,7 @@ builder.Services.AddScoped<IBasketService, BasketService>();
 builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
 builder.Services.AddScoped<IReservationService, ReservationService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

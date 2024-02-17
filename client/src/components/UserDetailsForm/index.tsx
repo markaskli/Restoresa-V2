@@ -1,12 +1,20 @@
 import { Box, Button, TextField, Typography } from "@mui/material"
 import { User } from "../../types/user"
 import styles from "./styles.module.css"
+import { useState } from "react"
+import ChangeEmailModal from "../UserProfileModals/ChangeEmail"
 
 interface Props {
     user: User
 }
 
 const UserDetailsForm = ({user}: Props) => {
+    const [emailModal, setEmailModel] = useState(false)
+
+    const handleEmailModal = () => {
+        setEmailModel(true)
+    }
+
     return (
         <Box className={styles.outerBox}> 
             <div>
@@ -26,7 +34,11 @@ const UserDetailsForm = ({user}: Props) => {
             <div className={styles.individualBox}>
                 <Typography>Email</Typography>
                 <TextField variant="standard" inputProps={{readOnly: true}} value={user.email}></TextField>
-                <Button variant="text" onClick={() => console.log("user changed email")}>Change email</Button>
+                <Button variant="text" onClick={handleEmailModal}>Change email</Button>
+                <div>
+                    <ChangeEmailModal openModal={emailModal} setOpenModal={setEmailModel}/>
+                </div>
+                
             </div>      
             <div className={styles.individualBox}>
                 <Typography>Phone Number</Typography>

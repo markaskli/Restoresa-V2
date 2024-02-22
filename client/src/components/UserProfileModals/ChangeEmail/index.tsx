@@ -1,38 +1,36 @@
-import { Modal } from "@mui/base";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import styles from "./styles.module.css"
+import { useForm } from "react-hook-form";
 
 interface Props {
-    openModal: boolean
-    setOpenModal: React.Dispatch<React.SetStateAction<boolean>>
+  currentEmail: string 
 }
 
-const ChangeEmailModal = ({openModal, setOpenModal}: Props) => {
-    const handleClose = () => {
-        setOpenModal(false);
-        
-    }
-  
+const ChangeEmail = ({currentEmail}: Props) => {
+  const {register, handleSubmit} = useForm()
+
+    const onSubmit = () => console.log("changed email")
+
     return (
-      <div>
-        <Modal
-          open={openModal}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <Box className={styles.modal}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-          </Box>
-        </Modal>
-      </div>
+      <Box className={styles.modal}>
+        <Typography id="modal-email-title" variant="h6" component="h2">
+          Change your e-mail address
+        </Typography>
+        <Box className={styles.formBox}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <label>Current Email address</label>
+            <input defaultValue={currentEmail}
+            disabled
+            />
+            <label>Enter New Email</label>
+            <input {...register("submittedEmail", { required: true})} />
+            <input type="submit" />
+          </form>
+        </Box>
+
+      </Box>
     );  
 }
 
-export default ChangeEmailModal
+export default ChangeEmail

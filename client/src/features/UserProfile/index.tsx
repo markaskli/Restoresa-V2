@@ -39,11 +39,11 @@ function UserProfile () {
             <Typography className={styles.header}>Hello, {usr.username}</Typography>
             <Box className={styles.innerBox}>
                 <Box>
-                    <Typography>User details</Typography>
+                    <Typography textAlign={"left"}>User details</Typography>
                     <UserDetailsForm user={usr}/>
                 </Box>  
                 <Box>
-                    <Typography>Reservations history</Typography>
+                    <Typography textAlign={"right"}>Reservations history</Typography>
                     <OrdersHistoryCard reservation={res}/>
                 </Box>        
       

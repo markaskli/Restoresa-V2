@@ -1,12 +1,14 @@
-import { Box, Typography } from "@mui/material"
+import { Box, Card, Typography } from "@mui/material"
 import styles from "./styles.module.css"
 import { Reservation } from "../../types/reservation"
+import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
     reservation: Reservation
 }
 
 const OrdersHistoryCard = ({ reservation }: Props) => {
+  const navigate = useNavigate()
 
     const getStatusColor = (value: string) => {
         var stringValue = value.toLowerCase();
@@ -24,8 +26,12 @@ const OrdersHistoryCard = ({ reservation }: Props) => {
         }
     }
 
+    const handleClick = () => {
+      navigate('reservation/:id')
+    }
+
   return (
-    <Box className={styles.outerBox}>
+    <Card className={styles.outerBox} component={Link} to={`/reservation/${reservation.id}`}>
       <div className={styles.detailsBox}>
         <div>
           <Typography>RESERVATION NUMBER</Typography>
@@ -43,7 +49,7 @@ const OrdersHistoryCard = ({ reservation }: Props) => {
             </div>
         </div>
       </div>
-    </Box>
+    </Card>
   );
 };
 

@@ -8,6 +8,7 @@ import RestaurantPrompt from "../features/ReservationPrompt";
 import RestaurantTimeSlots from "../features/RestaurantTimeSlots";
 import Checkout from "../features/Checkout";
 import UserProfile from "../features/UserProfile";
+import IndividualReservationInfo from "../components/IndividualReservationInfo";
 
 export const router = createBrowserRouter([
     {
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
             {
               path: "reservation",
               element: <RestaurantPrompt/>
+            },
+            {
+              path: "reservation/:id",
+              element: <IndividualReservationInfo/>
             },
             {
               path: "order",

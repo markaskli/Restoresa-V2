@@ -2,6 +2,7 @@
 using API.DTOs;
 using API.Entities;
 using API.Exceptions;
+using API.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
@@ -41,7 +42,7 @@ namespace API.Services.ReservationService
                     ProductId = item.Product.ProductId,
                 }).ToList(),
                 UserId = reservation.UserId,
-                RestaurantId = reservation.RestaurantId,
+                Restaurant = reservation.Restaurant.MapToDTO(),
             };
         }
 
@@ -168,7 +169,7 @@ namespace API.Services.ReservationService
                         ProductId = item.Product.ProductId,
                     }).ToList(),
                     UserId = reservation.UserId,
-                    RestaurantId = reservation.RestaurantId,
+                    Restaurant = reservation.Restaurant.MapToDTO(),
                 };
             }
 

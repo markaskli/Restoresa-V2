@@ -12,7 +12,7 @@ namespace API.DTOs
         public required int Seats { get; set; }
         public List<OrderItemDTO> OrderedProducts { get; set; }
         public required string UserId { get; set; }
-        public required int RestaurantId { get; set; }
+        public required RestaurantDTO Restaurant { get; set; }
 
         public ReservationDTO()
         {

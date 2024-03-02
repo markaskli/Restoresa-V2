@@ -1,4 +1,5 @@
 import { OrderedProduct } from "./orderedProduct";
+import { Restaurant, RestaurantDTO } from "./restaurant";
 
 export interface Reservation {
     id: number,
@@ -10,7 +11,7 @@ export interface Reservation {
     status: string,
     orderedProducts: OrderedProduct[],
     userId: string,
-    restaurantId: number
+    restaurant: RestaurantDTO
 }
 
 export interface CreateReservationDTO {

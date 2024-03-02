@@ -1,0 +1,16 @@
+.outerBox {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    
+}
+
+.headerBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.restaurantCard {
+    background-color: rgb(251, 246, 246);
+}

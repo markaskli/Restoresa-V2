@@ -31,8 +31,13 @@ const OrdersHistoryCard = ({ reservation }: Props) => {
     }
 
   return (
-    <Card className={styles.outerBox} component={Link} to={`/reservation/${reservation.id}`}>
-      <div className={styles.detailsBox}>
+    <Card 
+      component={Link} 
+      to={`/reservation/${reservation.id}`} 
+      className={styles.linkComp}
+      state={{data: reservation}}
+    >
+      <div className={styles.outerBox}>
         <div>
           <Typography>RESERVATION NUMBER</Typography>
           <Typography>{"0cf9b2fc-3a59-41bd-bcf8-fb5676e8ea2e"}</Typography>

@@ -74,6 +74,20 @@ namespace API.Controllers
 
         }
 
+        [HttpPost("addDetails")]
+        public async Task<ActionResult> AddReservationDetailsToBasket(ReservationDetailsDTO reservationDetails)
+        {
+            try
+            {
+                await _basketService.AddReservationDetails(reservationDetails);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }

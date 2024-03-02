@@ -16,6 +16,9 @@ namespace API.Extensions
                 BuyerId = basket.ClientId,   
                 ClientSecret = basket.ClientSecret ?? "",
                 PaymentIntentId = basket.PaymentIntentId ?? "",
+                Seats = basket.Seats,
+                ReservedDate = basket.ReservedDate.ToShortDateString(),
+                ReservedTime = basket.ReservedTime.ToString(@"hh\:mm"),
                 Items = basket.Items.Select(item => new BasketItemDTO {
                     ProductId = item.ProductId,
                     Quantity = item.Quantity,

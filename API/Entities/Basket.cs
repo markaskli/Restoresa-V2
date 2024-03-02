@@ -11,6 +11,9 @@ namespace API.Entities
         public required string ClientId { get; set; }
         public string? ClientSecret { get; set; }
         public string? PaymentIntentId { get; set; }
+        public int Seats { get; set; }
+        public DateTime ReservedDate { get; set; }
+        public TimeSpan ReservedTime { get; set; }
         public List<BasketItem> Items { get; set; }
         public virtual Restaurant Restaurant { get; set; } = null!;
         public virtual int RestaurantId { get; set; }

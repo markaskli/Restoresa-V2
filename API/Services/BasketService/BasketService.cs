@@ -4,6 +4,7 @@ using API.Entities;
 using API.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace API.Services.BasketService
 {
@@ -74,6 +75,55 @@ namespace API.Services.BasketService
             {
                 throw new DbUpdateException("Problem occurred while trying to save changes to the basket.");
             }
+
+        }
+
+        public async Task AddReservationDetails(ReservationDetailsDTO reservationDetails)
+        {
+            if (reservationDetails == null)
+            {
+                throw new ArgumentNullException("No detais were provided");
+            }
+
+            var basket = await RetrieveBasket();
+            if (basket == null)
+            {
+                throw new KeyNotFoundException("The basket of the user was not found.");
+            }
+
+            if(reservationDetails.Seats <= 0)
+            {
+                throw new ArgumentException("Number of reserved seats can not be lower or equal to zero.");
+            }
+
+            DateTime reservationDate;
+            if (!DateTime.TryParse(reservationDetails.ReservedDate, out reservationDate))
+            {
+                throw new FormatException();
+            }
+
+            TimeSpan reservedTimeSlot;
+            if (!TimeSpan.TryParseExact(reservationDetails.ReservedTime, @"hh\:mm", CultureInfo.CurrentCulture, out reservedTimeSlot))
+            {
+                throw new FormatException();
+
+            }
+
+            basket.Seats = reservationDetails.Seats;
+            basket.ReservedTime = reservedTimeSlot;
+            basket.ReservedDate = reservationDate;
+
+            try
+            {
+                await _storeContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while trying to save data", ex);
+            }
+            
+
+
 
         }
 

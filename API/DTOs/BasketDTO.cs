@@ -10,6 +10,9 @@ namespace API.DTOs
     {
         public int Id { get; set; }
         public required string BuyerId { get; set; }
+        public required string ReservedDate { get; set; }
+        public required string ReservedTime { get; set; }
+        public required int Seats { get; set; }
         public string? ClientSecret { get; set; }
         public string? PaymentIntentId { get; set; }
         public List<BasketItemDTO> Items { get; set; }

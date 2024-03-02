@@ -29,7 +29,18 @@ const res: Reservation = {
         }
     ],
     userId: "5020",
-    restaurantId: 1
+    restaurant: {
+        id: 1,
+        name: "Big Kebi",
+        address: "JONAVOJE",
+        pictureUrl: "",
+        description: "string",
+        maxPeopleServedPerTable: 1,
+        products: [
+            
+        ]
+
+    }
 
 }
 

@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { Restaurant } from "../../types/restaurant";
 import { ReservationDTO } from "../../types/reservation";
+import styles from "./styles.module.css"
 
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
 export default function OrderRestaurantCard({ restaurant, reservation }: Props) {
     
     return (
-        <Box display={"flex"} flexDirection={"column"} sx={{ backgroundColor: "rgb(251, 246, 246)" }} gap={"15px"} padding={"10px"}>
+        <Box className={styles.outerBox}>
             <Box display={"flex"}>
                 <img style={{ height: "80px", width: "100px", borderRadius: "10px" }} src={restaurant.pictureUrl} />
                 <Box display={"flex"} flexDirection={"column"} padding={"10px"}>

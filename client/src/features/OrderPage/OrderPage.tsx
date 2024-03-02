@@ -32,11 +32,11 @@ export default function OrderPage() {
 
     if (status.includes("pendingFetchItems")) return <LoadingButton>Basket is loading...</LoadingButton>
     if (basket?.items == null) return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>Your basket is empty</Typography>
-    if (reservationDetails == null || (reservationDetails.reservedDate === "" || reservationDetails.seats === 0 || reservationDetails.reservedTime === "")) {
+    if (reservationDetails === null || (reservationDetails.reservedDate === undefined || reservationDetails.seats === 0 || reservationDetails.reservedTime === undefined)) {
         return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>User hasn't chosen reservation details.</Typography>
     }
-         
 
+         
     const totalPrice = basket.items.reduce((sum, currentItem) => sum += (currentItem.price * currentItem.quantity), 0) / 100 ?? 0;
 
     const handleClick = () => {

@@ -1,23 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Container, Divider, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard";
 import { Product } from "../../types/product";
 import CreateProduct from "../../components/CreateProduct";
 import styles from "./styles.module.css"
+import { useAppDispatch, useAppSelector } from "../../stores/store";
+import { addReservationDetailsAsync } from "../../stores/slices/basketSlice";
 
 interface Props {
     setReload: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function RestaurantMenu() {
+    const [reload, setReload] = useState(false)
+    const location = useLocation()
+    const {reservationDetails} = useAppSelector(state => state.reservation)
+    const dispatch = useAppDispatch()
+
     const navigate = useNavigate();
     const { state } = useLocation();
-    const [reload, setReload] = useState(false)
+
+    
+
+    useEffect(() => {
+        if (reservationDetails) {
+            dispatch(addReservationDetailsAsync(reservationDetails))
+        }  
+        else {
+            navigate(`/restaurants`)
+        }  
+    }, [dispatch, location])
+
+
+
+    if (!state || state.restaurant === null) return <h1>NO RESTAURANT WAS FOUND </h1>
     let restaurant = state.restaurant;
 
-
-    if (state.restaurant === null) return <h1>NO RESTAURANT WAS FOUND </h1>
+    if (!reservationDetails) return <h1>You haven't chosen reservation details.</h1>
     
     const filteredProducts: Record<string, Product[]> = {};
     for (const product of state.restaurant.products) {

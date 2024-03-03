@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Basket } from "../../types/basket";
 import requests from "../../API/requests";
+import { ReservationDTO } from "../../types/reservation";
 
 interface BasketSlice {
     basket: Basket | null
@@ -41,6 +42,18 @@ export const removeBasketItemAsync = createAsyncThunk<void, {productId: number, 
     async ({productId, quantity}, thunkAPI) => {
         try {
             return await requests.Basket.removeItem(productId, quantity);
+        }
+        catch (error: any) {
+            thunkAPI.rejectWithValue({error: error.data})
+        }
+    }
+)
+
+export const addReservationDetailsAsync = createAsyncThunk<Basket, ReservationDTO>(
+    'basket/addReservationDetailsAsync',
+    async (reservationDetails, thunkAPI) => {
+        try {
+            return await requests.Basket.addReservationDetails(reservationDetails);
         }
         catch (error: any) {
             thunkAPI.rejectWithValue({error: error.data})
@@ -90,8 +103,16 @@ export const basketSlice = createSlice({
         });
         builder.addCase(fetchBasketItemsAsync.rejected, (state) => {
             state.status = 'idle'
+        });
+        builder.addCase(addReservationDetailsAsync.pending, (state) => {
+            state.status = "pendingAddReservationDetails"; 
+        });
+        builder.addCase(addReservationDetailsAsync.fulfilled, (state, action) => {
+            state.status = 'idle';
+        });
+        builder.addCase(addReservationDetailsAsync.rejected, (state) => {
+            state.status = 'idle'
         })
-
     })
 })
 

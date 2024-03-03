@@ -1,0 +1,28 @@
+.outerBox {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    width: 100%;
+    align-items: center;
+    gap: 10px;
+    
+}
+
+.itemImg {
+    height: 80px;
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.priceBox {
+    border: 1px solid rgb(220, 210, 210);
+    color: rgb(35, 33, 43);
+    font-size: 14px;
+    font-weight: 500;
+    width: 100px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}

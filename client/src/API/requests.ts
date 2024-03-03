@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios"
 import { FormValues } from "../components/CreateRestaurant";
 import { ProductFormValues } from "../components/CreateProduct";
 import { TimeSlotDTO } from "../components/SubmitTimeSlots";
-import { CreateReservationDTO } from "../types/reservation";
+import { CreateReservationDTO, ReservationDTO } from "../types/reservation";
 
 
 axios.defaults.baseURL = "http://localhost:5000/api/";
@@ -20,7 +20,8 @@ const requests = {
 const Basket = {
     get: () => requests.get('Basket'),
     addItem: (productId: number, quantity = 1, restaurantId: number) => requests.post(`basket?productId=${productId}&quantity=${quantity}&restaurantId=${restaurantId}`, {}),
-    removeItem: (productId: number, quantity = 1) => requests.delete(`basket?productId=${productId}&quantity=${quantity}`)  
+    removeItem: (productId: number, quantity = 1) => requests.delete(`basket?productId=${productId}&quantity=${quantity}`),
+    addReservationDetails: (reservationDetails: ReservationDTO) => requests.post("basket/addDetails", reservationDetails)
 }
 
 const RestaurantRequests = {

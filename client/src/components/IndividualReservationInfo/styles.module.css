@@ -2,6 +2,27 @@
     display: flex;
     flex-direction: column;
     width: min(80vw, 1200px);
-    align-items: center;
     margin: 3% auto;
+    gap: 50px;
 }
+
+.itemBox {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 15px;
+    background-color: rgb(251, 246, 246);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-sizing: border-box;
+}
+
+
+.totalPriceBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    
+}
+

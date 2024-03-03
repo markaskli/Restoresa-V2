@@ -41,7 +41,7 @@ export const reservationSlice = createSlice({
             state.reservationDetails.seats = action.payload
         },
         setReservationTime: (state, action) => {
-            if (state.reservationDetails == null) return      
+            if (state.reservationDetails == null) return   
             const {timeSlot, date} = action.payload
             state.reservationDetails.reservedDate = date
             state.reservationDetails.reservedTime = timeSlot

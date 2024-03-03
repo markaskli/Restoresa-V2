@@ -25,15 +25,21 @@ const res: Reservation = {
     status: "PENDING",
     orderedProducts: [
         {
+            id: 1,
+            price: 50,
+            quantity: 3,
+            title: "Kebabai lėkštėje",
+            imageUrl: "https://imageproxy.wolt.com/menu/menu-images/612f4d7b49e5b35aec3fa5ca/0eb54036-6c29-11ed-ba72-027b32e4a87d_beef.jpeg?w=600"
             
-        }
+        },
+        
     ],
     userId: "5020",
     restaurant: {
         id: 1,
         name: "Big Kebi",
         address: "JONAVOJE",
-        pictureUrl: "",
+        pictureUrl: "https://imageproxy.wolt.com/venue/5a8292e92e3b00000b6f5a07/23c991a6-54b8-11ea-b860-0a5864790c11_nuotr.Egles_Gendrenaites_www.egphoto.lt_2020_02-1.jpg",
         description: "string",
         maxPeopleServedPerTable: 1,
         products: [

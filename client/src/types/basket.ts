@@ -5,6 +5,9 @@ export interface Basket {
     buyerId: string
     clientSecret: string
     paymentIntentId: string
+    reservedDate: string,
+    reservedTime: string,
+    seats: number 
     items: BasketItem[] 
     restaurant: Restaurant
 }

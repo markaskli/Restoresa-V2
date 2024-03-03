@@ -88,7 +88,7 @@ namespace API.Services.BasketService
             var basket = await RetrieveBasket();
             if (basket == null)
             {
-                throw new KeyNotFoundException("The basket of the user was not found.");
+                basket = CreateBasket();
             }
 
             if(reservationDetails.Seats <= 0)

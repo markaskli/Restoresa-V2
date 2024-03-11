@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material"
 import { Reservation } from "../../../types/reservation"
 import styles from "./styles.module.css"
 import { getStatusColor } from "../../../utils/util"
+import { Link } from "react-router-dom"
 
 interface Props {
     reservation: Reservation
@@ -11,18 +12,26 @@ const ReservationRestaurantCard = ({ reservation }: Props) => {
   return (
     <div className={styles.outerBox}>
       <div className={styles.headerBox}>
-        <Typography fontSize={"32px"} fontWeight={"600"}>
-          Order
-          <span style={{ marginLeft: "10px", color: "rgb(254, 206, 82)" }}>
-            {reservation.id}
-          </span>
-        </Typography>
+        <div>
+          <Link to={"/profile"} style={{textDecoration: 'none'}}>
+            <Typography className={styles.back}>Back</Typography>
+          </Link>
+          
+          <Typography fontSize={"32px"} fontWeight={"600"}>
+            Order
+            <span style={{ marginLeft: "10px", color: "rgb(254, 206, 82)" }}>
+              {reservation.id}
+            </span>
+          </Typography>
+
+        </div>
+
         <div style={{ textAlign: "center" }}>
           <Typography
-            color={`${getStatusColor(reservation.status)}`}
+            color={`${getStatusColor(reservation.paymentStatus)}`}
             fontSize={"14px"}
           >
-            {reservation.status}
+            {reservation.paymentStatus}
           </Typography>
           <Typography
             color={"rgb(168, 163, 189)"}

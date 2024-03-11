@@ -3,7 +3,9 @@ import basketReducer from "./slices/basketSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import menuReducer from "./slices/menuSlice";
 import restaurantReducer from "./slices/restaurantSlice";
-import reservationReducer from "./slices/reservationSlice"
+import reservationDetailsSlice from "./slices/reservationDetailsSlice";
+import reservationSlice from "./slices/reservationSlice";
+
 
 
 
@@ -12,7 +14,8 @@ export const store = configureStore({
         basket: basketReducer,
         menu: menuReducer,
         restaurant: restaurantReducer,
-        reservation: reservationReducer
+        reservationDetails: reservationDetailsSlice,
+        reservations: reservationSlice
         
     }
 })

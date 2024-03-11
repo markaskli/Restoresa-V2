@@ -8,7 +8,7 @@ export interface Reservation {
     reservedTime: string,
     cost: number,
     seats: number,
-    status: string,
+    paymentStatus: string,
     orderedProducts: OrderedProduct[],
     userId: string,
     restaurant: RestaurantDTO

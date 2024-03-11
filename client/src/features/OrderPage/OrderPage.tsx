@@ -7,7 +7,8 @@ import { useAppDispatch, useAppSelector } from "../../stores/store";
 import { fetchBasketItemsAsync } from "../../stores/slices/basketSlice";
 import OrderClientCard from "../../components/OrderClientCard";
 import { Link } from "react-router-dom";
-import { submitReservationDetails } from '../../stores/slices/reservationSlice';
+import { submitReservationDetails } from "../../stores/slices/reservationDetailsSlice";
+
 
 
 const user = {

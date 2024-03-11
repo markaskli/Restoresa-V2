@@ -32,3 +32,12 @@ img {
     object-fit: cover;
     border-radius: 10px;
 }
+
+.back {
+    border: none;
+    background: none;
+    color: rgb(0, 71, 171);
+    font-weight: 500;
+    cursor: pointer; 
+}
+

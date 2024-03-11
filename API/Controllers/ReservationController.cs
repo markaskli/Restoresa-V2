@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Exceptions;
 using API.Services.ReservationService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,18 @@ namespace API.Controllers
 
         }
 
+        [HttpGet("user")]
+        public async Task<ActionResult> GetReservationsOfUser(string userId)
+        {
+            var reservations = await _reservationService.GetReservationOfUser(userId);
+            if (reservations == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(reservations);
+        }
+
 
         [HttpPost]
         public async Task<ActionResult<ReservationDTO>> Create(CreateReservationDTO reservationDTO)
@@ -49,7 +62,15 @@ namespace API.Controllers
                 }
                 return Ok(result);
             }
-            catch (Exception ex)
+            catch (FormatException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (WorkingHoursNotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }

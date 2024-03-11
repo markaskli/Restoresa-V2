@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { TimeSlot } from "../../types/timeSlot";
 import { Restaurant } from "../../types/restaurant";
 import { useAppDispatch } from "../../stores/store";
-import { setReservationTime } from "../../stores/slices/reservationSlice";
+import { setReservationTime } from "../../stores/slices/reservationDetailsSlice";
 import styles from "./styles.module.css"
 
 type ValuePiece = Date | null

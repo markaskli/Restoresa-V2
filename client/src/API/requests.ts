@@ -43,7 +43,8 @@ const Payments = {
 }
 
 const Reservation = {
-    createReservation: (reservation: CreateReservationDTO) => requests.post("Reservation", reservation)
+    createReservation: (reservation: CreateReservationDTO) => requests.post("Reservation", reservation),
+    getReservations: (userId: string) => requests.get(`Reservation/user?userId=${userId}`)
 }
 
 const agent = {

@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material"
 import { Restaurant } from "../../types/restaurant"
 import { useAppDispatch } from "../../stores/store"
-import { setPeopleCount, setReservation } from "../../stores/slices/reservationSlice"
+import { setPeopleCount, setReservation } from "../../stores/slices/reservationDetailsSlice"
 import { useEffect, useState } from "react"
 
 

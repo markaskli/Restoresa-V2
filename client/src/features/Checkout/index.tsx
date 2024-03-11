@@ -12,7 +12,7 @@ const stripePromise = loadStripe('pk_test_51OjHUgKxFGEGIoB5jV0eieeIOFvCy21oKN6Dc
 
 function Checkout() {
   const [clientSecret, setClientSecret] = useState("")
-  const { status } = useAppSelector(state => state.reservation)
+  const { status } = useAppSelector(state => state.reservationDetails)
 
   useEffect(() => {
     requests.Payments.createPaymentIntent()

@@ -9,7 +9,6 @@ interface Props {
 }
 
 const OrdersHistoryCard = ({ reservation }: Props) => {
-
   return (
     <Card
       component={Link}
@@ -24,8 +23,8 @@ const OrdersHistoryCard = ({ reservation }: Props) => {
         </div>
         <div>
           <Typography>STATUS</Typography>
-          <Typography color={`${getStatusColor(reservation.status)}`}>
-            {reservation.status}
+          <Typography color={`${getStatusColor(reservation.paymentStatus)}`}>
+            {reservation.paymentStatus}
           </Typography>
         </div>
         <div>

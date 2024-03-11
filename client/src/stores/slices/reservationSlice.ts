@@ -1,27 +1,26 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { CreateReservationDTO, Reservation, ReservationDTO } from "../../types/reservation";
-import requests from "../../API/requests";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import requests from "../../API/requests"
+import { Reservation } from "../../types/reservation"
 
-export interface ReservationSlice {
-    reservationDetails: ReservationDTO | null
+export interface ReservationsSlice  {
+    reservations: Reservation[] | null
     status: string
 }
 
-const initialState : ReservationSlice = {
-    reservationDetails: null,
-    status: 'idle'
+const initialState : ReservationsSlice = {
+    reservations: null,
+    status: "idle"
 }
 
-export const submitReservationDetails = createAsyncThunk<Reservation, CreateReservationDTO>(
-    'reservations/submitReservation',
-    async (reservation, thunkAPI) => {
+export const getReservationOfUser = createAsyncThunk<Reservation[], {userId: string}>(
+    'reservations/getReservationsOfUser',
+    async ({userId}, thunkAPI) => {
         try {
-            return await requests.Reservation.createReservation(reservation)
+            return await requests.Reservation.getReservations(userId)
         }
         catch (error: any) {
             thunkAPI.rejectWithValue({error: error.data})
         }
-        
     }
 )
 
@@ -29,37 +28,20 @@ export const reservationSlice = createSlice({
     name: "reservationDetails",
     initialState,
     reducers: {
-        setReservation: (state) => {
-            state.reservationDetails = {
-                reservedDate: "",
-                reservedTime: "",
-                seats: 0
-            }
-        },
-        setPeopleCount: (state, action) => {
-            if (state.reservationDetails == null) return         
-            state.reservationDetails.seats = action.payload
-        },
-        setReservationTime: (state, action) => {
-            if (state.reservationDetails == null) return   
-            const {timeSlot, date} = action.payload
-            state.reservationDetails.reservedDate = date
-            state.reservationDetails.reservedTime = timeSlot
-        }
+        
     },
     extraReducers: (builder => {
-        builder.addCase(submitReservationDetails.pending, (state) => {
-            state.status = "pendingSubmitReservation"
+        builder.addCase(getReservationOfUser.pending, (state) => {
+            state.status = "pendingGetReservationsOfUser"
         });
-        builder.addCase(submitReservationDetails.fulfilled, (state) => {
+        builder.addCase(getReservationOfUser.rejected, (state) => {
             state.status = "idle"
         });
-        builder.addCase(submitReservationDetails.rejected, (state) => {
+        builder.addCase(getReservationOfUser.fulfilled, (state, action) => {
+            state.reservations = action.payload
             state.status = "idle"
-        })
+        });
     })
 })
-
-export const {setPeopleCount, setReservationTime, setReservation} = reservationSlice.actions
 
 export default reservationSlice.reducer

@@ -6,5 +6,6 @@ namespace API.Services.ReservationService
     {
         Task<ReservationDTO?> CreateReservation(CreateReservationDTO reservationDTO);
         Task<ReservationDTO?> GetReservationById(int reservationId);
+        Task<List<ReservationDTO>?> GetReservationOfUser(string userId);
     }
 }

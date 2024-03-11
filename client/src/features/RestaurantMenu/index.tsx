@@ -15,7 +15,7 @@ interface Props {
 export default function RestaurantMenu() {
     const [reload, setReload] = useState(false)
     const location = useLocation()
-    const {reservationDetails} = useAppSelector(state => state.reservation)
+    const {reservationDetails} = useAppSelector(state => state.reservationDetails)
     const dispatch = useAppDispatch()
 
     const navigate = useNavigate();

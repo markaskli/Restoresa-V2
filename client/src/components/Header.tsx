@@ -40,9 +40,12 @@ export default function Header() {
                     <Box component={Link} to={"/order"} sx={{backgroundColor: "rgb(254, 206, 82)", borderRadius: "15px", padding: "6px 12px", border: "none", color: "rgb(35, 33, 43)", textDecoration: "none"}} >
                         <Typography color={"rgb(35, 33, 43)"}>Review order</Typography>
                     </Box>
-                    <Avatar>
 
-                    </Avatar>
+                    <Link to={"/profile"}>
+                        <Avatar>
+                        </Avatar>
+                    </Link>
+
                     <Typography>
                         Sign in
                     </Typography>

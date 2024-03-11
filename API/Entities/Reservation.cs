@@ -12,7 +12,6 @@ namespace API.Entities
         public DateTime ReservedDate { get; set; }
         public TimeSpan ReservedTime { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
-
         public List<OrderItem> OrderedProducts { get; set; }
         public virtual int RestaurantId { get; set; }
         public virtual Restaurant Restaurant { get; set; } = null!;

@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Entities.Enums;
 using API.Exceptions;
 using API.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,36 @@ namespace API.Services.ReservationService
             _storeContext = storeContext;
         }
 
+        public async Task<List<ReservationDTO>?> GetReservationOfUser(string userId)
+        {
+            var reservations = await _storeContext.Reservations.Include(rsv => rsv.Restaurant).Include(rsv => rsv.OrderedProducts).Where(x => x.UserId.Equals(userId)).ToListAsync();
+            if (reservations == null || reservations.Count == 0)
+            {
+                return null;
+            }
+
+            return reservations.Select(reservation => new ReservationDTO()
+            {
+                Id = reservation.Id,
+                SubmitDate = reservation.SubmitDate.ToString("yyyy-MM-dd"),
+                ReservedDate = reservation.ReservedDate.ToString("yyyy-MM-dd"),
+                ReservedTime = reservation.ReservedTime,
+                Cost = reservation.Cost,
+                Seats = reservation.Seats,
+                PaymentStatus = Enum.GetName<PaymentStatus>(reservation.PaymentStatus) ?? "",
+                OrderedProducts = reservation.OrderedProducts.Select(item => new OrderItemDTO()
+                {
+                    Id = item.Id,
+                    Title = item.Product.Title,
+                    Price = item.Price,
+                    ImageUrl = item.Product.ImageUrl,
+                    ProductId = item.Product.ProductId,
+                }).ToList(),
+                UserId = reservation.UserId,
+                Restaurant = reservation.Restaurant.MapToDTO(),
+            }).ToList();
+        }
+
         public async Task<ReservationDTO?> GetReservationById(int reservationId)
         {
             var reservation = await _storeContext.Reservations.FindAsync(reservationId);
@@ -28,8 +59,8 @@ namespace API.Services.ReservationService
             return new ReservationDTO()
             {
                 Id = reservation.Id,
-                SubmitDate = reservation.SubmitDate,
-                ReservedDate = reservation.ReservedDate,
+                SubmitDate = reservation.SubmitDate.ToString("yyyy-MM-dd"),
+                ReservedDate = reservation.ReservedDate.ToString("yyyy-MM-dd"),
                 ReservedTime = reservation.ReservedTime,
                 Cost = reservation.Cost,
                 Seats = reservation.Seats,
@@ -108,7 +139,7 @@ namespace API.Services.ReservationService
 
                 if(basket.Items.GroupBy(b => b.Product.RestaurantId).Count() != 1)
                 {
-                    throw new Exception("ne is to pacio restorano, biciuli");
+                    throw new ArgumentException("ne is to pacio restorano, biciuli");
                 }
 
                 timeSlot.Available = false;
@@ -155,8 +186,8 @@ namespace API.Services.ReservationService
                 return new ReservationDTO()
                 {
                     Id = reservation.Id,
-                    SubmitDate = reservation.SubmitDate,
-                    ReservedDate = reservation.ReservedDate,
+                    SubmitDate = reservation.SubmitDate.ToString("yyyy-MM-dd"),
+                    ReservedDate = reservation.ReservedDate.ToString("yyyy-MM-dd"),
                     ReservedTime = reservation.ReservedTime,
                     Cost = reservation.Cost,
                     Seats = reservation.Seats,

@@ -28,7 +28,7 @@ const IndividualReservationInfo = () => {
 
       <Box className={styles.totalPriceBox}>
         <Typography fontWeight={600}>Total Price</Typography>
-        <Typography fontWeight={700}>{reservation.cost} €</Typography>
+        <Typography fontWeight={700}>{reservation.cost / 100} €</Typography>
       </Box>
     </Box>
   );

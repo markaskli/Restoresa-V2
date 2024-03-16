@@ -20,6 +20,7 @@ export default function RestaurantMenu() {
 
     const navigate = useNavigate();
     const { state } = useLocation();
+    
 
     
 
@@ -47,6 +48,8 @@ export default function RestaurantMenu() {
         }
         filteredProducts[type].push(product);
     }
+
+    console.log(state.restaurant)
 
 
 

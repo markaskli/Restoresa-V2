@@ -46,7 +46,7 @@ const ReservationRestaurantCard = ({ reservation }: Props) => {
         <Typography>Restaurant information</Typography>
         <div className={styles.restaurantCard}>
           <div className={styles.restaurantCardUpperBox}>
-            <img src={reservation.restaurant.pictureUrl}></img>
+            <img className={styles.imageStyle} src={reservation.restaurant.pictureUrl}></img>
             <div>
               <Typography>
                 {reservation.restaurant.name} {reservation.restaurant.address}

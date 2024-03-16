@@ -19,6 +19,7 @@ interface Props {
 const TimePrompt = ({setState, restaurant} : Props) => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+    const [isContinueDisabled, setIsContinueDisabled] = useState(true)
     const [value, setValue] = useState<Value>(new Date())
     const [availableTimes, setAvailableTimes] = useState<TimeSlot[]>([])
     const [chosenTimeSlot, setChosenTimeSlot] = useState<TimeSlot>()
@@ -33,7 +34,12 @@ const TimePrompt = ({setState, restaurant} : Props) => {
     const handleChange = (value: Value) => {
         setValue(value)
         let weekday = value!.toLocaleString("en-EN", { weekday: 'long' })
-        setAvailableTimes(restaurant.workingHours.filter(wh => wh.weekDay.toLowerCase() === weekday.toLowerCase()).flatMap(wh => wh.timeSlots))
+        let times = restaurant.workingHours.filter(wh => wh.weekDay.toLowerCase() === weekday.toLowerCase()).flatMap(wh => wh.timeSlots)
+        if (times.length == 0) {
+            setIsContinueDisabled(true)
+        }
+        
+        setAvailableTimes(times)
     }
 
     return (
@@ -49,7 +55,7 @@ const TimePrompt = ({setState, restaurant} : Props) => {
                 Which day and hour is suitable?
             </Typography>
             <Box>
-                <Calendar minDate={date} onChange={handleChange} value={value} />
+                <Calendar minDate={date} onChange={handleChange}  />
             </Box>
             <Box display={"grid"} gridTemplateColumns={"repeat(4, 1fr)"} gap={"10px"}>
                 { availableTimes.length > 0 ? (
@@ -58,7 +64,7 @@ const TimePrompt = ({setState, restaurant} : Props) => {
                      .map(time => 
                         <Button key={time.id}
                             className={styles.item}
-                            onClick={(e: any) => setChosenTimeSlot(e.target.innerText)}
+                            onClick={(e: any) => (setChosenTimeSlot(e.target.innerText), setIsContinueDisabled(false))}
                         > {time.startTime}
                         </Button>)                  
                     ) : 
@@ -68,7 +74,7 @@ const TimePrompt = ({setState, restaurant} : Props) => {
             </Box>
             <Box display={"flex"} gap={"20px"}>
                 <Button variant="outlined" onClick={() => setState(1)}>BACK</Button>
-                <Button variant="outlined" onClick={() => handleNavigate()} >CONTINUE</Button>
+                <Button variant="outlined" disabled={isContinueDisabled} onClick={() => handleNavigate()} >CONTINUE</Button>
                 
 
             </Box>

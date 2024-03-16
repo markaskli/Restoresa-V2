@@ -1,5 +1,7 @@
 import { AppBar, Avatar, Badge, Box, IconButton, List, ListItem, MenuItem, Toolbar, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useAppSelector } from "../stores/store";
 
 
 const navStyles = {
@@ -15,6 +17,26 @@ const navStyles = {
 }
 
 export default function Header() {
+    const {basket} = useAppSelector(state => state.basket)
+    const [isReviewButtonDisabled, setIsReviewButtonDisabled] = useState(true)
+
+
+
+    useEffect(() => {
+        if(basket) {
+            if (basket.items.length > 0) {
+                setIsReviewButtonDisabled(false)
+            }
+            else {
+                setIsReviewButtonDisabled(true)
+            }
+        }
+        else {
+            setIsReviewButtonDisabled(true)
+        }
+
+    }, [basket])
+
     return (
         <AppBar position="sticky">
             <Toolbar sx={{ display: 'flex', justifyContent: "space-between", alignItems: 'center' }}>
@@ -37,8 +59,8 @@ export default function Header() {
 
                 </List>
                 <Box display={"flex"} justifyContent={"center"} alignItems={"center"} gap={"45px"}>
-                    <Box component={Link} to={"/order"} sx={{backgroundColor: "rgb(254, 206, 82)", borderRadius: "15px", padding: "6px 12px", border: "none", color: "rgb(35, 33, 43)", textDecoration: "none"}} >
-                        <Typography color={"rgb(35, 33, 43)"}>Review order</Typography>
+                    <Box component={Link} to={"/order"} sx={{backgroundColor: "rgb(254, 206, 82)", borderRadius: "15px", padding: "6px 12px", border: "none", color: "rgb(35, 33, 43)", textDecoration: "none"}}  display={isReviewButtonDisabled ? 'none' : ''}>
+                        <Typography color={"rgb(35, 33, 43)"} >Review order</Typography>
                     </Box>
 
                     <Link to={"/profile"}>

@@ -33,6 +33,7 @@ export default function OrderPage() {
 
     if (status.includes("pendingFetchItems")) return <LoadingButton>Basket is loading...</LoadingButton>
     if (!basket || basket.items == null) return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>Your basket is empty</Typography>
+
     if (basket.reservedDate === null || basket.seats === 0 || basket.reservedTime === null) {
         return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>User hasn't chosen reservation details.</Typography>
     }

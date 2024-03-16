@@ -40,8 +40,8 @@ namespace API.Controllers
         {
             try
             {
-                var status = await _basketService.AddItemToBasket(productId, quantity, restaurantId);
-                return Ok();
+                var basket = await _basketService.AddItemToBasket(productId, quantity, restaurantId);
+                return CreatedAtRoute("GetBasket", basket);
             }
             catch (KeyNotFoundException ex)
             {

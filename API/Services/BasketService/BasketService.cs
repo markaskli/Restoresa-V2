@@ -29,7 +29,7 @@ namespace API.Services.BasketService
             return basket.MapBasketToDTO();
         }
 
-        public async Task<bool> AddItemToBasket(int productId, int quantity, int restaurantId)
+        public async Task<BasketDTO> AddItemToBasket(int productId, int quantity, int restaurantId)
         {
             var basket = await RetrieveBasket();
             if (basket == null)
@@ -48,7 +48,7 @@ namespace API.Services.BasketService
             var result = await _storeContext.SaveChangesAsync() > 0;
             if (result)
             {
-                return true;
+                return basket.MapBasketToDTO();
             }
             else
             {

@@ -17,44 +17,22 @@ namespace API.Services.RestaurantService
             _storeContext = storeContext;
         }
 
-        public async Task<List<RestaurantDTO>?> GetRestaurants()
+        public async Task<List<RestaurantsListDTO>?> GetRestaurants()
         {
-            var restaurants = await _storeContext.Restaurants.Include(rest => rest.Products).Include(rest => rest.WorkingHours).ToListAsync();
+            var restaurants = await _storeContext.Restaurants.ToListAsync();
             if (!restaurants.Any())
             {
                 return null;
             }
 
-            return restaurants.Select(rest => new RestaurantDTO()
+            return restaurants.Select(rest => new RestaurantsListDTO()
             {
                 Id = rest.Id,
                 Name = rest.Name,
                 Address = rest.Address,
                 PictureUrl = rest.PictureUrl,
                 Description = rest.Description,
-                MaxPeopleServedPerTable = rest.MaxPeopleServedPerTable,
-                Products = rest.Products.Select(prod => new ProductDTO()
-                {
-                    Id = prod.Id,
-                    Type = prod.Type,
-                    Title = prod.Title,
-                    Description = prod.Description,
-                    Price = prod.Price,
-                    ImageUrl = prod.ImageUrl,
-                    RestaurantId = prod.RestaurantId
-                }).ToList(),
-                WorkingHours = rest.WorkingHours.Select(wh => new WorkingHoursDTO()
-                {
-                    Id = wh.Id,
-                    WeekDay = wh.Weekday.ToString(),
-                    StartTime = wh.StartTime.ToString(@"hh\:mm"),
-                    FinishTime = wh.FinishTime.ToString(@"hh\:mm"),
-                    TimeSlots = wh.TimeSlots.Select(ts => new TimeSlotDTO()
-                    {
-                        StartTime = ts.StartTime.ToString(@"hh\:mm"),
-                        Available = ts.Available,
-                    }).ToList(),
-                }).ToList(),
+                MaxPeopleServedPerTable = rest.MaxPeopleServedPerTable           
             }).ToList();
         }
 
@@ -124,6 +102,18 @@ namespace API.Services.RestaurantService
             if (workingHours == null)
             {
                 throw new KeyNotFoundException($"WorkingHours of specified day {weekday} not found");
+            }
+
+            TimeSpan timeSpanRequest;
+            if (!TimeSpan.TryParse(timeSlotDTOs.StartTime, out timeSpanRequest))
+            {
+                throw new ArgumentException();
+            }
+
+
+            if(workingHours.StartTime > timeSpanRequest &&  workingHours.FinishTime < timeSpanRequest)
+            {
+                throw new ArgumentException();
             }
 
             TimeSlot tempSlot = new TimeSlot()

@@ -25,5 +25,6 @@ export interface CreateReservationDTO {
 export interface ReservationDTO {
     reservedDate: string,
     reservedTime: string,
-    seats: number 
+    seats: number,
+    restaurantId?: number
 }

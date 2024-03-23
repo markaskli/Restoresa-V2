@@ -29,13 +29,14 @@ namespace API.Services.BasketService
             return basket.MapBasketToDTO();
         }
 
-        public async Task<BasketDTO> AddItemToBasket(int productId, int quantity, int restaurantId)
+        public async Task<BasketDTO?> AddItemToBasket(int productId, int quantity, int restaurantId)
         {
             var basket = await RetrieveBasket();
             if (basket == null)
             {
-                basket = CreateBasket();
+                return null;
             }
+            
 
             var product = await _storeContext.Products.FindAsync(productId);
             if (product == null)
@@ -112,6 +113,7 @@ namespace API.Services.BasketService
             basket.Seats = reservationDetails.Seats;
             basket.ReservedTime = reservedTimeSlot;
             basket.ReservedDate = reservationDate;
+            basket.RestaurantId = reservationDetails.RestaurantId;
 
             try
             {

@@ -1,0 +1,10 @@
+.box {
+    width: min(80vw, 1200px);
+    margin: 5% auto;
+}
+
+.header {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}

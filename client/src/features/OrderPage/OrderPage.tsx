@@ -41,9 +41,9 @@ export default function OrderPage() {
          
     const totalPrice = basket.items.reduce((sum, currentItem) => sum += (currentItem.price * currentItem.quantity), 0) / 100 ?? 0;
 
-    const handleClick = () => {
-        dispatch(submitReservationDetails({reservedDate: basket.reservedDate, reservedTime: basket.reservedTime, seats: basket.seats, userId: user.id, restaurantId: basket.restaurant.id}))
-    }
+    // const handleClick = () => {
+    //     dispatch(submitReservationDetails({reservedDate: basket.reservedDate, reservedTime: basket.reservedTime, seats: basket.seats, userId: user.id, restaurantId: basket.restaurant.id}))
+    // }
 
 
     return (
@@ -78,7 +78,7 @@ export default function OrderPage() {
 
             </Box>
             <Link to={"/checkout"}>
-                <Button variant="contained" onClick={handleClick} color="secondary">Go to payment</Button>
+                <Button variant="contained" /*onClick={handleClick}*/ color="secondary">Go to payment</Button>
             </Link>
             
         </Box>

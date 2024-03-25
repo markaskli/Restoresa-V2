@@ -27,14 +27,18 @@ const TimePrompt = ({setState, restaurant} : Props) => {
 
 
     const handleNavigate = () => {
-        dispatch(setReservationTime({timeSlot: chosenTimeSlot, date: value!.toLocaleString("lt-LT", { year: "numeric", month: "numeric", day: "numeric"})}))
+        dispatch(setReservationTime(
+            {timeSlot: chosenTimeSlot,
+             restaurantId: restaurant.id, 
+             date: value!.toLocaleString("lt-LT", { year: "numeric", month: "numeric", day: "numeric"})}))
         navigate("menu", {state: {restaurant}})
     }
 
     const handleChange = (value: Value) => {
         setValue(value)
         let weekday = value!.toLocaleString("en-EN", { weekday: 'long' })
-        let times = restaurant.workingHours.filter(wh => wh.weekDay.toLowerCase() === weekday.toLowerCase()).flatMap(wh => wh.timeSlots)
+        let times = restaurant.workingHours
+            .filter(wh => wh.weekDay.toLowerCase() === weekday.toLowerCase()).flatMap(wh => wh.timeSlots)
         if (times.length == 0) {
             setIsContinueDisabled(true)
         }

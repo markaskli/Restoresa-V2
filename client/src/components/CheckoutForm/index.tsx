@@ -1,5 +1,7 @@
 import {PaymentElement, useElements, useStripe} from '@stripe/react-stripe-js';
 import { useEffect, useState } from 'react';
+import styles from './styles.module.css'
+import { Button } from '@mui/material';
 
 
 const CheckoutForm = () => {
@@ -70,9 +72,9 @@ const CheckoutForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form  onSubmit={handleSubmit}>
       <PaymentElement id="payment-element"/>
-      <button>Submit</button>
+      <Button variant='contained' color='secondary'>Submit</Button>
     </form>
   );
 };

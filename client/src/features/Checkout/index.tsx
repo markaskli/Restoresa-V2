@@ -14,7 +14,7 @@ const stripePromise = loadStripe('pk_test_51OjHUgKxFGEGIoB5jV0eieeIOFvCy21oKN6Dc
 
 function Checkout() {
   const [clientSecret, setClientSecret] = useState("")
-  const { status } = useAppSelector(state => state.reservationDetails)
+
 
   useEffect(() => {
     requests.Payments.createPaymentIntent()
@@ -24,21 +24,17 @@ function Checkout() {
   }, [])
 
 
-  if (status.includes('pending')) {
-    return <LoadingComponent message='The order is being processed!'></LoadingComponent>
-  }
-
-
   const options = {
-    clientSecret
+    clientSecret,
+    loader: "always" as const 
   };
 
+  if (!clientSecret) return <LoadingComponent></LoadingComponent>
 
   return (
-    <div className={styles.box}>
-      <Typography className={styles.header}>Enter Your Payment Details</Typography>
-      {clientSecret && 
-        (<Elements stripe={stripePromise} options={options}>
+    <div className={styles.box}>     
+      {clientSecret && stripePromise && 
+        (<Elements stripe={stripePromise} options={options} >
           <CheckoutForm />
         </Elements>)
       }

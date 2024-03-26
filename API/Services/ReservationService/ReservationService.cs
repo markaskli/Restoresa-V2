@@ -42,6 +42,7 @@ namespace API.Services.ReservationService
                     Price = item.Price,
                     ImageUrl = item.Product.ImageUrl,
                     ProductId = item.Product.ProductId,
+                    Quantity = item.Quantity
                 }).ToList(),
                 UserId = reservation.UserId,
                 Restaurant = reservation.Restaurant.MapToDTO(),
@@ -50,7 +51,7 @@ namespace API.Services.ReservationService
 
         public async Task<ReservationDTO?> GetReservationById(int reservationId)
         {
-            var reservation = await _storeContext.Reservations.FindAsync(reservationId);
+            var reservation = await _storeContext.Reservations.Include(rsv => rsv.Restaurant).Include(rsv => rsv.OrderedProducts).Where(x => x.Id == reservationId).SingleOrDefaultAsync();
             if (reservation == null)
             {
                 return null;
@@ -71,6 +72,7 @@ namespace API.Services.ReservationService
                     Price = item.Price,
                     ImageUrl = item.Product.ImageUrl,
                     ProductId = item.Product.ProductId,
+                    Quantity = item.Quantity
                 }).ToList(),
                 UserId = reservation.UserId,
                 Restaurant = reservation.Restaurant.MapToDTO(),
@@ -174,6 +176,7 @@ namespace API.Services.ReservationService
                     ReservedTime = reservedTimeSlot,
                     Seats = reservationDTO.Seats,
                     UserId = reservationDTO.UserId,
+                    PaymentIntentId = basket.PaymentIntentId,
                     Cost = basketCost,
                     OrderedProducts = items,
                     RestaurantId = reservationDTO.RestaurantId
@@ -198,6 +201,7 @@ namespace API.Services.ReservationService
                         Price = item.Price,
                         ImageUrl = item.Product.ImageUrl,
                         ProductId = item.Product.ProductId,
+                        Quantity = item.Quantity
                     }).ToList(),
                     UserId = reservation.UserId,
                     Restaurant = reservation.Restaurant.MapToDTO(),

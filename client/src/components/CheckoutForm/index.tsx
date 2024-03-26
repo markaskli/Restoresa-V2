@@ -1,80 +1,85 @@
-import {PaymentElement, useElements, useStripe} from '@stripe/react-stripe-js';
+import {CardNumberElement, PaymentElement, useElements, useStripe} from '@stripe/react-stripe-js';
 import { useEffect, useState } from 'react';
 import styles from './styles.module.css'
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
+import LoadingComponent from '../LoadingComponent';
+import { useAppDispatch, useAppSelector } from '../../stores/store';
+import { submitReservationDetails } from '../../stores/slices/reservationDetailsSlice';
+import { clearBasket } from '../../stores/slices/basketSlice';
 
+
+const user = {
+  id: "2e953596-14d0-4205-864d-bf7e46347456",
+  username: "markaxs",
+  name: "markas",
+  password: "asd",
+  surname: "klimovas",
+  email: "markasklimovas@gmail.com",
+  phoneNumber: "38064823259"
+}
 
 const CheckoutForm = () => {
-  const stripe = useStripe()
-  const elements = useElements()
-
   const [message, setMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const {basket} = useAppSelector(state => state.basket)
+  const dispatch = useAppDispatch()
 
-
-  useEffect(() => {
-    if(!stripe) {
-      return;
-    }
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      'payment_intent_client_secret'
-    );
-
-    if (!clientSecret) {
-      return;
-    }
-
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      switch (paymentIntent!.status) {
-        case "succeeded":
-          setMessage("Payment succeeded!");
-          break;
-        case "processing":
-          setMessage("Your payment is processing.");
-          break;
-        case "requires_payment_method":
-          setMessage("Your payment was not successful, please try again.");
-          break;
-        default:
-          setMessage("Something went wrong.");
-          break;
-      }
-    });
-
-
-  }, [stripe])
+  const stripe = useStripe()
+  const elements = useElements()
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    if (!stripe || !elements) {
+    if (!stripe || !elements || !basket) {
       return;
     }
 
     setIsLoading(true)
+    dispatch(
+      submitReservationDetails({
+        reservedDate: basket.reservedDate,
+        reservedTime: basket.reservedTime,
+        seats: basket.seats,
+        userId: user.id,
+        restaurantId: basket.restaurant.id,
+      })
+    ); // to change user id
 
-    const {error} = await stripe.confirmPayment({
+    const result = await stripe.confirmPayment({
       elements, 
       confirmParams: {
         return_url: "http://localhost:3000",
       },
+      redirect: "if_required"
     })
 
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message!);
-      console.log(error.message)
+    if (result.error) {
+      console.log(result.error.message)
     }
     else {
-      setMessage("An unexpected error occurred.")
+      setMessage("Payment succeeded!");
+      
+      dispatch(clearBasket);
+      console.log("ivyko kazkas")
     }
 
+    
     setIsLoading(false)
   }
 
+
   return (
     <form  onSubmit={handleSubmit}>
-      <PaymentElement id="payment-element"/>
-      <Button variant='contained' color='secondary'>Submit</Button>
+      <Typography className={styles.header}>Enter Your Payment Details</Typography>
+      <PaymentElement id="payment-element" />
+      <Button 
+        className={styles.submitButton}
+        variant='contained' 
+        onClick={handleSubmit} 
+        type='submit'
+        disabled={!stripe || !elements || isLoading} 
+        color='secondary'>Submit</Button>
+      {message && <h1>{message}</h1>}
     </form>
   );
 };

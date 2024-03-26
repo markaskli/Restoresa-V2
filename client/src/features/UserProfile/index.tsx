@@ -29,10 +29,10 @@ function UserProfile() {
   useEffect(() => {
     if (!reservations) {
       dispatch(
-        getReservationOfUser({ userId: "fb4b6ba3-f7b7-4322-aa9b-9eeabe3a295f" })
+        getReservationOfUser({ userId: "2e953596-14d0-4205-864d-bf7e46347456" })
       );
     }
-  }, [dispatch]);
+  }, [dispatch, reservations]);
 
   console.log(reservations)
 

@@ -1,20 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
-import basketReducer from "./slices/basketSlice";
+import { basketSlice } from "./slices/basketSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import menuReducer from "./slices/menuSlice";
 import restaurantReducer from "./slices/restaurantSlice";
-import reservationDetailsSlice from "./slices/reservationDetailsSlice";
 import reservationSlice from "./slices/reservationSlice";
+import { reservationDetailsSlice } from "./slices/reservationDetailsSlice";
 
 
 
 
 export const store = configureStore({
     reducer: {
-        basket: basketReducer,
+        basket: basketSlice.reducer,
         menu: menuReducer,
         restaurant: restaurantReducer,
-        reservationDetails: reservationDetailsSlice,
+        reservationDetails: reservationDetailsSlice.reducer,
         reservations: reservationSlice
         
     }

@@ -12,7 +12,7 @@ import { submitReservationDetails } from "../../stores/slices/reservationDetails
 
 
 const user = {
-    id: "1",
+    id: "4c888f3c-4adb-4cc7-b4a7-de4a858a0e3a",
     username: "markaxs",
     name: "markas",
     password: "asd",
@@ -37,14 +37,8 @@ export default function OrderPage() {
     if (basket.reservedDate === null || basket.seats === 0 || basket.reservedTime === null) {
         return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>User hasn't chosen reservation details.</Typography>
     }
-
-         
+    
     const totalPrice = basket.items.reduce((sum, currentItem) => sum += (currentItem.price * currentItem.quantity), 0) / 100 ?? 0;
-
-    // const handleClick = () => {
-    //     dispatch(submitReservationDetails({reservedDate: basket.reservedDate, reservedTime: basket.reservedTime, seats: basket.seats, userId: user.id, restaurantId: basket.restaurant.id}))
-    // }
-
 
     return (
 
@@ -73,12 +67,12 @@ export default function OrderPage() {
                     Total
                 </Typography>
                 <Typography fontWeight={"400"} fontSize={"20px"}>
-                    {totalPrice.toPrecision(3)} €
+                    {totalPrice} €
                 </Typography>
 
             </Box>
             <Link to={"/checkout"}>
-                <Button variant="contained" /*onClick={handleClick}*/ color="secondary">Go to payment</Button>
+                <Button variant="contained" color="secondary">Go to payment</Button>
             </Link>
             
         </Box>

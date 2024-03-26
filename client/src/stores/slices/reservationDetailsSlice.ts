@@ -62,5 +62,3 @@ export const reservationDetailsSlice = createSlice({
 })
 
 export const {setPeopleCount, setReservationTime, setReservation} = reservationDetailsSlice.actions
-
-export default reservationDetailsSlice.reducer

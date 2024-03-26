@@ -74,21 +74,30 @@ namespace API.Services.PaymentService
 
             var stripeEvent = EventUtility.ConstructEvent(json, _httpContextAccessor.HttpContext.Request.Headers["Stripe-Signature"], endpointSecret);
 
+            var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
+            var reservation = await _storeContext.Reservations.Where(r => r.PaymentIntentId.Equals(paymentIntent.Id)).SingleOrDefaultAsync();
+            if (reservation == null)
+            {
+                return null;
+            }
+               
+
             if (stripeEvent.Type == Events.PaymentIntentSucceeded)
             {
-                var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
-                var reservation = await _storeContext.Reservations.Where(r => r.PaymentIntentId.Equals(paymentIntent.Id)).SingleOrDefaultAsync();
-                if (reservation != null) 
-                {
-                    return false;
-                }
-
-                reservation.PaymentStatus = Entities.Enums.PaymentStatus.PAYMENT_RECEIVED;
+                
+                reservation.PaymentStatus = Entities.Enums.PaymentStatus.SUCCEEDED;
                 await _storeContext.SaveChangesAsync();
                 return true;
             }
+            else if (stripeEvent.Type == Events.PaymentIntentPaymentFailed)
+            {
+                reservation.PaymentStatus = Entities.Enums.PaymentStatus.FAILED;
+                await _storeContext.SaveChangesAsync();
+                return true;
 
-            return null;
+            }
+
+            return false;
 
         }
     }

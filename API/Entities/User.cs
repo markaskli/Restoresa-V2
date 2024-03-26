@@ -1,10 +1,13 @@
-﻿namespace API.Entities
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace API.Entities
 {
-    public class User
+    public class User : IdentityUser
     {
-        public required string Id { get; set; }
         public required string Name { get; set; }
-        public required string Email { get; set; }
+        public required string Surname { get; set; }
+
+
 
     }
 }

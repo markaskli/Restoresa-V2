@@ -27,7 +27,8 @@ namespace API.Controllers
         [HttpGet(Name = "GetBasket")]
         public async Task<ActionResult<BasketDTO>> Get()
         {
-            var basket = await _basketService.GetBasket();
+            string userId = GetUserId();
+            var basket = await _basketService.GetBasket(userId);
             if (basket == null)
             {
                 return NotFound();
@@ -40,7 +41,8 @@ namespace API.Controllers
         {
             try
             {
-                var basket = await _basketService.AddItemToBasket(productId, quantity, restaurantId);
+                string userId = GetUserId();
+                var basket = await _basketService.AddItemToBasket(productId, quantity, restaurantId, userId);
                 return CreatedAtRoute("GetBasket", basket);
             }
             catch (KeyNotFoundException ex)
@@ -60,7 +62,8 @@ namespace API.Controllers
         {
             try
             {
-                var status = await _basketService.RemoveItemFromBasket(productId, quantity);
+                string userId = GetUserId();
+                var status = await _basketService.RemoveItemFromBasket(productId, quantity, userId);
                 if (status == false)
                 {
                     return NotFound("Basket not found");
@@ -79,13 +82,19 @@ namespace API.Controllers
         {
             try
             {
-                await _basketService.AddReservationDetails(reservationDetails);
+                string userId = GetUserId();
+                await _basketService.AddReservationDetails(reservationDetails, userId);
                 return Ok();
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+
+        private string GetUserId()
+        {
+            return User.Identity.Name ?? Request.Cookies["buyerId"];
         }
 
 

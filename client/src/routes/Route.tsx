@@ -9,6 +9,8 @@ import RestaurantTimeSlots from "../features/RestaurantTimeSlots";
 import Checkout from "../features/Checkout";
 import UserProfile from "../features/UserProfile";
 import IndividualReservationInfo from "../components/IndividualReservationInfo";
+import SignUp from "../features/SignUp";
+import SignIn from "../features/SignIn";
 
 export const router = createBrowserRouter([
     {
@@ -54,6 +56,14 @@ export const router = createBrowserRouter([
             {
               path: "profile",
               element: <UserProfile/>
+            },
+            {
+              path: "sign-up",
+              element: <SignUp/>
+            },
+            {
+              path: "sign-in",
+              element: <SignIn/>
             }
           ],
     }

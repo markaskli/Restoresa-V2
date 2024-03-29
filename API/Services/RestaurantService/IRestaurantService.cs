@@ -1,4 +1,5 @@
-﻿using API.DTOs;
+﻿using API.DTOs.Restaurant;
+using API.DTOs.Restaurant.WorkingHours;
 
 namespace API.Services.RestaurantService
 {

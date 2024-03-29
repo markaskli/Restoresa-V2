@@ -1,5 +1,6 @@
 ﻿using API.Data;
-using API.DTOs;
+using API.DTOs.Basket;
+using API.DTOs.Reservation;
 using API.Entities;
 using API.Extensions;
 using API.Services.AuthService;

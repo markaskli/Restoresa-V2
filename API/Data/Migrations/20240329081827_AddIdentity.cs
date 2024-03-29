@@ -30,11 +30,24 @@ namespace API.Data.Migrations
                 newName: "AspNetUsers");
 
             migrationBuilder.AddColumn<string>(
+                name: "OwnerId",
+                table: "Restaurants",
+                type: "TEXT",
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
                 name: "CustomerId",
                 table: "Reservations",
                 type: "TEXT",
                 nullable: false,
                 defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "RestaurantEmployeeId",
+                table: "Reservations",
+                type: "TEXT",
+                nullable: true);
 
             migrationBuilder.AlterColumn<string>(
                 name: "Email",
@@ -281,9 +294,19 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Restaurants_OwnerId",
+                table: "Restaurants",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reservations_CustomerId",
                 table: "Reservations",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_RestaurantEmployeeId",
+                table: "Reservations",
+                column: "RestaurantEmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -329,6 +352,21 @@ namespace API.Data.Migrations
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Reservations_AspNetUsers_RestaurantEmployeeId",
+                table: "Reservations",
+                column: "RestaurantEmployeeId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Restaurants_AspNetUsers_OwnerId",
+                table: "Restaurants",
+                column: "OwnerId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
@@ -337,6 +375,14 @@ namespace API.Data.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_Reservations_AspNetUsers_CustomerId",
                 table: "Reservations");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Reservations_AspNetUsers_RestaurantEmployeeId",
+                table: "Reservations");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Restaurants_AspNetUsers_OwnerId",
+                table: "Restaurants");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -357,7 +403,15 @@ namespace API.Data.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropIndex(
+                name: "IX_Restaurants_OwnerId",
+                table: "Restaurants");
+
+            migrationBuilder.DropIndex(
                 name: "IX_Reservations_CustomerId",
+                table: "Reservations");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Reservations_RestaurantEmployeeId",
                 table: "Reservations");
 
             migrationBuilder.DropPrimaryKey(
@@ -373,7 +427,15 @@ namespace API.Data.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
+                name: "OwnerId",
+                table: "Restaurants");
+
+            migrationBuilder.DropColumn(
                 name: "CustomerId",
+                table: "Reservations");
+
+            migrationBuilder.DropColumn(
+                name: "RestaurantEmployeeId",
                 table: "Reservations");
 
             migrationBuilder.DropColumn(

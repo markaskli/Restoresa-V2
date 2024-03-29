@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
-using API.DTOs;
+using API.DTOs.Product;
 using API.Entities;
 using API.Services.ProductService;
 using Microsoft.AspNetCore.Mvc;

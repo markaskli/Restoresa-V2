@@ -1,5 +1,6 @@
 ﻿using API.Data;
-using API.DTOs;
+using API.DTOs.Restaurant;
+using API.DTOs.Restaurant.WorkingHours;
 using API.Entities;
 using API.Extensions;
 using Microsoft.EntityFrameworkCore;

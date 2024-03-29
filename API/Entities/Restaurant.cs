@@ -13,8 +13,10 @@ namespace API.Entities
         public required string PictureUrl { get; set; }
         public required string Description { get; set; }
         public int MaxPeopleServedPerTable { get; set; }
-        public virtual List<Product> Products { get; set; } 
-        public virtual List<WorkingHours> WorkingHours { get; set; } 
+        public virtual ICollection<Product> Products { get; set; } 
+        public virtual ICollection<WorkingHours> WorkingHours { get; set; } 
+        public virtual string OwnerId { get; set; } = null!;
+        public virtual RestaurantEmployee Owner { get; set; } = null!;
 
 
         public Restaurant()

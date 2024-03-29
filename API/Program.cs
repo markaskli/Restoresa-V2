@@ -19,7 +19,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
-//builder.Services.AddTransient<IBasketService, BasketService>();
 builder.Services.AddScoped<IBasketService, BasketService>();
 builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddScoped<IRestaurantService, RestaurantService>();
@@ -82,10 +81,12 @@ app.MapControllers();
 
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
 try {
     await context.Database.MigrateAsync();
+    DbInitializer.InitializeUsers(userManager, builder.Configuration);
     DbInitializer.InitializeRestaurantList(context);
 }
 catch (Exception ex) {

@@ -1,7 +1,9 @@
-﻿using API.Entities;
+﻿using API.DTOs.Product;
+using API.DTOs.Restaurant;
+using API.Entities;
 using API.Entities.Enums;
 
-namespace API.DTOs
+namespace API.DTOs.Reservation
 {
     public class ReservationDTO
     {
@@ -18,7 +20,7 @@ namespace API.DTOs
 
         public ReservationDTO()
         {
-            OrderedProducts= new List<OrderItemDTO>();
+            OrderedProducts = new List<OrderItemDTO>();
         }
     }
 }

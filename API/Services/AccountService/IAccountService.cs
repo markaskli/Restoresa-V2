@@ -4,7 +4,7 @@ namespace API.Services.AuthService
 {
     public interface IAccountService
     {
-        Task<GetUserDTO> LogUserIn(LogInUserDTO login);
-        Task<GetUserDTO?> RegisterCustomerAsync(RegisterUserDTO customer);
+        Task<GetUserDTO> LogUserInAsync(LogInUserDTO login);
+        Task<GetUserDTO?> RegisterUserAsync(RegisterUserDTO userDTO);
     }
 }

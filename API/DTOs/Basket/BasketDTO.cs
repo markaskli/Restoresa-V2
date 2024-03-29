@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTOs.Restaurant;
 using API.Entities;
 
-namespace API.DTOs
+namespace API.DTOs.Basket
 {
     public class BasketDTO
     {
@@ -18,7 +19,7 @@ namespace API.DTOs
         public List<BasketItemDTO> Items { get; set; }
         public RestaurantCardDTO Restaurant { get; set; } = null!;
 
-        public BasketDTO() 
+        public BasketDTO()
         {
             Items = new List<BasketItemDTO>();
         }

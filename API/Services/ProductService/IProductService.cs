@@ -1,4 +1,4 @@
-﻿using API.DTOs;
+﻿using API.DTOs.Product;
 
 namespace API.Services.ProductService
 {

@@ -49,7 +49,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Baskets");
+                    b.ToTable("Baskets", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.BasketItem", b =>
@@ -73,7 +73,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("BasketItem");
+                    b.ToTable("BasketItem", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.OrderItem", b =>
@@ -95,7 +95,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("ReservationId");
 
-                    b.ToTable("OrderedItems");
+                    b.ToTable("OrderedItems", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.Product", b =>
@@ -130,7 +130,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.Reservation", b =>
@@ -159,6 +159,9 @@ namespace API.Data.Migrations
                     b.Property<TimeSpan>("ReservedTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("RestaurantEmployeeId")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("RestaurantId")
                         .HasColumnType("INTEGER");
 
@@ -176,9 +179,11 @@ namespace API.Data.Migrations
 
                     b.HasIndex("CustomerId");
 
+                    b.HasIndex("RestaurantEmployeeId");
+
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.Restaurant", b =>
@@ -202,13 +207,19 @@ namespace API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("PictureUrl")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Restaurants");
+                    b.HasIndex("OwnerId");
+
+                    b.ToTable("Restaurants", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.TimeSlot", b =>
@@ -230,7 +241,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("WorkingHoursId");
 
-                    b.ToTable("TimeSlots");
+                    b.ToTable("TimeSlots", (string)null);
                 });
 
             modelBuilder.Entity("API.Entities.User", b =>
@@ -335,7 +346,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("WorkingHours");
+                    b.ToTable("WorkingHours", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -493,6 +504,13 @@ namespace API.Data.Migrations
                     b.HasDiscriminator().HasValue("Customer");
                 });
 
+            modelBuilder.Entity("API.Entities.RestaurantEmployee", b =>
+                {
+                    b.HasBaseType("API.Entities.User");
+
+                    b.HasDiscriminator().HasValue("RestaurantEmployee");
+                });
+
             modelBuilder.Entity("API.Entities.Basket", b =>
                 {
                     b.HasOne("API.Entities.Restaurant", "Restaurant")
@@ -529,7 +547,7 @@ namespace API.Data.Migrations
                         .WithMany("OrderedProducts")
                         .HasForeignKey("ReservationId");
 
-                    b.OwnsOne("API.Entities.OrderedProduct", "Product", b1 =>
+                    b.OwnsOne("API.Entities.OrderItem.Product#API.Entities.OrderedProduct", "Product", b1 =>
                         {
                             b1.Property<int>("OrderItemId")
                                 .HasColumnType("INTEGER");
@@ -547,7 +565,7 @@ namespace API.Data.Migrations
 
                             b1.HasKey("OrderItemId");
 
-                            b1.ToTable("OrderedItems");
+                            b1.ToTable("OrderedItems", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderItemId");
@@ -569,10 +587,14 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Reservation", b =>
                 {
                     b.HasOne("API.Entities.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Reservations")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("API.Entities.RestaurantEmployee", null)
+                        .WithMany("Reservations")
+                        .HasForeignKey("RestaurantEmployeeId");
 
                     b.HasOne("API.Entities.Restaurant", "Restaurant")
                         .WithMany()
@@ -583,6 +605,17 @@ namespace API.Data.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Restaurant");
+                });
+
+            modelBuilder.Entity("API.Entities.Restaurant", b =>
+                {
+                    b.HasOne("API.Entities.RestaurantEmployee", "Owner")
+                        .WithMany("Restaurants")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("API.Entities.TimeSlot", b =>
@@ -674,6 +707,18 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.WorkingHours", b =>
                 {
                     b.Navigation("TimeSlots");
+                });
+
+            modelBuilder.Entity("API.Entities.Customer", b =>
+                {
+                    b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("API.Entities.RestaurantEmployee", b =>
+                {
+                    b.Navigation("Reservations");
+
+                    b.Navigation("Restaurants");
                 });
 #pragma warning restore 612, 618
         }

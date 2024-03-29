@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240326221803_AddIdentity")]
+    [Migration("20240329081827_AddIdentity")]
     partial class AddIdentity
     {
         /// <inheritdoc />
@@ -162,6 +162,9 @@ namespace API.Data.Migrations
                     b.Property<TimeSpan>("ReservedTime")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("RestaurantEmployeeId")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("RestaurantId")
                         .HasColumnType("INTEGER");
 
@@ -178,6 +181,8 @@ namespace API.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("RestaurantEmployeeId");
 
                     b.HasIndex("RestaurantId");
 
@@ -205,11 +210,17 @@ namespace API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("PictureUrl")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Restaurants");
                 });
@@ -496,6 +507,13 @@ namespace API.Data.Migrations
                     b.HasDiscriminator().HasValue("Customer");
                 });
 
+            modelBuilder.Entity("API.Entities.RestaurantEmployee", b =>
+                {
+                    b.HasBaseType("API.Entities.User");
+
+                    b.HasDiscriminator().HasValue("RestaurantEmployee");
+                });
+
             modelBuilder.Entity("API.Entities.Basket", b =>
                 {
                     b.HasOne("API.Entities.Restaurant", "Restaurant")
@@ -572,10 +590,14 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Reservation", b =>
                 {
                     b.HasOne("API.Entities.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Reservations")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("API.Entities.RestaurantEmployee", null)
+                        .WithMany("Reservations")
+                        .HasForeignKey("RestaurantEmployeeId");
 
                     b.HasOne("API.Entities.Restaurant", "Restaurant")
                         .WithMany()
@@ -586,6 +608,17 @@ namespace API.Data.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Restaurant");
+                });
+
+            modelBuilder.Entity("API.Entities.Restaurant", b =>
+                {
+                    b.HasOne("API.Entities.RestaurantEmployee", "Owner")
+                        .WithMany("Restaurants")
+                        .HasForeignKey("OwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("API.Entities.TimeSlot", b =>
@@ -677,6 +710,18 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.WorkingHours", b =>
                 {
                     b.Navigation("TimeSlots");
+                });
+
+            modelBuilder.Entity("API.Entities.Customer", b =>
+                {
+                    b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("API.Entities.RestaurantEmployee", b =>
+                {
+                    b.Navigation("Reservations");
+
+                    b.Navigation("Restaurants");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,4 @@
-﻿namespace API.DTOs
+﻿namespace API.DTOs.Product
 {
     public class CreateProductDTO
     {
@@ -7,6 +7,6 @@
         public required string Description { get; set; }
         public required int Price { get; set; }
         public required string ImageUrl { get; set; }
-        public required int RestaurantId { get; set; } 
+        public required int RestaurantId { get; set; }
     }
 }

@@ -12,36 +12,45 @@ namespace API.Services.AuthService
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly HttpContext _httpContext;
         private readonly ITokenService _tokenService;
         private readonly IBasketService _basketService;
         private readonly string _cookieName = Constants.CookieName;
         
 
-        public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService, IBasketService basketService, IHttpContextAccessor httpContext)
+        public AccountService(UserManager<User> userManager, SignInManager<User> signInManager, ITokenService tokenService, IBasketService basketService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
             _basketService = basketService;
-            _httpContext = httpContext.HttpContext;
         }
 
-        public async Task<GetUserDTO?> RegisterCustomerAsync(RegisterUserDTO customer)
+        public async Task<GetUserDTO?> RegisterUserAsync(RegisterUserDTO userDTO)
         {
             var newUser = new User()
             {
-                UserName = customer.Username,
-                Name = customer.Name,
-                Surname = customer.Surname,
-                PhoneNumber = customer.PhoneNumber,
-                Email = customer.Email
+                UserName = userDTO.Username,
+                Name = userDTO.Name,
+                Surname = userDTO.Surname,
+                PhoneNumber = userDTO.PhoneNumber,
+                Email = userDTO.Email
             };
 
-            var createdUser = await _userManager.CreateAsync(newUser, customer.Password);
+            var createdUser = await _userManager.CreateAsync(newUser, userDTO.Password);
             if (createdUser.Succeeded)
             {
-                var roleResult = await _userManager.AddToRoleAsync(newUser, "Customer");
+                var userRole = string.Empty;
+                if (userDTO.IsEmployee)
+                {
+                    userRole = "Restaurant-Employee";
+                }
+                else
+                {
+                    userRole = "Customer";
+                }
+
+                var roleResult = await _userManager.AddToRoleAsync(newUser, userRole);
+
                 if (roleResult.Succeeded)
                 {
                     return new GetUserDTO()
@@ -50,6 +59,7 @@ namespace API.Services.AuthService
                         Name = newUser.Name,
                         Surname = newUser.Surname,
                         Email = newUser.Email,
+                        Role = userRole,
                         Token = _tokenService.CreateToken(newUser)
                     };
                 }
@@ -64,9 +74,9 @@ namespace API.Services.AuthService
                 var errors = string.Join(", ", createdUser.Errors.Select(x => x.Description));
                 throw new ArgumentException(errors);
             }
-        }
+        }       
 
-        public async Task<GetUserDTO> LogUserIn(LogInUserDTO login)
+        public async Task<GetUserDTO> LogUserInAsync(LogInUserDTO login)
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
             if (user == null || !await _userManager.CheckPasswordAsync(user, login.Password))
@@ -76,12 +86,14 @@ namespace API.Services.AuthService
 
 
             await _basketService.AssignBasketToUser(user.Id);
+            var userRoles = await _userManager.GetRolesAsync(user);
             return new GetUserDTO()
             {
                 Id = user.Id,
-                Email = user.Email,
+                Email = user.Email!,
                 Name = user.Name,
                 Surname = user.Surname,
+                Role = userRoles[0],
                 Token = _tokenService.CreateToken(user)
             };
         }

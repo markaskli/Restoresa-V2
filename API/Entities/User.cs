@@ -6,6 +6,12 @@ namespace API.Entities
     {
         public required string Name { get; set; }
         public required string Surname { get; set; }
+        public virtual ICollection<Reservation> Reservations { get; set; }
+
+        public User()
+        {
+            Reservations = new List<Reservation>();
+        }
 
 
 

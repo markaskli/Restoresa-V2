@@ -18,7 +18,9 @@ const user = {
     password: "asd",
     surname: "klimovas",
     email: "markasklimovas@gmail.com",
-    phoneNumber: "38064823259"
+    phoneNumber: "38064823259",
+    token: "as",
+    role: "Customer"
 }
 
 

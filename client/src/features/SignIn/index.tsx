@@ -1,17 +1,37 @@
-import { Copyright } from "@mui/icons-material";
-import { Container, CssBaseline, Box, Avatar, Typography, TextField, FormControlLabel, Checkbox, Button, Grid, Link } from "@mui/material";
+import { Container, CssBaseline, Box, Avatar, Typography, TextField, Button, Grid, Link } from "@mui/material";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import { yupResolver } from "@hookform/resolvers/yup"
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as yup from "yup"
+
+type Inputs = {
+  email: string,
+  password: string
+}
+
+const schema = yup
+  .object()
+  .shape({
+    email: yup.string().email("Enter a valid email address").required("Field is required"),
+    password: yup.string().required("Field is required")
+  })
 
 
 export default function SignIn() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-          email: data.get('email'),
-          password: data.get('password'),
-        });
-      };
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm<Inputs>({
+    resolver: yupResolver(schema),
+    mode: "onTouched"
+  });
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    console.log(data);
+    reset();
+  };
     
       return (       
           <Container component="main" maxWidth="xs">
@@ -30,10 +50,12 @@ export default function SignIn() {
               <Typography component="h1" variant="h5">
                 Sign in
               </Typography>
-              <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+              <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
                 <TextField
+                  error={!!errors.email}
+                  helperText={errors.email?.message as string}
+                  {...register("email")}
                   margin="normal"
-                  required
                   fullWidth
                   id="email"
                   label="Email Address"
@@ -42,8 +64,10 @@ export default function SignIn() {
                   autoFocus
                 />
                 <TextField
+                  error={!!errors.password}
+                  helperText={errors.password?.message as string}
+                  {...register("password")}
                   margin="normal"
-                  required
                   fullWidth
                   name="password"
                   label="Password"

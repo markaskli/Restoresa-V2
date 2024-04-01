@@ -3,6 +3,7 @@ import { FormValues } from "../components/CreateRestaurant";
 import { ProductFormValues } from "../components/CreateProduct";
 import { TimeSlotDTO } from "../components/SubmitTimeSlots";
 import { CreateReservationDTO, ReservationDTO } from "../types/reservation";
+import { CreateUser, LoginDto } from "../types/user";
 
 
 axios.defaults.baseURL = "http://localhost:5000/api/";
@@ -47,12 +48,18 @@ const Reservation = {
     getReservations: (userId: string) => requests.get(`Reservation/user?userId=${userId}`)
 }
 
+const User = {
+    registerUser: (user: CreateUser) => requests.post("Account/register", user),
+    login: (loginData: LoginDto) => requests.post("Account/login", loginData)
+}
+
 const agent = {
     Basket,
     Product,
     RestaurantRequests,
     Payments,
-    Reservation
+    Reservation,
+    User
 }
 
 export default agent

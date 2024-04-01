@@ -75,7 +75,7 @@ const UserDetailsForm = ({user}: Props) => {
           <TextField
             variant="standard"
             inputProps={{ readOnly: true }}
-            value={user.password}
+            value={'Password'}
             type="password"
           ></TextField>
           <div className={styles.individualBox}>

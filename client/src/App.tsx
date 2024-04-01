@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useAppDispatch } from "./stores/store";
 import LoadingComponent from "./components/LoadingComponent";
 import { fetchBasketItemsAsync } from "./stores/slices/basketSlice";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -41,6 +42,7 @@ function App() {
 
   return (
     <>
+      <ToastContainer position='bottom-right' hideProgressBar theme="colored" />
       <ThemeProvider theme={themeSelect}>
           <Header />
           <Outlet />

@@ -15,8 +15,9 @@ const usr: User = {
     name: "Markas",
     surname: "Kl",
     email: "markas@gmail.com",
-    password: "yeye",
-    phoneNumber: "864848485"
+    phoneNumber: "864848485",
+    token: "651as65d1asd",
+    role: "Customer"
 }
 
 

@@ -6,5 +6,6 @@ namespace API.Services.AuthService
     {
         Task<GetUserDTO> LogUserInAsync(LogInUserDTO login);
         Task<GetUserDTO?> RegisterUserAsync(RegisterUserDTO userDTO);
+        Task<GetUserDTO?> GetCurrentUser(string username);
     }
 }

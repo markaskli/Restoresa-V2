@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.DTOs.Account;
 using API.Entities;
+using API.Extensions;
 using API.Services.BasketService;
 using API.Services.TokenService;
 using API.Utils;
@@ -58,9 +59,11 @@ namespace API.Services.AuthService
                         Id = newUser.Id,
                         Name = newUser.Name,
                         Surname = newUser.Surname,
+                        Username = newUser.UserName,
+                        PhoneNumber = newUser.PhoneNumber!,
                         Email = newUser.Email,
                         Role = userRole,
-                        Token = _tokenService.CreateToken(newUser)
+                        Token = await _tokenService.CreateToken(newUser)
                     };
                 }
                 else
@@ -78,14 +81,14 @@ namespace API.Services.AuthService
 
         public async Task<GetUserDTO> LogUserInAsync(LogInUserDTO login)
         {
-            var user = await _userManager.FindByEmailAsync(login.Email);
+            var user = await _userManager.FindByNameAsync(login.Username);
             if (user == null || !await _userManager.CheckPasswordAsync(user, login.Password))
             {
                 throw new UnauthorizedAccessException("Wrong details were provided.");
             }
 
 
-            await _basketService.AssignBasketToUser(user.Id);
+            var basket = await _basketService.AssignBasketToUser(user.Id);
             var userRoles = await _userManager.GetRolesAsync(user);
             return new GetUserDTO()
             {
@@ -93,9 +96,38 @@ namespace API.Services.AuthService
                 Email = user.Email!,
                 Name = user.Name,
                 Surname = user.Surname,
+                Username = user.UserName!,
+                PhoneNumber = user.PhoneNumber!,
                 Role = userRoles[0],
-                Token = _tokenService.CreateToken(user)
+                Token = await _tokenService.CreateToken(user),
+                Basket = basket ?? null
             };
+        }
+
+        public async Task<GetUserDTO?> GetCurrentUser(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return null;
+            }
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+
+            var basket = await _basketService.RetrieveBasket(user.Id);
+            return new GetUserDTO()
+            {
+                Id = user.Id,
+                Email = user.Email!,
+                Name = user.Name,
+                Surname = user.Surname,
+                Username = user.UserName!,
+                PhoneNumber = user.PhoneNumber!,
+                Role = userRoles[0],
+                Token = await _tokenService.CreateToken(user),
+                Basket = basket?.MapBasketToDTO()
+            };
+
         }
     }
 }

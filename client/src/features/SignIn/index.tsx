@@ -3,21 +3,27 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import { yupResolver } from "@hookform/resolvers/yup"
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup"
+import { useAppDispatch } from "../../stores/store";
+import { signInUser } from "../../stores/slices/userSlice";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Inputs = {
-  email: string,
+  username: string,
   password: string
 }
 
 const schema = yup
   .object()
   .shape({
-    email: yup.string().email("Enter a valid email address").required("Field is required"),
+    username: yup.string().required("Field is required"),
     password: yup.string().required("Field is required")
   })
 
 
 export default function SignIn() {
+  const dispatch = useAppDispatch()
+  const location = useLocation()
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -29,8 +35,16 @@ export default function SignIn() {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
-    reset();
+    try {
+      dispatch(signInUser(data))
+      navigate(location.state?.from || '/')
+    }
+    catch (error) {
+      console.log(error)
+      reset()
+    }
+
+
   };
     
       return (       
@@ -52,15 +66,15 @@ export default function SignIn() {
               </Typography>
               <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
                 <TextField
-                  error={!!errors.email}
-                  helperText={errors.email?.message as string}
-                  {...register("email")}
+                  error={!!errors.username}
+                  helperText={errors.username?.message as string}
+                  {...register("username")}
                   margin="normal"
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
                   autoFocus
                 />
                 <TextField
@@ -81,6 +95,7 @@ export default function SignIn() {
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  disabled={!isValid || isSubmitting}
                 >
                   Sign In
                 </Button>

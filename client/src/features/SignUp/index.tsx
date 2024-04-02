@@ -40,10 +40,17 @@ export default function SignUp() {
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log({...data, isEmployee: false});
-    await requests.User.registerUser({...data, isEmployee: false})
+
+    try {
+      await requests.User.registerUser({...data, isEmployee: false})
       .then(() => toast.success("Registered successfully"))
-    navigate('/sign-in')
+      navigate('/sign-in')
+    }
+    catch (error) {
+      console.log(error)
+      reset()
+    }
+
   };
 
   return (

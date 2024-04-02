@@ -10,31 +10,20 @@ import { Link } from "react-router-dom";
 import { submitReservationDetails } from "../../stores/slices/reservationDetailsSlice";
 
 
-
-const user = {
-    id: "4c888f3c-4adb-4cc7-b4a7-de4a858a0e3a",
-    username: "markaxs",
-    name: "markas",
-    password: "asd",
-    surname: "klimovas",
-    email: "markasklimovas@gmail.com",
-    phoneNumber: "38064823259",
-    token: "as",
-    role: "Customer"
-}
-
-
 export default function OrderPage() {
     const {basket, status} = useAppSelector(state => state.basket);
-    
+    const {user} = useAppSelector(state => state.user)
     const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        dispatch(fetchBasketItemsAsync())
-    }, [dispatch])
+    if (user == null) return <h1>User details were not found</h1>
+
+    // useEffect(() => {
+    //     dispatch(fetchBasketItemsAsync())
+    // }, [dispatch])
 
     if (status.includes("pendingFetchItems")) return <LoadingButton>Basket is loading...</LoadingButton>
-    if (!basket || basket.items == null) return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>Your basket is empty</Typography>
+    
+    if (basket === null) return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>Your basket is empty</Typography>
 
     if (basket.reservedDate === null || basket.seats === 0 || basket.reservedTime === null) {
         return <Typography display={"flex"} justifyContent={"center"} alignContent={"center"}>User hasn't chosen reservation details.</Typography>

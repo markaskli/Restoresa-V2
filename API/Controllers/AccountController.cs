@@ -1,5 +1,7 @@
 ﻿using API.DTOs.Account;
 using API.Services.AuthService;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -55,6 +57,18 @@ namespace API.Controllers
             {
                 return StatusCode(500, "A problem occurred while trying to get the role of the user.");
             }
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult> GetCurrentUser()
+        {
+            var user = await _accountService.GetCurrentUser(User.Identity.Name);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
         }
     }
 }

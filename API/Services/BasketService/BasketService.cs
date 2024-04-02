@@ -130,7 +130,7 @@ namespace API.Services.BasketService
             
         }
 
-        public async Task<bool> AssignBasketToUser(string userId)
+        public async Task<BasketDTO?> AssignBasketToUser(string userId)
         {
             var userBasket = await RetrieveBasket(userId);
             var anonBasket = await RetrieveBasket(_httpContext.Request.Cookies[_cookieName]);
@@ -145,10 +145,10 @@ namespace API.Services.BasketService
                 anonBasket.ClientId = userId;
                 _httpContext.Response.Cookies.Delete(_cookieName);
                 var result = await _storeContext.SaveChangesAsync() > 0;
-                return result;
+                return anonBasket.MapBasketToDTO();
             }
 
-            return false;
+            return null;
         }
 
 

@@ -12,8 +12,9 @@
 }
 
 .header {
-    font-weight: 700;
-    font-size: 32px;
-    color: rgb(35, 33, 43);
-    margin-bottom: 3%;
+    font-weight: 700 !important;
+    font-size: 32px !important;
+    color: rgb(35, 33, 43) !important;
+    margin-bottom: 3% !important;
 }
+

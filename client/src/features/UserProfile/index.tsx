@@ -9,55 +9,52 @@ import { useAppDispatch, useAppSelector } from "../../stores/store";
 import { getReservationOfUser } from "../../stores/slices/reservationSlice";
 import LoadingComponent from "../../components/LoadingComponent";
 
-const usr: User = {
-    id: "5020",
-    username: "markz",
-    name: "Markas",
-    surname: "Kl",
-    email: "markas@gmail.com",
-    password: "yeye",
-    phoneNumber: "864848485"
-}
-
 
 function UserProfile() {
   const { reservations, status } = useAppSelector(
     (store) => store.reservations
   );
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!reservations) {
-      dispatch(
-        getReservationOfUser({ userId: "2e953596-14d0-4205-864d-bf7e46347456" })
-      );
+    if (!reservations && user) {
+      try {
+        dispatch(getReservationOfUser({ userId: user.id }));
+      }
+      catch (error) {
+        console.log(error)
+      }
+      
     }
   }, [dispatch, reservations]);
 
-  console.log(reservations)
+  console.log(reservations);
 
   if (status.includes("pending"))
     return <LoadingComponent message="Loading reservations.." />;
-    
+
+  if (!user) return <h1>User details were not found</h1>;
 
   return (
     <Box className={styles.outerBox}>
-      <Typography className={styles.header}>Hello, {usr.username}</Typography>
+      <Typography className={styles.header}>Hello, {user.username}</Typography>
       <Box className={styles.innerBox}>
         <Box>
           <Typography textAlign={"left"}>User details</Typography>
-          <UserDetailsForm user={usr} />
+          <UserDetailsForm user={user} />
         </Box>
         <Box>
           <Typography textAlign={"right"}>Reservations history</Typography>
           {reservations ? (
             <div>
+              
               {reservations?.map((res, index) => (
                 <OrdersHistoryCard key={index} reservation={res} />
               ))}
             </div>
           ) : (
-            <h1>Nėra</h1>
+            <div> The user has not made any reservations</div>
           )}
         </Box>
       </Box>

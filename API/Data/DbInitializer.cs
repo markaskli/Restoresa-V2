@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using API.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace API.Data
 {
@@ -494,8 +496,10 @@ namespace API.Data
                     Description = "Skanu gardu",
                     PictureUrl = "https://images.bolt.eu/store/2022/2022-10-24/bac90258-1317-4bd0-8f3b-4167de1f40d4.jpeg",
                     MaxPeopleServedPerTable = 5,
-                    WorkingHours = new List<WorkingHours>(workingHours1)
-                    
+                    WorkingHours = new List<WorkingHours>(workingHours1),
+                    OwnerId = "08f046ba-8a17-4687-8b69-1b58e4042836"
+
+
                 },
                 new Restaurant {
                     Id = 2,
@@ -504,7 +508,9 @@ namespace API.Data
                     Description = "Skanu gardu",
                     PictureUrl = "https://imageproxy.wolt.com/venue/5c88f9e985b894000b4f1b1a/30bc1e1c-ada6-11ec-9297-cae5d1dc558e_7.baking_mad_list_1.jpg",
                     MaxPeopleServedPerTable = 3,
-                    WorkingHours = new List<WorkingHours>(workingHours2)
+                    WorkingHours = new List<WorkingHours>(workingHours2),
+                    OwnerId = "08f046ba-8a17-4687-8b69-1b58e4042836"
+
                 },
                 new Restaurant {
                     Id = 3,
@@ -513,7 +519,8 @@ namespace API.Data
                     Description = "Skanu gardu",
                     PictureUrl = "https://imageproxy.wolt.com/venue/5a8292e92e3b00000b6f5a07/23c991a6-54b8-11ea-b860-0a5864790c11_nuotr.Egles_Gendrenaites_www.egphoto.lt_2020_02-1.jpg",
                     MaxPeopleServedPerTable = 2,
-                    WorkingHours = new List<WorkingHours>(workingHours3)
+                    WorkingHours = new List<WorkingHours>(workingHours3),
+                    OwnerId = "8a5283cc-5fae-442a-97fc-9d2020488197"
                 }
             };
 
@@ -840,6 +847,65 @@ namespace API.Data
                
             context.SaveChanges();
         }
-      
+
+        public static async void InitializeUsers(UserManager<User> userManager, IConfiguration configuration)
+        {
+            if (userManager.Users.Any())
+            {
+                return;
+            }
+
+            var client = new User()
+            {
+                Id = "734191bb-4559-48d8-bbd1-140c0a68c095",
+                UserName = "client",
+                Name = "John",
+                Surname = "Doe",
+                Email = "john@gmail.com",
+                PhoneNumber = "37062222222",
+            };
+
+            var employee1 = new User()
+            {
+                Id = "08f046ba-8a17-4687-8b69-1b58e4042836",
+                UserName = "employee1",
+                Name = "Jonathan",
+                Surname = "Smithz",
+                Email = "smithz@gmail.com",
+                PhoneNumber = "37063333333",
+            };
+
+            var employee2 = new User()
+            {
+                Id = "8a5283cc-5fae-442a-97fc-9d2020488197",
+                UserName = "employee2",
+                Name = "Nick",
+                Surname = "Kitz",
+                Email = "kitz@gmail.com",
+                PhoneNumber = "37064444444",
+            };
+
+            var admin = new User()
+            {
+                Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
+                Name = "Admin",
+                Surname = string.Empty,
+                UserName = "admin",
+                Email = "admin@gmail.com",
+                EmailConfirmed = true,
+            };
+
+            await userManager.CreateAsync(admin, configuration["Admin:Password"]);
+            await userManager.CreateAsync(client, configuration["User:Password"]);
+            await userManager.CreateAsync(employee1, configuration["Employee:Password"]);
+            await userManager.CreateAsync(employee2, configuration["Employee:Password"]);
+            await userManager.AddToRoleAsync(client, "Customer");
+            await userManager.AddToRoleAsync(employee1, "Restaurant-Employee");
+            await userManager.AddToRoleAsync(employee2, "Restaurant-Employee");
+            await userManager.AddToRoleAsync(admin, "Admin");
+
+
+        }
+
     }
 }

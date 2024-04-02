@@ -1,6 +1,8 @@
-﻿using API.Entities;
+﻿using API.DTOs.Product;
+using API.DTOs.Restaurant.WorkingHours;
+using API.Entities;
 
-namespace API.DTOs
+namespace API.DTOs.Restaurant
 {
     public class RestaurantDTO
     {

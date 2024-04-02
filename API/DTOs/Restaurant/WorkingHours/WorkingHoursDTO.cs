@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API.DTOs
+namespace API.DTOs.Restaurant.WorkingHours
 {
     public class WorkingHoursDTO
     {
@@ -10,7 +10,7 @@ namespace API.DTOs
         public required string WeekDay { get; set; }
         public List<TimeSlotDTO> TimeSlots { get; set; }
 
-        public WorkingHoursDTO() 
+        public WorkingHoursDTO()
         {
             TimeSlots = new List<TimeSlotDTO>();
         }

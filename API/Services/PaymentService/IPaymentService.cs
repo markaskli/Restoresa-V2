@@ -1,4 +1,4 @@
-﻿using API.DTOs;
+﻿using API.DTOs.Basket;
 
 namespace API.Services.PaymentService
 {

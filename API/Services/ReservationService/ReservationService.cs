@@ -1,5 +1,7 @@
 ﻿using API.Data;
 using API.DTOs;
+using API.DTOs.Product;
+using API.DTOs.Reservation;
 using API.Entities;
 using API.Entities.Enums;
 using API.Exceptions;

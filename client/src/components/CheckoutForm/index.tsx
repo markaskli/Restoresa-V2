@@ -7,21 +7,11 @@ import { useAppDispatch, useAppSelector } from '../../stores/store';
 import { submitReservationDetails } from '../../stores/slices/reservationDetailsSlice';
 import { clearBasket } from '../../stores/slices/basketSlice';
 
-
-const user = {
-  id: "2e953596-14d0-4205-864d-bf7e46347456",
-  username: "markaxs",
-  name: "markas",
-  password: "asd",
-  surname: "klimovas",
-  email: "markasklimovas@gmail.com",
-  phoneNumber: "38064823259"
-}
-
 const CheckoutForm = () => {
   const [message, setMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const {basket} = useAppSelector(state => state.basket)
+  const { user } = useAppSelector(state => state.user)
   const dispatch = useAppDispatch()
 
   const stripe = useStripe()
@@ -30,7 +20,7 @@ const CheckoutForm = () => {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    if (!stripe || !elements || !basket) {
+    if (!stripe || !elements || !basket || !user) {
       return;
     }
 

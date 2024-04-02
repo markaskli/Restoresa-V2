@@ -1,4 +1,6 @@
-﻿namespace API.DTOs
+﻿using API.DTOs.Restaurant.WorkingHours;
+
+namespace API.DTOs.Restaurant
 {
     public class CreateRestaurantDTO
     {

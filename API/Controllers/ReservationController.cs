@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
-using API.DTOs;
+using API.DTOs.Reservation;
 using API.Entities;
 using API.Exceptions;
 using API.Services.ReservationService;

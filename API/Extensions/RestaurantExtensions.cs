@@ -1,4 +1,7 @@
 ﻿using API.DTOs;
+using API.DTOs.Product;
+using API.DTOs.Restaurant;
+using API.DTOs.Restaurant.WorkingHours;
 using API.Entities;
 
 namespace API.Extensions

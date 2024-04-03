@@ -1,13 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import OrderRestaurantCard from "../../components/OrderRestaurantCard.tsx";
 import OrderProductCard from "../../components/OrderProductCard";
-import { useEffect } from "react";
 import { LoadingButton } from '@mui/lab';
 import { useAppDispatch, useAppSelector } from "../../stores/store";
-import { fetchBasketItemsAsync } from "../../stores/slices/basketSlice";
 import OrderClientCard from "../../components/OrderClientCard";
 import { Link } from "react-router-dom";
-import { submitReservationDetails } from "../../stores/slices/reservationDetailsSlice";
 
 
 export default function OrderPage() {

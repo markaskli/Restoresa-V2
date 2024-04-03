@@ -25,10 +25,11 @@ namespace API.Services.TokenService
         {
             var claims = new List<Claim>()
             {
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
                 new Claim(JwtRegisteredClaimNames.GivenName, user.Name),
                 new Claim(JwtRegisteredClaimNames.FamilyName, user.Surname),
-                new Claim(JwtRegisteredClaimNames.Name, user.UserName)               
+                new Claim(JwtRegisteredClaimNames.Name, user.UserName!)               
             };
 
             var roles = await _userManager.GetRolesAsync(user);

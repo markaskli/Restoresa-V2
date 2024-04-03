@@ -10,7 +10,7 @@ export interface Reservation {
     seats: number,
     paymentStatus: string,
     orderedProducts: OrderedProduct[],
-    userId: string,
+    customerId: string,
     restaurant: RestaurantDTO
 }
 
@@ -18,7 +18,7 @@ export interface CreateReservationDTO {
     reservedDate: string,
     reservedTime: string,
     seats: number,
-    userId: string,
+    customerId: string,
     restaurantId: number
 }
 

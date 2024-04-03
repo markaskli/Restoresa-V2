@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs.Basket;
@@ -8,6 +9,7 @@ using API.DTOs.Reservation;
 using API.Entities;
 using API.Extensions;
 using API.Services.BasketService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +38,7 @@ namespace API.Controllers
             }
             return basket;
         }
+
 
         [HttpPost]
         public async Task<ActionResult> AddItemToBasket(int productId, int quantity, int restaurantId) 
@@ -78,6 +81,7 @@ namespace API.Controllers
 
         }
 
+
         [HttpPost("addDetails")]
         public async Task<ActionResult> AddReservationDetailsToBasket(ReservationDetailsDTO reservationDetails)
         {
@@ -95,7 +99,7 @@ namespace API.Controllers
 
         private string GetUserId()
         {
-            return User.Identity.Name ?? Request.Cookies["buyerId"];
+            return User.FindFirstValue(ClaimTypes.NameIdentifier) ?? Request.Cookies["buyerId"];
         }
 
 

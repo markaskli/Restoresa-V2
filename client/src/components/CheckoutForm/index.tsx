@@ -1,14 +1,13 @@
-import {CardNumberElement, PaymentElement, useElements, useStripe} from '@stripe/react-stripe-js';
-import { useEffect, useState } from 'react';
+import {PaymentElement, useElements, useStripe} from '@stripe/react-stripe-js';
+import { useState } from 'react';
 import styles from './styles.module.css'
 import { Button, Typography } from '@mui/material';
-import LoadingComponent from '../LoadingComponent';
 import { useAppDispatch, useAppSelector } from '../../stores/store';
 import { submitReservationDetails } from '../../stores/slices/reservationDetailsSlice';
 import { clearBasket } from '../../stores/slices/basketSlice';
+import { toast } from 'react-toastify';
 
 const CheckoutForm = () => {
-  const [message, setMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const {basket} = useAppSelector(state => state.basket)
   const { user } = useAppSelector(state => state.user)
@@ -30,10 +29,10 @@ const CheckoutForm = () => {
         reservedDate: basket.reservedDate,
         reservedTime: basket.reservedTime,
         seats: basket.seats,
-        userId: user.id,
+        customerId: user.id,
         restaurantId: basket.restaurant.id,
       })
-    ); // to change user id
+    ); 
 
     const result = await stripe.confirmPayment({
       elements, 
@@ -44,13 +43,12 @@ const CheckoutForm = () => {
     })
 
     if (result.error) {
+      toast.error("Payment unsuccessful")
       console.log(result.error.message)
     }
     else {
-      setMessage("Payment succeeded!");
-      
-      dispatch(clearBasket);
-      console.log("ivyko kazkas")
+      toast.success("Payment succeeded!")
+      dispatch(clearBasket());
     }
 
     
@@ -69,7 +67,6 @@ const CheckoutForm = () => {
         type='submit'
         disabled={!stripe || !elements || isLoading} 
         color='secondary'>Submit</Button>
-      {message && <h1>{message}</h1>}
     </form>
   );
 };

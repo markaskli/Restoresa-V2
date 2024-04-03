@@ -1,13 +1,10 @@
 import {
   AppBar,
   Avatar,
-  Badge,
   Box,
   Button,
-  IconButton,
   List,
   ListItem,
-  MenuItem,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -45,7 +42,7 @@ export default function Header() {
     } else {
       setIsReviewButtonDisabled(true);
     }
-  }, [basket]);
+  }, [basket, basket?.items]);
 
   return (
     <AppBar position="sticky">
@@ -83,7 +80,7 @@ export default function Header() {
         >
           <Box
             component={Link}
-            to={"/order"}
+            to={user ? '/order' : 'sign-in'}
             sx={{
               backgroundColor: "rgb(254, 206, 82)",
               borderRadius: "15px",

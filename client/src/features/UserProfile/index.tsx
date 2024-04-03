@@ -2,8 +2,6 @@ import { Box, Typography } from "@mui/material";
 import styles from "./styles.module.css"
 import UserDetailsForm from "../../components/UserDetailsForm";
 import OrdersHistoryCard from "../../components/OrdersHistoryCard";
-import { Reservation } from "../../types/reservation";
-import { User } from "../../types/user";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../stores/store";
 import { getReservationOfUser } from "../../stores/slices/reservationSlice";
@@ -27,9 +25,8 @@ function UserProfile() {
       }
       
     }
-  }, [dispatch, reservations]);
+  }, [dispatch, reservations, user]);
 
-  console.log(reservations);
 
   if (status.includes("pending"))
     return <LoadingComponent message="Loading reservations.." />;
@@ -41,11 +38,11 @@ function UserProfile() {
       <Typography className={styles.header}>Hello, {user.username}</Typography>
       <Box className={styles.innerBox}>
         <Box>
-          <Typography textAlign={"left"}>User details</Typography>
+          <Typography textAlign={"left"} fontWeight={600}>User details</Typography>
           <UserDetailsForm user={user} />
         </Box>
         <Box>
-          <Typography textAlign={"right"}>Reservations history</Typography>
+          <Typography textAlign={"right"} fontWeight={600}>Reservations history</Typography>
           {reservations ? (
             <div>
               

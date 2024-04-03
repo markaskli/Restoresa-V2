@@ -93,7 +93,7 @@ namespace API.Services.BasketService
             var basket = await RetrieveBasket(userId);
             if (basket == null)
             {
-                basket = CreateBasket();
+                basket = CreateBasket(userId);
             }
 
             if(reservationDetails.Seats <= 0)
@@ -169,11 +169,16 @@ namespace API.Services.BasketService
         }
 
 
-        private Basket CreateBasket()
+        private Basket CreateBasket(string userId)
         {
-            var buyerId = Guid.NewGuid().ToString();
-            var cookieOptions = new CookieOptions { IsEssential = true, Expires = DateTime.Now.AddDays(30) };
-            _httpContext.Response.Cookies.Append(_cookieName, buyerId, cookieOptions);
+            var buyerId = userId;
+            if (string.IsNullOrEmpty(userId))
+            {
+                buyerId = Guid.NewGuid().ToString();
+                var cookieOptions = new CookieOptions { IsEssential = true, Expires = DateTime.Now.AddDays(7) };
+                _httpContext.Response.Cookies.Append(_cookieName, buyerId, cookieOptions);
+            }
+            
             var basket = new Basket { ClientId = buyerId };
             _storeContext.Baskets.Add(basket);
             return basket;

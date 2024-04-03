@@ -74,6 +74,10 @@ namespace API.Controllers
             {
                 return BadRequest(ex.Message);
             }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
 

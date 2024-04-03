@@ -1,7 +1,7 @@
-import { Box, Card, Typography } from "@mui/material"
+import { Card, Typography } from "@mui/material"
 import styles from "./styles.module.css"
 import { Reservation } from "../../types/reservation"
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getStatusColor } from "../../utils/util";
 
 interface Props {
@@ -19,7 +19,7 @@ const OrdersHistoryCard = ({ reservation }: Props) => {
       <div className={styles.outerBox}>
         <div>
           <Typography>RESERVATION NUMBER</Typography>
-          <Typography>{"0cf9b2fc-3a59-41bd-bcf8-fb5676e8ea2e"}</Typography>
+          <Typography>{reservation.id}</Typography>
         </div>
         <div>
           <Typography>STATUS</Typography>
@@ -31,7 +31,7 @@ const OrdersHistoryCard = ({ reservation }: Props) => {
           <div>DATE</div>
           <div className={styles.dateBox}>
             <Typography>{reservation.reservedDate}</Typography>
-            <Typography>{reservation.reservedTime}</Typography>
+            <Typography>{reservation.reservedTime.slice(0, 5)}</Typography>
           </div>
         </div>
       </div>

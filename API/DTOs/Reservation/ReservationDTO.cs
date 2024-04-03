@@ -15,7 +15,7 @@ namespace API.DTOs.Reservation
         public required int Seats { get; set; }
         public string PaymentStatus { get; set; }
         public List<OrderItemDTO> OrderedProducts { get; set; }
-        public required string UserId { get; set; }
+        public required string CustomerId { get; set; }
         public required RestaurantDTO Restaurant { get; set; }
 
         public ReservationDTO()

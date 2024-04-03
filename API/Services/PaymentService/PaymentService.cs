@@ -20,12 +20,13 @@ namespace API.Services.PaymentService
             _storeContext = storeContext;
         }
 
-        public async Task<BasketDTO?> CreateOrUpdatePaymentIntent()
+        public async Task<BasketDTO?> CreateOrUpdatePaymentIntent(string userId)
         {
             var basket = await _storeContext.Baskets
                 .Include(b => b.Restaurant)
                 .Include(b => b.Items).ThenInclude(it => it.Product)
-                .Where(b => b.ClientId.Equals(_httpContextAccessor.HttpContext.Request.Cookies["buyerId"])).SingleOrDefaultAsync();
+                .Where(b => b.ClientId.Equals(userId)).SingleOrDefaultAsync();
+
             if (basket == null)
             {
                 return null;

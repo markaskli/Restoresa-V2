@@ -7,6 +7,7 @@ using API.Entities.Enums;
 using API.Exceptions;
 using API.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 
 namespace API.Services.ReservationService
@@ -22,8 +23,8 @@ namespace API.Services.ReservationService
 
         public async Task<List<ReservationDTO>?> GetReservationOfUser(string userId)
         {
-            var reservations = await _storeContext.Reservations.Include(rsv => rsv.Restaurant).Include(rsv => rsv.OrderedProducts).Where(x => x.UserId.Equals(userId)).ToListAsync();
-            if (reservations == null || reservations.Count == 0)
+            var reservations = await _storeContext.Reservations.Include(rsv => rsv.Restaurant).Include(rsv => rsv.OrderedProducts).Where(x => x.CustomerId.Equals(userId)).ToListAsync();
+            if (reservations.IsNullOrEmpty())
             {
                 return null;
             }
@@ -46,7 +47,7 @@ namespace API.Services.ReservationService
                     ProductId = item.Product.ProductId,
                     Quantity = item.Quantity
                 }).ToList(),
-                UserId = reservation.UserId,
+                CustomerId = reservation.CustomerId,
                 Restaurant = reservation.Restaurant.MapToDTO(),
             }).ToList();
         }
@@ -76,7 +77,7 @@ namespace API.Services.ReservationService
                     ProductId = item.Product.ProductId,
                     Quantity = item.Quantity
                 }).ToList(),
-                UserId = reservation.UserId,
+                CustomerId = reservation.CustomerId,
                 Restaurant = reservation.Restaurant.MapToDTO(),
             };
         }
@@ -118,12 +119,11 @@ namespace API.Services.ReservationService
             }
 
             var timeSlot = wh.TimeSlots.Where(ts => ts.StartTime == reservedTimeSlot).SingleOrDefault();
-
             if (timeSlot == null)
             {
                 throw new KeyNotFoundException("Specified time slot was not found.");
             }
-            else if (!timeSlot.Available)
+            else if (!timeSlot.Available || timeSlot.StartTime < DateTime.Now.TimeOfDay)
             {
                 return null;
             }
@@ -133,17 +133,17 @@ namespace API.Services.ReservationService
                 var basket = await _storeContext.Baskets
                 .Include(b => b.Items)
                 .ThenInclude(it => it.Product)
-                .Where(b => b.ClientId.Equals(reservationDTO.UserId))
+                .Where(b => b.ClientId.Equals(reservationDTO.CustomerId))
                 .SingleOrDefaultAsync();
 
                 if (basket == null)
                 {
-                    throw new KeyNotFoundException($"Basket of the user #{reservationDTO.UserId} not found");
+                    throw new KeyNotFoundException($"Basket of the user #{reservationDTO.CustomerId} not found");
                 }
 
                 if(basket.Items.GroupBy(b => b.Product.RestaurantId).Count() != 1)
                 {
-                    throw new ArgumentException("ne is to pacio restorano, biciuli");
+                    throw new ArgumentException("Items are from different restaurants.");
                 }
 
                 timeSlot.Available = false;
@@ -177,8 +177,8 @@ namespace API.Services.ReservationService
                     ReservedDate = reservationDate,
                     ReservedTime = reservedTimeSlot,
                     Seats = reservationDTO.Seats,
-                    UserId = reservationDTO.UserId,
-                    PaymentIntentId = basket.PaymentIntentId,
+                    CustomerId = reservationDTO.CustomerId,
+                    PaymentIntentId = basket.PaymentIntentId!,
                     Cost = basketCost,
                     OrderedProducts = items,
                     RestaurantId = reservationDTO.RestaurantId
@@ -205,7 +205,7 @@ namespace API.Services.ReservationService
                         ProductId = item.Product.ProductId,
                         Quantity = item.Quantity
                     }).ToList(),
-                    UserId = reservation.UserId,
+                    CustomerId = reservation.CustomerId,
                     Restaurant = reservation.Restaurant.MapToDTO(),
                 };
             }

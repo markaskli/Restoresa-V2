@@ -8,6 +8,7 @@ import { useAppSelector } from '../../stores/store';
 import LoadingComponent from '../../components/LoadingComponent';
 import styles from './styles.module.css'
 import { Typography } from '@mui/material';
+import { toast } from 'react-toastify';
 
 
 const stripePromise = loadStripe('pk_test_51OjHUgKxFGEGIoB5jV0eieeIOFvCy21oKN6DcdLR4wJamWxa48bmr0eYoLuwXAsfqa7hQ9j13zsvIP6scylSpPGj00Olu0nJTI');
@@ -17,10 +18,18 @@ function Checkout() {
 
 
   useEffect(() => {
-    requests.Payments.createPaymentIntent()
-    .then((response: Basket) => {   
-      setClientSecret(response.clientSecret)
-    })
+    try {
+      requests.Payments.createPaymentIntent()
+      .then((response: Basket) => {   
+        setClientSecret(response.clientSecret)
+      })
+    }
+    catch (error) {
+      toast.error("An error occurred")
+      console.log(error)
+    }
+    
+
   }, [])
 
 

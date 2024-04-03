@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
-import { CreateUser, LoginDto, User } from "../../types/user";
+import { LoginDto, User } from "../../types/user";
 import requests from "../../API/requests";
 import { setBasket } from "./basketSlice";
 import { router } from "../../routes/Route";

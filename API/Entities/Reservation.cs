@@ -15,7 +15,7 @@ namespace API.Entities
         public List<OrderItem> OrderedProducts { get; set; }
         public virtual int RestaurantId { get; set; }
         public virtual Restaurant Restaurant { get; set; } = null!;
-        public virtual string UserId { get; set; } = null!;
+        public virtual string CustomerId { get; set; } = null!;
         public virtual Customer Customer { get; set; } = null!;
 
         public Reservation()

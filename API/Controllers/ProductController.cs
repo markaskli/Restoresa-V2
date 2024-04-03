@@ -6,6 +6,7 @@ using API.Data;
 using API.DTOs.Product;
 using API.Entities;
 using API.Services.ProductService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -44,6 +45,7 @@ namespace API.Controllers
             return Ok(product);
         }
 
+        [Authorize]
         [HttpDelete]
         public async Task<ActionResult> Delete(int id)
         {
@@ -72,6 +74,7 @@ namespace API.Controllers
             return Ok(types);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<ProductDTO>> Create(CreateProductDTO productDTO)
         {

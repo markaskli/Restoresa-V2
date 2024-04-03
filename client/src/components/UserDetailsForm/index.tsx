@@ -1,7 +1,7 @@
 import { Box, Button, Modal, TextField, Typography } from "@mui/material"
 import { User } from "../../types/user"
 import styles from "./styles.module.css"
-import { useReducer, useState } from "react"
+import { useReducer } from "react"
 import ChangeEmail from "../UserProfileModals/ChangeEmail"
 import ChangePhoneNumber from "../UserProfileModals/ChangePhoneNumber"
 import ChangePassword from "../UserProfileModals/ChangePassword"
@@ -67,7 +67,7 @@ const UserDetailsForm = ({user}: Props) => {
           <TextField
             variant="standard"
             disabled
-            value={"Markas Klimovas"}
+            value={user.name + ' ' + user.surname}
           ></TextField>
         </div>
         <div className={styles.individualBox}>

@@ -1,6 +1,5 @@
 import {
   AppBar,
-  Avatar,
   Box,
   Button,
   List,
@@ -11,7 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../stores/store";
-import { signOut } from "../stores/slices/userSlice";
+import AccountMenu from "./AccountDropdown";
 
 const navStyles = {
   color: "inherit",
@@ -80,7 +79,7 @@ export default function Header() {
         >
           <Box
             component={Link}
-            to={user ? '/order' : 'sign-in'}
+            to={user ? "/order" : "sign-in"}
             sx={{
               backgroundColor: "rgb(254, 206, 82)",
               borderRadius: "15px",
@@ -94,16 +93,16 @@ export default function Header() {
             <Typography color={"rgb(35, 33, 43)"}>Review order</Typography>
           </Box>
 
-          {user && (
-            <Link to={"/profile"}>
-              <Avatar />
-            </Link>
-          )}
-
           {user ? (
-            <Button color="secondary" variant="contained" onClick={() => dispatch(signOut())}>Sign Out</Button>
+            <AccountMenu userRole={user.role} />
           ) : (
-            <Button color="secondary" variant="contained" onClick={() => navigate('/sign-in')}>Sign In</Button>
+            <Button
+              color="secondary"
+              variant="contained"
+              onClick={() => navigate("/sign-in")}
+            >
+              Sign In
+            </Button>
           )}
         </Box>
       </Toolbar>

@@ -1,4 +1,4 @@
-﻿using API.DTOs;
+﻿using API.DTOs.Reservation;
 
 namespace API.Services.ReservationService
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
-using API.DTOs;
+using API.DTOs.Reservation;
 using API.Entities;
 using API.Exceptions;
 using API.Services.ReservationService;
@@ -73,6 +73,10 @@ namespace API.Controllers
             catch (WorkingHoursNotFoundException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, ex.Message);
             }
         }
 

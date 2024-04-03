@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Box, Button, Container, Divider, Typography } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import ProductCard from "../../components/ProductCard";
@@ -7,6 +7,7 @@ import CreateProduct from "../../components/CreateProduct";
 import styles from "./styles.module.css"
 import { useAppDispatch, useAppSelector } from "../../stores/store";
 import { addReservationDetailsAsync } from "../../stores/slices/basketSlice";
+import { toast } from "react-toastify";
 
 interface Props {
     setReload: React.Dispatch<React.SetStateAction<boolean>>
@@ -22,23 +23,30 @@ export default function RestaurantMenu() {
     const { state } = useLocation();
     
 
-    
+    const setReservationDetails = useCallback(async () => {
+        try {
+            dispatch(addReservationDetailsAsync(reservationDetails!)) 
+        }
+        catch (error) {
+            toast.error("An error occurred")
+        }    
+    }, [dispatch])
 
     useEffect(() => {
         if (reservationDetails) {
-            dispatch(addReservationDetailsAsync(reservationDetails))
+            setReservationDetails()
         }  
         else {
             navigate(`/restaurants`)
         }  
-    }, [dispatch, location])
+    }, [dispatch])
 
 
 
-    if (!state || state.restaurant === null) return <h1>NO RESTAURANT WAS FOUND </h1>
+    if (!state) return <h1>NO RESTAURANT WAS FOUND </h1>
     let restaurant = state.restaurant;
 
-    if (!reservationDetails) return <h1>You haven't chosen reservation details.</h1>
+    if (!reservationDetails) return <h1>You have not chosen reservation details.</h1>
     
     const filteredProducts: Record<string, Product[]> = {};
     for (const product of state.restaurant.products) {
@@ -48,11 +56,6 @@ export default function RestaurantMenu() {
         }
         filteredProducts[type].push(product);
     }
-
-    console.log(state.restaurant)
-
-
-
 
     const handleNavigate = () => {
         navigate("timeslots", {state: {restaurant}})

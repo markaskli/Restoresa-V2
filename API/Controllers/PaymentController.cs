@@ -1,8 +1,10 @@
-﻿using API.DTOs;
+﻿using API.DTOs.Basket;
 using API.Services.PaymentService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -17,12 +19,14 @@ namespace API.Controllers
             _paymentService = paymentService;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<BasketDTO>> ManipulatePaymentIntent()
         {
             try
             {
-                var basket = await _paymentService.CreateOrUpdatePaymentIntent();
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var basket = await _paymentService.CreateOrUpdatePaymentIntent(userId);
                 if (basket == null)
                 {
                     return NotFound();

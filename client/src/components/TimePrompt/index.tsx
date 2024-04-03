@@ -26,6 +26,12 @@ const TimePrompt = ({setState, restaurant} : Props) => {
     const date = new Date();
 
 
+    const isTimeSlotValid = (timeSlot: string) => {
+        const [hours, minutes] = timeSlot.split(':').map(Number)
+        const timeSlotTime = new Date().setHours(hours, minutes, 0, 0)
+        return timeSlotTime > date.getTime()
+    }
+
     const handleNavigate = () => {
         dispatch(setReservationTime(
             {timeSlot: chosenTimeSlot,
@@ -66,7 +72,9 @@ const TimePrompt = ({setState, restaurant} : Props) => {
                      availableTimes
                      .filter(timeSlot => timeSlot.available)
                      .map(time => 
-                        <Button key={time.id}
+                        <Button 
+                            key={time.id}
+                            disabled={!isTimeSlotValid(time.startTime)}
                             className={styles.item}
                             onClick={(e: any) => (setChosenTimeSlot(e.target.innerText), setIsContinueDisabled(false))}
                         > {time.startTime}

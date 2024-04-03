@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Basket } from "../../types/basket";
 import requests from "../../API/requests";
 import { ReservationDTO } from "../../types/reservation";
+import { getCookie } from "../../utils/util";
 
 interface BasketSlice {
     basket: Basket | null
@@ -21,6 +22,11 @@ export const fetchBasketItemsAsync = createAsyncThunk(
         }
         catch (error: any) {
             thunkAPI.rejectWithValue({error: error.data})
+        }
+    },
+    {
+        condition: () => {
+            if(!getCookie('buyerId')) return false;
         }
     }
 )

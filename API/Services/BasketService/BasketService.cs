@@ -1,7 +1,10 @@
 ﻿using API.Data;
-using API.DTOs;
+using API.DTOs.Basket;
+using API.DTOs.Reservation;
 using API.Entities;
 using API.Extensions;
+using API.Services.AuthService;
+using API.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -11,17 +14,18 @@ namespace API.Services.BasketService
     public class BasketService : IBasketService
     {
         private readonly StoreContext _storeContext;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly HttpContext _httpContext;
+        private readonly string _cookieName = Constants.CookieName;
 
         public BasketService(StoreContext storeContext, IHttpContextAccessor httpContextAccessor)
         {
             _storeContext = storeContext;
-            _httpContextAccessor = httpContextAccessor;
+            _httpContext = httpContextAccessor.HttpContext;
         }
 
-        public async Task<ActionResult<BasketDTO>?> GetBasket()
+        public async Task<ActionResult<BasketDTO>?> GetBasket(string userId)
         {
-            var basket = await RetrieveBasket();
+            var basket = await RetrieveBasket(userId);
             if (basket == null)
             {
                 return null;
@@ -29,9 +33,9 @@ namespace API.Services.BasketService
             return basket.MapBasketToDTO();
         }
 
-        public async Task<BasketDTO?> AddItemToBasket(int productId, int quantity, int restaurantId)
+        public async Task<BasketDTO?> AddItemToBasket(int productId, int quantity, int restaurantId, string userId)
         {
-            var basket = await RetrieveBasket();
+            var basket = await RetrieveBasket(userId);
             if (basket == null)
             {
                 return null;
@@ -58,9 +62,9 @@ namespace API.Services.BasketService
 
         }
 
-        public async Task<bool> RemoveItemFromBasket(int productId, int quantity)
+        public async Task<bool> RemoveItemFromBasket(int productId, int quantity, string userId)
         {
-            var basket = await RetrieveBasket();
+            var basket = await RetrieveBasket(userId);
             if (basket == null)
             {
                 return false;
@@ -79,17 +83,17 @@ namespace API.Services.BasketService
 
         }
 
-        public async Task AddReservationDetails(ReservationDetailsDTO reservationDetails)
+        public async Task AddReservationDetails(ReservationDetailsDTO reservationDetails, string userId)
         {
             if (reservationDetails == null)
             {
                 throw new ArgumentNullException("No detais were provided");
             }
 
-            var basket = await RetrieveBasket();
+            var basket = await RetrieveBasket(userId);
             if (basket == null)
             {
-                basket = CreateBasket();
+                basket = CreateBasket(userId);
             }
 
             if(reservationDetails.Seats <= 0)
@@ -124,25 +128,57 @@ namespace API.Services.BasketService
                 throw new Exception("An error occurred while trying to save data", ex);
             }
             
-
-
-
         }
 
-        private async Task<Basket> RetrieveBasket()
+        public async Task<BasketDTO?> AssignBasketToUser(string userId)
         {
+            var userBasket = await RetrieveBasket(userId);
+            var anonBasket = await RetrieveBasket(_httpContext.Request.Cookies[_cookieName]);
+
+            if (anonBasket != null)
+            {
+                if (userBasket != null)
+                {
+                    _storeContext.Baskets.Remove(userBasket);
+                }
+
+                anonBasket.ClientId = userId;
+                _httpContext.Response.Cookies.Delete(_cookieName);
+                var result = await _storeContext.SaveChangesAsync() > 0;
+                return anonBasket.MapBasketToDTO();
+            }
+
+            return null;
+        }
+
+
+        public async Task<Basket?> RetrieveBasket(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                _httpContext.Response.Cookies.Delete(_cookieName);
+                return null;
+
+            }
+
             return await _storeContext.Baskets
                        .Include(b => b.Restaurant)
                        .Include(i => i.Items)
                        .ThenInclude(p => p.Product)
-                       .FirstOrDefaultAsync(basket => basket.ClientId == _httpContextAccessor.HttpContext.Request.Cookies["buyerId"]);
+                       .FirstOrDefaultAsync(basket => basket.ClientId == userId);
         }
 
-        private Basket CreateBasket()
+
+        private Basket CreateBasket(string userId)
         {
-            var buyerId = Guid.NewGuid().ToString();
-            var cookieOptions = new CookieOptions { IsEssential = true, Expires = DateTime.Now.AddDays(30) };
-            _httpContextAccessor.HttpContext.Response.Cookies.Append("buyerId", buyerId, cookieOptions);
+            var buyerId = userId;
+            if (string.IsNullOrEmpty(userId))
+            {
+                buyerId = Guid.NewGuid().ToString();
+                var cookieOptions = new CookieOptions { IsEssential = true, Expires = DateTime.Now.AddDays(7) };
+                _httpContext.Response.Cookies.Append(_cookieName, buyerId, cookieOptions);
+            }
+            
             var basket = new Basket { ClientId = buyerId };
             _storeContext.Baskets.Add(basket);
             return basket;

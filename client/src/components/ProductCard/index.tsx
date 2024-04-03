@@ -11,7 +11,6 @@ interface Props {
 
 export default function ProductCard({ product, setReload }: Props) {
   const dispatch = useAppDispatch();
-  console.log("produktas", product.id)
 
   return (
     <Box display={"grid"} gridTemplateColumns={"1.5fr 1fr"} gap={"10px"} padding={"10px"} boxShadow={"rgba(27, 27, 27, 0.2) 1px 1px 4px 0px;"} minHeight={"115px"} >

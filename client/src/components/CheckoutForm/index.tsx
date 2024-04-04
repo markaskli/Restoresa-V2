@@ -6,12 +6,14 @@ import { useAppDispatch, useAppSelector } from '../../stores/store';
 import { submitReservationDetails } from '../../stores/slices/reservationDetailsSlice';
 import { clearBasket } from '../../stores/slices/basketSlice';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutForm = () => {
   const [isLoading, setIsLoading] = useState(false)
   const {basket} = useAppSelector(state => state.basket)
   const { user } = useAppSelector(state => state.user)
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const stripe = useStripe()
   const elements = useElements()
@@ -49,6 +51,7 @@ const CheckoutForm = () => {
     else {
       toast.success("Payment succeeded!")
       dispatch(clearBasket());
+      navigate('/')
     }
 
     

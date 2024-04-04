@@ -82,7 +82,8 @@ export const userSlice = createSlice({
             state.user = {...action.payload, role: typeof(roles) === 'string' ? [roles] : roles};
         });
         builder.addMatcher(isAnyOf(signInUser.rejected), (state, action) => {
-            throw action.payload;
+            toast.error("Incorrect credentials")
+            console.log(action.payload)   
         })
     }
 })

@@ -27,9 +27,17 @@ const TimePrompt = ({setState, restaurant} : Props) => {
 
 
     const isTimeSlotValid = (timeSlot: string) => {
-        const [hours, minutes] = timeSlot.split(':').map(Number)
-        const timeSlotTime = new Date().setHours(hours, minutes, 0, 0)
-        return timeSlotTime > date.getTime()
+        const selectedDate = value?.toLocaleString("en-EN", { year: "numeric", month: "numeric", day: "numeric"});
+        const currentDate = date.toLocaleDateString("en-EN", { year: "numeric", month: "numeric", day: "numeric"})
+        if (selectedDate === currentDate) {
+            const [hours, minutes] = timeSlot.split(':').map(Number)
+            const timeSlotTime = new Date().setHours(hours, minutes, 0, 0)
+            return timeSlotTime > date.getTime()
+        }
+        else {
+            return true;
+        }
+
     }
 
     const handleNavigate = () => {
@@ -49,7 +57,7 @@ const TimePrompt = ({setState, restaurant} : Props) => {
             setIsContinueDisabled(true)
         }
         
-        setAvailableTimes(times)
+        setAvailableTimes(times)     
     }
 
     return (

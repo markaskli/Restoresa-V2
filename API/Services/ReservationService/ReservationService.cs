@@ -123,7 +123,7 @@ namespace API.Services.ReservationService
             {
                 throw new KeyNotFoundException("Specified time slot was not found.");
             }
-            else if (!timeSlot.Available || timeSlot.StartTime < DateTime.Now.TimeOfDay)
+            else if (!timeSlot.Available || (reservationDate.Date == DateTime.Now.Date && timeSlot.StartTime < DateTime.Now.TimeOfDay))
             {
                 return null;
             }

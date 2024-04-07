@@ -4,6 +4,7 @@ using API.DTOs.Restaurant.WorkingHours;
 using API.Entities;
 using API.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Security.Cryptography;
 
@@ -46,6 +47,17 @@ namespace API.Services.RestaurantService
             }
 
             return restaurant.MapToDTO();
+        }
+
+        public async Task<List<RestaurantDTO>?> GetRestaurantsOfEmployee(string userId)
+        {
+            var restaurants = await _storeContext.Restaurants.Include(rest => rest.Products).Include(rest => rest.WorkingHours).ThenInclude(wh => wh.TimeSlots).Where(rest => rest.OwnerId.Equals(userId)).ToListAsync();
+            if (restaurants.IsNullOrEmpty())
+            {
+                return null;
+            }
+
+            return restaurants.Select(rest => rest.MapToDTO()).ToList();
         }
 
         public async Task<RestaurantDTO> AddRestaurant(CreateRestaurantDTO restaurantDTO)

@@ -74,6 +74,7 @@ const Basket = {
 const RestaurantRequests = {
     getRestaurant: (id: number) => requests.get(`Restaurant/${id}`),
     getRestaurants: () => requests.get("Restaurant"),
+    getRestaurantsOfUser: (userId: string) => requests.get(`Restaurant/user?userId=${userId}`),
     add: (restaurant: FormValues) => requests.post("Restaurant", restaurant),
     delete: (id: number) => requests.delete(`Restaurant?restaurantId=${id}`),
     getTimeSlots: (id: number, weekDay: string) => requests.get(`Restaurant/timeslots?id=${id}&weekDay=${weekDay}`),

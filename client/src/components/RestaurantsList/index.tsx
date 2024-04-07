@@ -1,10 +1,11 @@
 import { Grid } from "@mui/material"
 import { Restaurant } from "../../types/restaurant"
 import RestaurantCard from "../RestaurantCard"
+import { useAppSelector } from "../../stores/store"
 
 interface Props {
     restaurants: Restaurant[]
-    setReload: React.Dispatch<React.SetStateAction<boolean>>
+    setReload?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function RestaurantList({ restaurants, setReload }: Props) {
@@ -19,7 +20,7 @@ export default function RestaurantList({ restaurants, setReload }: Props) {
     >
       {restaurants.map((restaurant) => (
         <Grid item xs={3} sm={4} key={restaurant.id}>
-          <RestaurantCard restaurant={restaurant} setReload={setReload} />
+          <RestaurantCard restaurant={restaurant} setReload={setReload!} />
         </Grid>
       ))}
     </Grid>

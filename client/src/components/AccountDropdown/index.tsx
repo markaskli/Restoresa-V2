@@ -56,8 +56,8 @@ const AccountMenu = ({ userRole }: Props) => {
           <Avatar /> Profile
         </MenuItem>
         <Divider />
-        {userRole === "Restaurant-Employee" ? (
-          <MenuItem component={Link} to="/profile" onClick={handleClose}>
+        {userRole.toString().toLowerCase() === "restaurant-employee" ? (
+          <MenuItem component={Link} to="/personal-restaurants" onClick={handleClose}>
             <ListItemIcon>
               <Settings fontSize="small" />
             </ListItemIcon>

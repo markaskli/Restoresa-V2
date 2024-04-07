@@ -6,6 +6,7 @@ import restaurantReducer from "./slices/restaurantSlice";
 import reservationSlice from "./slices/reservationSlice";
 import { reservationDetailsSlice } from "./slices/reservationDetailsSlice";
 import { userSlice } from "./slices/userSlice";
+import personalRestaurantSlice from "./slices/personalRestaurantSlice";
 
 
 
@@ -17,6 +18,7 @@ export const store = configureStore({
         user: userSlice.reducer,
         menu: menuReducer,
         restaurant: restaurantReducer,
+        personalRestaurant: personalRestaurantSlice,
         reservations: reservationSlice
         
     }

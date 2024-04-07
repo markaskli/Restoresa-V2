@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, isAnyOf } from "@reduxjs/toolkit";
 import requests from "../../API/requests";
 import { Restaurant } from "../../types/restaurant";
 
@@ -23,6 +23,7 @@ export const fetchRestaurantAsync = createAsyncThunk<Restaurant, {restaurantId: 
         }
     }
 )
+
 
 export const menuSlice = createSlice({
     name: "menu",

@@ -47,6 +47,19 @@ namespace API.Controllers
 
         }
 
+        [HttpGet("user")]
+        public async Task<ActionResult> GetRestaurantsOfUser(string userId)
+        {
+            var restaurants = await _restaurantService.GetRestaurantsOfEmployee(userId);
+            if (restaurants == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(restaurants);
+
+        }
+
         [HttpGet("timeslots")]
         public async Task<ActionResult<List<TimeSlotDTO>>> GetTimeSlots(int id, string weekDay) // PAKEISTI
         {

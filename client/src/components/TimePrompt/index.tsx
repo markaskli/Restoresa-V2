@@ -93,8 +93,8 @@ const TimePrompt = ({setState, restaurant} : Props) => {
                 }
             </Box>
             <Box display={"flex"} gap={"20px"}>
-                <Button variant="outlined" onClick={() => setState(1)}>BACK</Button>
-                <Button variant="outlined" disabled={isContinueDisabled} onClick={() => handleNavigate()} >CONTINUE</Button>
+                <Button key={1} variant="outlined" onClick={() => setState(1)}>BACK</Button>
+                <Button key={2} variant="outlined" disabled={isContinueDisabled} onClick={() => handleNavigate()} >CONTINUE</Button>
                 
 
             </Box>

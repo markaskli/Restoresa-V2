@@ -12,6 +12,8 @@ import IndividualReservationInfo from "../components/IndividualReservationInfo";
 import SignUp from "../features/SignUp";
 import SignIn from "../features/SignIn";
 import ErrorPage from "../features/ErrorPage";
+import PersonalRestaurants from "../features/PersonalRestaurants";
+import PersonalRestaurantMenu from "../features/PersonalRestaurantMenu";
 
 export const router = createBrowserRouter([
     {
@@ -35,8 +37,16 @@ export const router = createBrowserRouter([
               element: <RestaurantMenu/>
             },
             {
-              path: "restaurants/:restaurantId/timeslots",
+              path: "personal-restaurants/:id/timeslots",
               element: <RestaurantTimeSlots/>
+            },
+            {
+              path: "personal-restaurants",
+              element: <PersonalRestaurants/>
+            },
+            {
+              path: "personal-restaurants/:id",
+              element: <PersonalRestaurantMenu/>
             },
             {
               path: "reservation",
